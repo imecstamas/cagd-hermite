@@ -54,6 +54,8 @@ public:
     QLabel *label_10;
     QLabel *label_11;
     QLabel *label_12;
+    QSpinBox *shaderTypeSpinBox;
+    QLabel *label_13;
 
     void setupUi(QWidget *SideWidget)
     {
@@ -71,7 +73,7 @@ public:
         groupBox->setGeometry(QRect(10, 0, 271, 451));
         layoutWidget = new QWidget(groupBox);
         layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(3, 21, 261, 181));
+        layoutWidget->setGeometry(QRect(3, 21, 261, 184));
         formLayout = new QFormLayout(layoutWidget);
         formLayout->setObjectName(QStringLiteral("formLayout"));
         formLayout->setContentsMargins(0, 0, 0, 0);
@@ -208,6 +210,13 @@ public:
         label_12 = new QLabel(groupBox);
         label_12->setObjectName(QStringLiteral("label_12"));
         label_12->setGeometry(QRect(100, 250, 91, 16));
+        shaderTypeSpinBox = new QSpinBox(groupBox);
+        shaderTypeSpinBox->setObjectName(QStringLiteral("shaderTypeSpinBox"));
+        shaderTypeSpinBox->setGeometry(QRect(230, 420, 31, 22));
+        shaderTypeSpinBox->setMaximum(3);
+        label_13 = new QLabel(groupBox);
+        label_13->setObjectName(QStringLiteral("label_13"));
+        label_13->setGeometry(QRect(156, 420, 61, 20));
 #ifndef QT_NO_SHORTCUT
         label->setBuddy(rotate_x_slider);
         label_2->setBuddy(rotate_y_slider);
@@ -245,6 +254,7 @@ public:
         label_10->setText(QApplication::translate("SideWidget", "1. lissajou", Q_NULLPTR));
         label_11->setText(QApplication::translate("SideWidget", "2. hypo", Q_NULLPTR));
         label_12->setText(QApplication::translate("SideWidget", "4. spiral_on_cone", Q_NULLPTR));
+        label_13->setText(QApplication::translate("SideWidget", "shaderType", Q_NULLPTR));
     } // retranslateUi
 
 };

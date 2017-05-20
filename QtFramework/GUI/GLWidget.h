@@ -48,7 +48,7 @@ namespace cagd {
         GLfloat _angle;
 
         RowMatrix<TriangulatedMesh3> _models;
-        ShaderProgram _shader;
+        RowMatrix<ShaderProgram> _shaders;
 
         DirectionalLight *dl;
 
@@ -58,6 +58,7 @@ namespace cagd {
         bool _show_curve_points;
         bool _show_tangent_vectors;
         bool _show_animated_model;
+        int _shader_type;
 
     private slots:
         void _animate();
@@ -91,5 +92,7 @@ namespace cagd {
         void setVisibilityOfCyclicCurves(bool value);
 
         void setShowAnimatedModel(bool value);
+
+        void setShaderType(int value);
     };
 }

@@ -56,6 +56,8 @@ namespace cagd
         connect(_side_widget->show_cyclic_curves_radio_btn, SIGNAL(toggled(bool)), _gl_widget, SLOT(setVisibilityOfCyclicCurves(bool)));
 
         connect(_side_widget->show_animated_model_radio_button, SIGNAL(toggled(bool)), _gl_widget, SLOT(setShowAnimatedModel(bool)));
+
+        connect(_side_widget->shaderTypeSpinBox, SIGNAL(valueChanged(int)), _gl_widget, SLOT(setShaderType(int)));
     }
 
     //--------------------------------

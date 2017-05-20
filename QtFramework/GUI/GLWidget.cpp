@@ -118,6 +118,7 @@ void GLWidget::initializeGL()
         _show_parametric_curves = true;
         _show_animated_model = false;
         _show_cyclic_curves = false;
+        _shader_type = 0;
 
 
         // cyclic curves
@@ -173,9 +174,22 @@ void GLWidget::initializeGL()
             _models[1].UpdateVertexBufferObjects();
         }
 
-        if (!_shader.InstallShaders("Shaders/directional_light.vert","Shaders/directional_light.frag", GL_TRUE)){
+        //loading shader types
+        _shaders.ResizeColumns(4);
+        if (!_shaders[0].InstallShaders("Shaders/directional_light.vert","Shaders/directional_light.frag", GL_TRUE)){
             cout << "error installing shader";
         }
+        if (!_shaders[1].InstallShaders("Shaders/toon.vert","Shaders/toon.frag", GL_TRUE)){
+            cout << "error installing shader";
+        }
+        if (!_shaders[2].InstallShaders("Shaders/two_sided_lighting.vert","Shaders/two_sided_lighting.frag", GL_TRUE)){
+            cout << "error installing shader";
+        }
+        if (!_shaders[3].InstallShaders("Shaders/reflection_lines.vert","Shaders/reflection_lines.frag", GL_TRUE)){
+            cout << "error installing shader";
+        }
+
+        //endregion
 
 //        kiprobalni a Lights.h peldanyositasaval
         glEnable(GL_LIGHTING);
@@ -240,10 +254,10 @@ void GLWidget::paintGL()
             _pc_index = 1;
         }
 
-        _shader.Enable(GL_TRUE);
+        _shaders[_shader_type].Enable(GL_TRUE);
         MatFBTurquoise.Apply();
         _models[_pc_index].Render();
-        _shader.Disable();
+        _shaders[_shader_type].Disable();
     }
 
     if (_show_cyclic_curves)
@@ -450,6 +464,15 @@ void GLWidget::setShowAnimatedModel(bool value)
     if (_show_animated_model != value)
     {
         _show_animated_model = value;
+        updateGL();
+    }
+}
+
+void GLWidget::setShaderType(int value)
+{
+    value = value %3;
+    if (_shader_type != value){
+        _shader_type = value;
         updateGL();
     }
 }
