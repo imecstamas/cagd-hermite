@@ -156,35 +156,35 @@ void GLWidget::initializeGL()
             cout << "error";
         }
 
-        if (!_shader.InstallShaders("Shaders/directional_light.vert","Shaders/directional_light.frag", GL_TRUE)){
-            cout << "error";
-        }
-
         _models.ResizeColumns(2);
 
         // animated model
-        if (_models[0].LoadFromOFF("Models/mouse.off", true))
+        if (_models[0].LoadFromOFF("Models/mouse.off", GL_TRUE))
         {
-            if (_models[0].UpdateVertexBufferObjects(GL_DYNAMIC_DRAW))
+            if (_models[0].UpdateVertexBufferObjects())
             {
                 _angle = 0.0;
                 _timer->start();
             }
         }
 
-        if (_models[1].LoadFromOFF("Models/elephant.off", true))
+        if (_models[1].LoadFromOFF("Models/elephant.off", GL_TRUE))
         {
-            _models[1].UpdateVertexBufferObjects(GL_DYNAMIC_DRAW);
+            _models[1].UpdateVertexBufferObjects();
+        }
+
+        if (!_shader.InstallShaders("Shaders/directional_light.vert","Shaders/directional_light.frag", GL_TRUE)){
+            cout << "error installing shader";
         }
 
 //        kiprobalni a Lights.h peldanyositasaval
-//        glEnable(GL_LIGHTING);
-//        glEnable(GL_NORMALIZE);
-//        glEnable(GL_LIGHT0);
+        glEnable(GL_LIGHTING);
+        glEnable(GL_NORMALIZE);
+        glEnable(GL_LIGHT0);
 
         // init light
 
-        HCoordinate3    direction(0.0,0.0,1.0,1.0);
+        HCoordinate3    direction(1.0,1.0,0.0,0.0);
         Color4          ambient(0.5,0.5,0.5,1.0);
         Color4          diffuse(0.8,0.8,0.8,1.0);
         Color4          specular(1.0,1.0,1.0,1.0);
@@ -215,7 +215,6 @@ void GLWidget::paintGL()
     glScaled(_zoom, _zoom, _zoom);
 
     //lightning
-       glEnable(GL_LIGHTING);
        if(dl)
        {
            dl->Enable();
@@ -242,7 +241,7 @@ void GLWidget::paintGL()
         }
 
         _shader.Enable(GL_TRUE);
-        MatFBBrass.Apply();
+        MatFBTurquoise.Apply();
         _models[_pc_index].Render();
         _shader.Disable();
     }
