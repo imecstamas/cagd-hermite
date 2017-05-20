@@ -148,9 +148,9 @@ GLboolean TensorProductSurface3::GetData(GLuint row, GLuint column, DCoordinate3
     if (column>=_data.GetColumnCount())
         return GL_FALSE;
 
-    point.setX(_data((unsigned int)row, (unsigned int) column).x());
-    point.setY(_data((unsigned int)row, (unsigned int) column).y());
-    point.setZ(_data((unsigned int)row, (unsigned int) column).z());
+    point.x() = (_data((unsigned int)row, (unsigned int) column).x());
+    point.y() = (_data((unsigned int)row, (unsigned int) column).y());
+    point.z() = (_data((unsigned int)row, (unsigned int) column).z());
 
     return GL_TRUE;
 }

@@ -6,7 +6,6 @@
 #include <string>
 #include "TriangularFaces.h"
 #include "TCoordinates4.h"
-#include "TensorProductSurfaces3.h"
 #include <vector>
 
 namespace cagd
