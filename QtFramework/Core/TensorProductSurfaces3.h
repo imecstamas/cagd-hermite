@@ -20,7 +20,7 @@ namespace cagd
         public:
             PartialDerivatives(GLuint maximum_order_of_partial_derivatives = 1);
 
-            // homework: initializes all partial derivatives to the origin
+            // initializes all partial derivatives to the origin
             GLvoid LoadNullVectors();
         };
 
@@ -33,39 +33,39 @@ namespace cagd
         Matrix<DCoordinate3> _data;                // the control net (usually stores position vectors)
 
     public:
-        // homework: special constructor
+        // special constructor
         TensorProductSurface3(
                 GLdouble u_min, GLdouble u_max,
                 GLdouble v_min, GLdouble v_max,
                 GLuint row_count = 4, GLuint column_count = 4,
                 GLboolean u_closed = GL_FALSE, GLboolean v_closed = GL_FALSE);
 
-        // homework: copy constructor
+        // copy constructor
         TensorProductSurface3(const TensorProductSurface3& surface);
 
-        // homework: assignment operator
+        // assignment operator
         TensorProductSurface3& operator =(const TensorProductSurface3& surface);
 
-        // homework: set/get the definition domain of the surface
+        // set/get the definition domain of the surface
         GLvoid SetUInterval(GLdouble u_min, GLdouble u_max);
         GLvoid SetVInterval(GLdouble v_min, GLdouble v_max);
 
         GLvoid GetUInterval(GLdouble& u_min, GLdouble& u_max) const;
         GLvoid GetVInterval(GLdouble& v_min, GLdouble& v_max) const;
 
-        // homework: set coordinates of a selected data point
+        // set coordinates of a selected data point
         GLboolean SetData(GLuint row, GLuint column, GLdouble x, GLdouble y, GLdouble z);
         GLboolean SetData(GLuint row, GLuint column, const DCoordinate3& point);
 
-        // homework: get coordinates of a selected data point
+        // get coordinates of a selected data point
         GLboolean GetData(GLuint row, GLuint column, GLdouble& x, GLdouble& y, GLdouble& z) const;
         GLboolean GetData(GLuint row, GLuint column, DCoordinate3& point) const;
 
 
-        // homework: get data by value
+        // get data by value
         DCoordinate3 operator ()(GLuint row, GLuint column) const;
 
-        // homework: get data by reference
+        // get data by reference
         DCoordinate3& operator ()(GLuint row, GLuint column);
 
         // blending function values in u- and v-direction
@@ -87,9 +87,7 @@ namespace cagd
                 GLdouble u, GLdouble v, PartialDerivatives& pd) const = 0;
 
         // generates a triangulated mesh that approximates the shape of the surface above
-        virtual TriangulatedMesh3* GenerateImage(
-                GLuint u_div_point_count, GLuint v_div_point_count,
-                GLenum usage_flag = GL_STATIC_DRAW) const;
+        virtual TriangulatedMesh3* GenerateImage(GLuint u_div_point_count, GLuint v_div_point_count, GLenum usage_flag = GL_STATIC_DRAW) const;
 
         // ensures interpolation, i.e., updates the control net $\left[\mathbf{p}_{i,j}\right]_{i=0,j=0}^{n,m}$ stored by
         // the matrix _data such that interpolation conditions $\mathbf{s}(u_k, v_l) = \mathbf{d}_{k,l}$ hold for
@@ -98,7 +96,7 @@ namespace cagd
                 const RowMatrix<GLdouble>& u_knot_vector, const ColumnMatrix<GLdouble>& v_knot_vector,
                 Matrix<DCoordinate3>& data_points_to_interpolate);
 
-        // homework: VBO handling methods
+        // VBO handling methods
         GLvoid    DeleteVertexBufferObjectsOfData();
         GLboolean RenderData(GLenum render_mode = GL_LINE_STRIP) const;
         GLboolean UpdateVertexBufferObjectsOfData(GLenum usage_flag = GL_STATIC_DRAW);
@@ -115,7 +113,7 @@ namespace cagd
                                                               GLuint div_point_count,
                                                               GLenum usage_flag = GL_STATIC_DRAW) const;
 
-        // homework: destructor
+        // destructor
         virtual ~TensorProductSurface3();
     };
 }
