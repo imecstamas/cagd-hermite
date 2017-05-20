@@ -470,7 +470,7 @@ void GLWidget::setShowAnimatedModel(bool value)
 
 void GLWidget::setShaderType(int value)
 {
-    value = value %3;
+    value = value %4;
     if (_shader_type != value){
         _shader_type = value;
         updateGL();
