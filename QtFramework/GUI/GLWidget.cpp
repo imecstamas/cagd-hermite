@@ -437,6 +437,11 @@ void GLWidget::setParametricCurveIndex(int value)
     if (_pc_index != value)
     {
         _pc_index = value;
+        if (_models[_pc_index].UpdateVertexBufferObjects())
+        {
+            _angle = 0.0;
+            _timer->start();
+        }
         updateGL();
     }
 }
