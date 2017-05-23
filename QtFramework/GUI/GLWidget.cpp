@@ -55,7 +55,8 @@ void GLWidget::initializeGL()
     glEnable(GL_DEPTH_TEST);
 
     // setting the color of background
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+//    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
     // initial values of transformation parameters
     _angle_x = _angle_y = _angle_z = 0.0;
@@ -188,6 +189,16 @@ void GLWidget::initializeGL()
         if (!_shaders[3].InstallShaders("Shaders/reflection_lines.vert","Shaders/reflection_lines.frag", GL_TRUE)){
             cout << "error installing shader";
         }
+
+        _shaders[1].Enable();
+        _shaders[1].SetUniformVariable4f("default_outline_color", 1.0, 0.0, 0.0, 1.0);
+        _shaders[1].Disable();
+
+        _shaders[3].Enable();
+        _shaders[3].SetUniformVariable1f("scale_factor", 14.0);
+        _shaders[3].SetUniformVariable1f("smoothing", 1.0);
+        _shaders[3].SetUniformVariable1f("shading", 0.1);
+        _shaders[3].Disable();
 
         //endregion
 
