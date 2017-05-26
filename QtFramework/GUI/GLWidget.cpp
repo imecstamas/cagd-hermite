@@ -80,33 +80,51 @@ void GLWidget::initializeGL()
                             "Try to update your driver or buy a new graphics adapter!");
         }
 
-
-
+        //Negyzet
         _patch.SetCorner(0,0,0.0,0.0,0.0);
         _patch.SetCorner(0,1,0.0,1.0,0.0);
         _patch.SetCorner(1,0,1.0,0.0,0.0);
         _patch.SetCorner(1,1,1.0,1.0,0.0);
 
+        //Probalkozas
+        //        _patch.SetVTangent(0,0,0.0,-1.0,0.0);
+        //        _patch.SetVTangent(0,1,1.0,-1.0,0.0);
+        //        _patch.SetVTangent(1,0,-2.0,0.0,0.0);
+                _patch.SetVTangent(1,1,-1.0,0.0,0.0);
 
-//        _patch.SetData(0,0,-2.0,-2.0,0.0);
-//        _patch.SetData(0,1,-2.0,-1.0,0.0);
-//        _patch.SetData(0,2,-2.0,1.0,0.0);
-//        _patch.SetData(0,3,-2.0,2.0,0.0);
+                _patch.SetUTangent(0,0,1.0,1.0,1.0);
+                _patch.SetUTangent(0,1,1.0,1.0,1.0);
+        //        _patch.SetUTangent(1,0,1.0,2.0,0.0);
+        //        _patch.SetUTangent(1,1,0.0,0.0,0.0);
 
-//        _patch.SetData(1,0,-1.0,-2.0,0.0);
-//        _patch.SetData(1,1,-1.0,-1.0,2.0);
-//        _patch.SetData(1,2,-1.0,1.0,2.0);
-//        _patch.SetData(1,3,-1.0,2.0,0.0);
+        //        _patch.SetTwistVector(0,0,1.0,0.0,0.0);
+        //        _patch.SetTwistVector(0,1,0.0,0.0,0.0);
+        //        _patch.SetTwistVector(1,0,0.0,0.0,0.0);
+        //        _patch.SetTwistVector(1,1,0.0,0.0,0.0);
 
-//        _patch.SetData(2,0,1.0,-2.0,0.0);
-//        _patch.SetData(2,1,1.0,-1.0,2.0);
-//        _patch.SetData(2,2,1.0,1.0,2.0);
-//        _patch.SetData(2,3,1.0,2.0,0.0);
 
-//        _patch.SetData(3,0,2.0,-2.0,0.0);
-//        _patch.SetData(3,1,2.0,-1.0,0.0);
-//        _patch.SetData(3,2,2.0,1.0,0.0);
-//        _patch.SetData(3,3,2.0,2.0,0.0);
+
+        //Bezier peldabol patch
+//        _patch.SetCorner(0,0,-2.0,-2.0,0.0);
+//        _patch.SetCorner(0,1,-2.0,-1.0,0.0);
+//        _patch.SetCorner(1,0,-1.0,-2.0,0.0);
+//        _patch.SetCorner(1,1,-1.0,-1.0,2.0);
+
+//        _patch.SetVTangent(0,0,-2.0,1.0,0.0);
+//        _patch.SetVTangent(0,1,-2.0,2.0,0.0);
+//        _patch.SetVTangent(1,0,-1.0,1.0,2.0);
+//        _patch.SetVTangent(1,1,-1.0,2.0,0.0);
+
+//        _patch.SetUTangent(0,0,1.0,-2.0,0.0);
+//        _patch.SetUTangent(0,1,1.0,-1.0,2.0);
+//        _patch.SetUTangent(1,0,2.0,-2.0,0.0);
+//        _patch.SetUTangent(1,1,2.0,-1.0,0.0);
+
+//        _patch.SetTwistVector(0,0,1.0,1.0,2.0);
+//        _patch.SetTwistVector(0,1,1.0,2.0,0.0);
+//        _patch.SetTwistVector(1,0,2.0,1.0,0.0);
+//        _patch.SetTwistVector(1,1,2.0,2.0,0.0);
+
 
         _before_interpolation = _patch.GenerateImage(30,30,GL_STATIC_DRAW);
 
@@ -136,7 +154,6 @@ void GLWidget::initializeGL()
             if(_after_interpolation)
                 _after_interpolation->UpdateVertexBufferObjects();
         }
-
 
         // parametric curves
 
@@ -179,6 +196,7 @@ void GLWidget::initializeGL()
         _show_animated_model = false;
         _show_cyclic_curves = false;
         _shader_type = 0;
+        _material_type = 0;
 
 
         // cyclic curves
@@ -200,13 +218,11 @@ void GLWidget::initializeGL()
             cp[0] = cos(u);
             cp[1] = sin(u);
             cp[2] = -2.0 + 4.0 *(GLdouble)rand()/(GLdouble)RAND_MAX;
-
         }
 
         if(!_cc->UpdateVertexBufferObjectsOfData())
         {
             cout << "error";
-
         }
 
         GLuint _mod = 3,_div =200;
@@ -217,9 +233,8 @@ void GLWidget::initializeGL()
             cout << "error";
         }
 
+        //animated models
         _models.ResizeColumns(2);
-
-        // animated model
         if (_models[0].LoadFromOFF("Models/mouse.off", GL_TRUE))
         {
             if (_models[0].UpdateVertexBufferObjects())
@@ -259,14 +274,20 @@ void GLWidget::initializeGL()
         _shaders[3].SetUniformVariable1f("shading", 0.1);
         _shaders[3].Disable();
 
-        //endregion
+        //materials
+        _materials.ResizeColumns(7);
+        _materials[0] = MatFBBrass;
+        _materials[1] = MatFBEmerald;
+        _materials[2] = MatFBGold;
+        _materials[3] = MatFBPearl;
+        _materials[4] = MatFBRuby;
+        _materials[5] = MatFBSilver;
+        _materials[6] = MatFBTurquoise;
 
-//        kiprobalni a Lights.h peldanyositasaval
+        //lights
         glEnable(GL_LIGHTING);
         glEnable(GL_NORMALIZE);
         glEnable(GL_LIGHT0);
-
-        // init light
 
         HCoordinate3    direction(1.0,1.0,0.0,0.0);
         Color4          ambient(0.5,0.5,0.5,1.0);
@@ -299,25 +320,27 @@ void GLWidget::paintGL()
     glScaled(_zoom, _zoom, _zoom);
 
     //lightning
-       if(dl)
-       {
-           dl->Enable();
-       }
+    if(dl)
+    {
+        dl->Enable();
+    }
 
-       if (_before_interpolation){
-           MatFBRuby.Apply();
-           _before_interpolation->Render();
-       }
+    if (_before_interpolation){
+        _shaders[_shader_type].Enable(GL_TRUE);
+        _materials[_material_type].Apply();
+        _before_interpolation->Render();
+        _shaders[_shader_type].Disable();
+    }
 
-       if (_after_interpolation){
-           glEnable(GL_BLEND);
-           glDepthMask(GL_FALSE);
-           glBlendFunc(GL_SRC_ALPHA,GL_ONE);
-           MatFBTurquoise.Apply();
-           _after_interpolation->Render();
-           glDepthMask(GL_TRUE);
-           glDisable(GL_BLEND);
-       }
+//       if (_after_interpolation){
+//           glEnable(GL_BLEND);
+//           glDepthMask(GL_FALSE);
+//           glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+//           MatFBTurquoise.Apply();
+//           _after_interpolation->Render();
+//           glDepthMask(GL_TRUE);
+//           glDisable(GL_BLEND);
+//       }
 
 //    if (_show_parametric_curves)
 //    {
@@ -340,7 +363,7 @@ void GLWidget::paintGL()
 //        }
 
 //        _shaders[_shader_type].Enable(GL_TRUE);
-//        MatFBTurquoise.Apply();
+//        _materials[_material_type].Apply();
 //        _models[_pc_index].Render();
 //        _shaders[_shader_type].Disable();
 //    }
@@ -370,35 +393,6 @@ void GLWidget::paintGL()
 //    }
 
     //    // render your geometry (this is oldest OpenGL rendering technique, later we will use some advanced methods)
-
-    //    glColor3f(1.0f, 1.0f, 1.0f);
-    //    glBegin(GL_LINES);
-    //    glVertex3f(0.0f, 0.0f, 0.0f);
-    //    glVertex3f(1.1f, 0.0f, 0.0f);
-
-    //    glVertex3f(0.0f, 0.0f, 0.0f);
-    //    glVertex3f(0.0f, 1.1f, 0.0f);
-
-    //    glVertex3f(0.0f, 0.0f, 0.0f);
-    //    glVertex3f(0.0f, 0.0f, 1.1f);
-    //    glEnd();
-
-    //    glBegin(GL_TRIANGLES);
-    //    // attributes
-    //    glColor3f(1.0f, 0.0f, 0.0f);
-    //    // associated with position
-    //    glVertex3f(1.0f, 0.0f, 0.0f);
-
-    //    // attributes
-    //    glColor3f(0.0, 1.0, 0.0);
-    //    // associated with position
-    //    glVertex3f(0.0, 1.0, 0.0);
-
-    //    // attributes
-    //    glColor3f(0.0f, 0.0f, 1.0f);
-    //    // associated with position
-    //    glVertex3f(0.0f, 0.0f, 1.0f);
-    //    glEnd();
 
         dl->Disable();
 
@@ -563,6 +557,15 @@ void GLWidget::setShaderType(int value)
     value = value %4;
     if (_shader_type != value){
         _shader_type = value;
+        updateGL();
+    }
+}
+
+void GLWidget::setMaterialType(int value)
+{
+    if (_material_type != value)
+    {
+        _material_type = value;
         updateGL();
     }
 }

@@ -11,6 +11,7 @@
 #include "Core/TriangulatedMeshes3.h"
 #include "Core/Lights.h"
 #include "Core/ShaderPrograms.h"
+#include "Core/Materials.h"
 #include "Hermite/BicubicHermitePatches3.h"
 
 namespace cagd {
@@ -53,6 +54,7 @@ namespace cagd {
 
         RowMatrix<TriangulatedMesh3> _models;
         RowMatrix<ShaderProgram> _shaders;
+        RowMatrix<Material> _materials;
 
         DirectionalLight *dl;
 
@@ -63,6 +65,7 @@ namespace cagd {
         bool _show_tangent_vectors;
         bool _show_animated_model;
         int _shader_type;
+        int _material_type;
 
     private slots:
         void _animate();
@@ -99,5 +102,7 @@ namespace cagd {
         void setShowAnimatedModel(bool value);
 
         void setShaderType(int value);
+
+        void setMaterialType(int value);
     };
 }
