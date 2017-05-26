@@ -11,6 +11,7 @@
 #include "Core/TriangulatedMeshes3.h"
 #include "Core/Lights.h"
 #include "Core/ShaderPrograms.h"
+#include "Hermite/BicubicHermitePatches3.h"
 
 namespace cagd {
 
@@ -19,6 +20,9 @@ namespace cagd {
         Q_OBJECT
 
     private:
+
+        BicubicHermitePatch3 _patch;
+        TriangulatedMesh3 *_before_interpolation, *_after_interpolation;
 
         // variables defining the projection matrix
         float       _aspect;            // aspect ratio of the rendering window
@@ -72,6 +76,7 @@ namespace cagd {
         void initializeGL();
         void paintGL();
         void resizeGL(int w, int h);
+        ~GLWidget();
 
     public slots:
         // public event handling methods/slots

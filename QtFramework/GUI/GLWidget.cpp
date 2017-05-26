@@ -7,6 +7,7 @@
 #include "Core/Constants.h"
 #include "Core/TriangulatedMeshes3.h"
 #include "Core/Materials.h"
+#include "Core/DCoordinates3.h"
 
 using namespace std;
 
@@ -78,6 +79,64 @@ void GLWidget::initializeGL()
             throw Exception("Your graphics card is not compatible with OpenGL 2.0+! "
                             "Try to update your driver or buy a new graphics adapter!");
         }
+
+
+
+        _patch.SetCorner(0,0,0.0,0.0,0.0);
+        _patch.SetCorner(0,1,0.0,1.0,0.0);
+        _patch.SetCorner(1,0,1.0,0.0,0.0);
+        _patch.SetCorner(1,1,1.0,1.0,0.0);
+
+
+//        _patch.SetData(0,0,-2.0,-2.0,0.0);
+//        _patch.SetData(0,1,-2.0,-1.0,0.0);
+//        _patch.SetData(0,2,-2.0,1.0,0.0);
+//        _patch.SetData(0,3,-2.0,2.0,0.0);
+
+//        _patch.SetData(1,0,-1.0,-2.0,0.0);
+//        _patch.SetData(1,1,-1.0,-1.0,2.0);
+//        _patch.SetData(1,2,-1.0,1.0,2.0);
+//        _patch.SetData(1,3,-1.0,2.0,0.0);
+
+//        _patch.SetData(2,0,1.0,-2.0,0.0);
+//        _patch.SetData(2,1,1.0,-1.0,2.0);
+//        _patch.SetData(2,2,1.0,1.0,2.0);
+//        _patch.SetData(2,3,1.0,2.0,0.0);
+
+//        _patch.SetData(3,0,2.0,-2.0,0.0);
+//        _patch.SetData(3,1,2.0,-1.0,0.0);
+//        _patch.SetData(3,2,2.0,1.0,0.0);
+//        _patch.SetData(3,3,2.0,2.0,0.0);
+
+        _before_interpolation = _patch.GenerateImage(30,30,GL_STATIC_DRAW);
+
+        if (_before_interpolation)
+            _before_interpolation->UpdateVertexBufferObjects();
+
+        RowMatrix<GLdouble> uknotvector(4);
+        uknotvector(0)=0.0;
+        uknotvector(1)=1.0/3.0;
+        uknotvector(2)=2.0/3.0;
+        uknotvector(3)=1.0;
+
+        ColumnMatrix<GLdouble> vknotvector(4);
+        vknotvector(0)=0.0;
+        vknotvector(1)=1.0/3.0;
+        vknotvector(2)=2.0/3.0;
+        vknotvector(3)=1.0;
+
+        Matrix<DCoordinate3> datapointstointerpolate(4,4);
+        for(GLuint row=0;row<4;++row)
+            for(GLuint column=0;column<4;++column)
+                _patch.GetData(row,column,datapointstointerpolate(row,column));
+
+        if(_patch.UpdateDataForInterpolation(uknotvector,vknotvector,datapointstointerpolate))
+        {
+            _after_interpolation=_patch.GenerateImage(30,30,GL_STATIC_DRAW);
+            if(_after_interpolation)
+                _after_interpolation->UpdateVertexBufferObjects();
+        }
+
 
         // parametric curves
 
@@ -245,55 +304,70 @@ void GLWidget::paintGL()
            dl->Enable();
        }
 
-    if (_show_parametric_curves)
-    {
-        if (_img_pc[_pc_index])
-        {
-            //          	..szin...transzormaciok esetleg..
-            _img_pc[_pc_index]->RenderDerivatives(0, GL_LINE_LOOP);
-        }
-    }
+       if (_before_interpolation){
+           MatFBRuby.Apply();
+           _before_interpolation->Render();
+       }
 
-    if (_show_animated_model)
-    {
-        if (_pc_index % 2 == 0)
-        {
-            _pc_index = 0;
-        }
-            else
-        {
-            _pc_index = 1;
-        }
+       if (_after_interpolation){
+           glEnable(GL_BLEND);
+           glDepthMask(GL_FALSE);
+           glBlendFunc(GL_SRC_ALPHA,GL_ONE);
+           MatFBTurquoise.Apply();
+           _after_interpolation->Render();
+           glDepthMask(GL_TRUE);
+           glDisable(GL_BLEND);
+       }
 
-        _shaders[_shader_type].Enable(GL_TRUE);
-        MatFBTurquoise.Apply();
-        _models[_pc_index].Render();
-        _shaders[_shader_type].Disable();
-    }
+//    if (_show_parametric_curves)
+//    {
+//        if (_img_pc[_pc_index])
+//        {
+//            //          	..szin...transzormaciok esetleg..
+//            _img_pc[_pc_index]->RenderDerivatives(0, GL_LINE_LOOP);
+//        }
+//    }
 
-    if (_show_cyclic_curves)
-    {
-        if(_cc)
-        {
-            glColor3f(1.0,0.0,0.0);
-            _cc->RenderData(GL_LINE_LOOP);
-        }
+//    if (_show_animated_model)
+//    {
+//        if (_pc_index % 2 == 0)
+//        {
+//            _pc_index = 0;
+//        }
+//            else
+//        {
+//            _pc_index = 1;
+//        }
 
-        if(_image_of_cc)
-        {
-            glColor3f(1.0,0.0,0.0);
-            // _image_of_cc->RenderDerivatives(0,GL_LINE_LOOP);
-            _image_of_cc->RenderDerivatives(0, GL_POINTS);
-            glColor3f(0.0,1.0,0.0);
+//        _shaders[_shader_type].Enable(GL_TRUE);
+//        MatFBTurquoise.Apply();
+//        _models[_pc_index].Render();
+//        _shaders[_shader_type].Disable();
+//    }
 
-            _image_of_cc->RenderDerivatives(1,GL_LINES);
-            _image_of_cc->RenderDerivatives(1, GL_POINTS);
+//    if (_show_cyclic_curves)
+//    {
+//        if(_cc)
+//        {
+//            glColor3f(1.0,0.0,0.0);
+//            _cc->RenderData(GL_LINE_LOOP);
+//        }
 
-            glColor3f(0.0,0.0,1.0);
-            _image_of_cc->RenderDerivatives(2,GL_LINES);
-            _image_of_cc->RenderDerivatives(2, GL_POINTS);
-        }
-    }
+//        if(_image_of_cc)
+//        {
+//            glColor3f(1.0,0.0,0.0);
+//            // _image_of_cc->RenderDerivatives(0,GL_LINE_LOOP);
+//            _image_of_cc->RenderDerivatives(0, GL_POINTS);
+//            glColor3f(0.0,1.0,0.0);
+
+//            _image_of_cc->RenderDerivatives(1,GL_LINES);
+//            _image_of_cc->RenderDerivatives(1, GL_POINTS);
+
+//            glColor3f(0.0,0.0,1.0);
+//            _image_of_cc->RenderDerivatives(2,GL_LINES);
+//            _image_of_cc->RenderDerivatives(2, GL_POINTS);
+//        }
+//    }
 
     //    // render your geometry (this is oldest OpenGL rendering technique, later we will use some advanced methods)
 
@@ -491,5 +565,13 @@ void GLWidget::setShaderType(int value)
         _shader_type = value;
         updateGL();
     }
+}
+
+GLWidget::~GLWidget(){
+    if (_before_interpolation)
+        delete _before_interpolation, _before_interpolation = 0;
+
+    if (_after_interpolation)
+        delete _after_interpolation, _after_interpolation = 0;
 }
 }

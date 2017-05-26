@@ -61,7 +61,6 @@ namespace cagd
         GLboolean GetData(GLuint row, GLuint column, GLdouble& x, GLdouble& y, GLdouble& z) const;
         GLboolean GetData(GLuint row, GLuint column, DCoordinate3& point) const;
 
-
         // get data by value
         DCoordinate3 operator ()(GLuint row, GLuint column) const;
 

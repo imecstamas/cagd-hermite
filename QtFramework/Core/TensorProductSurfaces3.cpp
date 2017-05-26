@@ -23,7 +23,6 @@ GLvoid TensorProductSurface3::PartialDerivatives::LoadNullVectors()
             }
         }
     }
-
 }
 
 //special constructor
