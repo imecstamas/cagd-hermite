@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "Core/Constants.h"
 
 namespace cagd
 {
@@ -60,6 +61,8 @@ namespace cagd
         connect(_side_widget->shaderTypeSpinBox, SIGNAL(valueChanged(int)), _gl_widget, SLOT(setShaderType(int)));
 
         connect(_side_widget->materialSpinBox, SIGNAL(valueChanged(int)), _gl_widget, SLOT(setMaterialType(int)));
+
+        connect(_side_widget->button_north, SIGNAL(clicked()), _gl_widget, SLOT(addHermitePatchInDirection()));
     }
 
     //--------------------------------

@@ -126,41 +126,20 @@ void GLWidget::initializeGL()
 //        _patch.SetTwistVector(1,1,2.0,2.0,0.0);
 
         HermiteSurface3::Attributes attribute;
+        attribute.patch = &_patch;
         attribute.material = &MatFBRuby;
         attribute.img = _patch.GenerateImage(30,30,GL_STATIC_DRAW);
         attribute.img ->UpdateVertexBufferObjects();
 
         _surface.Insert(attribute);
-        _surface.ContinueExistingPatch(&_patch,N);
 
-        _before_interpolation = _patch.GenerateImage(30,30,GL_STATIC_DRAW);
+//        HermiteSurface3::Attributes attribute2;
+//        attribute2.material = &MatFBRuby;
+//        attribute2.img = _patch.GenerateImage(30,30,GL_STATIC_DRAW);
+//        attribute2.img ->UpdateVertexBufferObjects();
 
-        if (_before_interpolation)
-            _before_interpolation->UpdateVertexBufferObjects();
+//        _surface.ContinueExistingPatch(attribute2,N);
 
-        RowMatrix<GLdouble> uknotvector(4);
-        uknotvector(0)=0.0;
-        uknotvector(1)=1.0/3.0;
-        uknotvector(2)=2.0/3.0;
-        uknotvector(3)=1.0;
-
-        ColumnMatrix<GLdouble> vknotvector(4);
-        vknotvector(0)=0.0;
-        vknotvector(1)=1.0/3.0;
-        vknotvector(2)=2.0/3.0;
-        vknotvector(3)=1.0;
-
-        Matrix<DCoordinate3> datapointstointerpolate(4,4);
-        for(GLuint row=0;row<4;++row)
-            for(GLuint column=0;column<4;++column)
-                _patch.GetData(row,column,datapointstointerpolate(row,column));
-
-        if(_patch.UpdateDataForInterpolation(uknotvector,vknotvector,datapointstointerpolate))
-        {
-            _after_interpolation=_patch.GenerateImage(30,30,GL_STATIC_DRAW);
-            if(_after_interpolation)
-                _after_interpolation->UpdateVertexBufferObjects();
-        }
 
         // parametric curves
 
@@ -294,12 +273,19 @@ void GLWidget::initializeGL()
         glEnable(GL_LIGHTING);
         glEnable(GL_NORMALIZE);
         glEnable(GL_LIGHT0);
+        glEnable(GL_LIGHT1);
 
         HCoordinate3    direction(1.0,1.0,0.0,0.0);
         Color4          ambient(0.5,0.5,0.5,1.0);
         Color4          diffuse(0.8,0.8,0.8,1.0);
         Color4          specular(1.0,1.0,1.0,1.0);
         dl = new DirectionalLight(GL_LIGHT0, direction, ambient, diffuse, specular);
+
+        HCoordinate3    direction1(0.0,0.0,1.0,0.0);
+        Color4          ambient1(0.5,0.5,0.5,1.0);
+        Color4          diffuse1(0.8,0.8,0.8,1.0);
+        Color4          specular1(1.0,1.0,1.0,1.0);
+        dl1 = new DirectionalLight(GL_LIGHT1, direction1, ambient1, diffuse1, specular1);
     }
     catch (Exception &e)
     {
@@ -330,25 +316,12 @@ void GLWidget::paintGL()
     {
         dl->Enable();
     }
+    if (dl1)
+    {
+        dl1->Enable();
+    }
 
     _surface.Render();
-
-//                if (_before_interpolation){
-//        _shaders[_shader_type].Enable(GL_TRUE);
-//        _materials[_material_type].Apply();
-//        _before_interpolation->Render();
-//        _shaders[_shader_type].Disable();
-//    }
-
-//       if (_after_interpolation){
-//           glEnable(GL_BLEND);
-//           glDepthMask(GL_FALSE);
-//           glBlendFunc(GL_SRC_ALPHA,GL_ONE);
-//           MatFBTurquoise.Apply();
-//           _after_interpolation->Render();
-//           glDepthMask(GL_TRUE);
-//           glDisable(GL_BLEND);
-//       }
 
 //    if (_show_parametric_curves)
 //    {
@@ -403,6 +376,7 @@ void GLWidget::paintGL()
     //    // render your geometry (this is oldest OpenGL rendering technique, later we will use some advanced methods)
 
         dl->Disable();
+        dl1->Disable();
 
     // pops the current matrix stack, replacing the current matrix with the one below it on the stack,
     // i.e., the original model view matrix is restored
@@ -576,6 +550,14 @@ void GLWidget::setMaterialType(int value)
         _material_type = value;
         updateGL();
     }
+}
+
+void GLWidget::addHermitePatchInDirection()
+{
+//    if (){
+        _surface.ContinueExistingPatch(&_patch,N);
+//    }
+    updateGL();
 }
 
 GLWidget::~GLWidget(){

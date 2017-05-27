@@ -14,6 +14,7 @@
 #include "Core/Materials.h"
 #include "Hermite/BicubicHermitePatches3.h"
 #include "Hermite/HermiteSurfaces3.h"
+#include <string.h>
 
 namespace cagd {
 
@@ -59,7 +60,7 @@ namespace cagd {
         RowMatrix<ShaderProgram> _shaders;
         RowMatrix<Material> _materials;
 
-        DirectionalLight *dl;
+        DirectionalLight *dl, *dl1;
 
         int  _pc_index;
         bool _show_parametric_curves;
@@ -107,5 +108,7 @@ namespace cagd {
         void setShaderType(int value);
 
         void setMaterialType(int value);
+
+        void addHermitePatchInDirection();
     };
 }
