@@ -141,6 +141,33 @@ namespace cagd
         return GL_TRUE;
     }
 
+    GLboolean BicubicHermitePatch3::GetCorner(GLuint row, GLuint column, GLdouble &x, GLdouble &y, GLdouble &z) const
+    {
+        if (row > 1 || column > 1)
+        {
+            return GL_FALSE;
+        }
+
+        x=_data((unsigned int)row, (unsigned int) column).x();
+        y=_data((unsigned int)row, (unsigned int) column).y();
+        z=_data((unsigned int)row, (unsigned int) column).z();
+
+        return GL_TRUE;
+    }
+
+    GLboolean BicubicHermitePatch3::GetCorner(GLuint row, GLuint column, DCoordinate3 &point) const
+    {
+        if (row > 1 || column > 1)
+        {
+            return GL_FALSE;
+        }
+
+        point.x() = (_data((unsigned int)row, (unsigned int) column).x());
+        point.y() = (_data((unsigned int)row, (unsigned int) column).y());
+        point.z() = (_data((unsigned int)row, (unsigned int) column).z());
+
+        return GL_TRUE;
+    }
 
     GLboolean BicubicHermitePatch3::SetUTangent(GLuint row, GLuint column, GLdouble x, GLdouble y, GLdouble z)
     {
@@ -166,6 +193,34 @@ namespace cagd
         }
 
         _data(2 + row, column) = u_tangent;
+
+        return GL_TRUE;
+    }
+
+    GLboolean BicubicHermitePatch3::GetUTangent(GLuint row, GLuint column, GLdouble &x, GLdouble &y, GLdouble &z) const
+    {
+        if (row > 1 || column > 1)
+        {
+            return GL_FALSE;
+        }
+
+        x=_data((unsigned int)(2 + row), (unsigned int) column).x();
+        y=_data((unsigned int)(2 + row), (unsigned int) column).y();
+        z=_data((unsigned int)(2 + row), (unsigned int) column).z();
+
+        return GL_TRUE;
+    }
+
+    GLboolean BicubicHermitePatch3::GetUTangent(GLuint row, GLuint column, DCoordinate3 &point) const
+    {
+        if (row > 1 || column > 1)
+        {
+            return GL_FALSE;
+        }
+
+        point.x() = (_data((unsigned int)(2 + row), (unsigned int) column).x());
+        point.y() = (_data((unsigned int)(2 + row), (unsigned int) column).y());
+        point.z() = (_data((unsigned int)(2 + row), (unsigned int) column).z());
 
         return GL_TRUE;
     }
@@ -198,6 +253,34 @@ namespace cagd
         return GL_TRUE;
     }
 
+    GLboolean BicubicHermitePatch3::GetVTangent(GLuint row, GLuint column, GLdouble &x, GLdouble &y, GLdouble &z) const
+    {
+        if (row > 1 || column > 1)
+        {
+            return GL_FALSE;
+        }
+
+        x=_data((unsigned int)row, (unsigned int)(2+column)).x();
+        y=_data((unsigned int)row, (unsigned int)(2+column)).y();
+        z=_data((unsigned int)row, (unsigned int)(2+column)).z();
+
+        return GL_TRUE;
+    }
+
+    GLboolean BicubicHermitePatch3::GetVTangent(GLuint row, GLuint column, DCoordinate3 &point) const
+    {
+        if (row > 1 || column > 1)
+        {
+            return GL_FALSE;
+        }
+
+        point.x() = (_data((unsigned int)row, (unsigned int)(2+column)).x());
+        point.y() = (_data((unsigned int)row, (unsigned int)(2+column)).y());
+        point.z() = (_data((unsigned int)row, (unsigned int)(2+column)).z());
+
+        return GL_TRUE;
+    }
+
 
     GLboolean BicubicHermitePatch3::SetTwistVector(GLuint row, GLuint column, GLdouble x, GLdouble y, GLdouble z)
     {
@@ -223,6 +306,34 @@ namespace cagd
         }
 
         _data(2 + row, 2 + column) = twist;
+
+        return GL_TRUE;
+    }
+
+    GLboolean BicubicHermitePatch3::GetTwistVector(GLuint row, GLuint column, GLdouble &x, GLdouble &y, GLdouble &z) const
+    {
+        if (row > 1 || column > 1)
+        {
+            return GL_FALSE;
+        }
+
+        x=_data((unsigned int)(2+row), (unsigned int)(2+column)).x();
+        y=_data((unsigned int)(2+row), (unsigned int)(2+column)).y();
+        z=_data((unsigned int)(2+row), (unsigned int)(2+column)).z();
+
+        return GL_TRUE;
+    }
+
+    GLboolean BicubicHermitePatch3::GetTwistVector(GLuint row, GLuint column, DCoordinate3 &point) const
+    {
+        if (row > 1 || column > 1)
+        {
+            return GL_FALSE;
+        }
+
+        point.x() = (_data((unsigned int)(2+row), (unsigned int)(2+column)).x());
+        point.y() = (_data((unsigned int)(2+row), (unsigned int)(2+column)).y());
+        point.z() = (_data((unsigned int)(2+row), (unsigned int)(2+column)).z());
 
         return GL_TRUE;
     }
