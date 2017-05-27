@@ -59,7 +59,7 @@ HermiteArc3::HermiteArc3():LinearCombination3(0.0,1.0,4,GL_STATIC_DRAW)
         {
             // third order derivatives of basis functions
             dF(3, 0) = 12;
-            dF(3, 1) = 12;
+            dF(3, 1) = -12;
             dF(3, 2) = 6;
             dF(3, 3) = 6;
         }
@@ -67,7 +67,7 @@ HermiteArc3::HermiteArc3():LinearCombination3(0.0,1.0,4,GL_STATIC_DRAW)
         // fourth and higher order derivatives are identically zero
 
         // evaluation of zeroth and higher order derivatives
-        for (GLuint r = 0; r <= maximum_order_of_derivatives; r++)
+        for (GLuint r = 0; r < maximum_order_of_derivatives; r++)
         {
             for (GLuint i = 0; i < _data.GetRowCount(); i++)
             {
