@@ -8,6 +8,7 @@
 #include "Core/TriangulatedMeshes3.h"
 #include "Core/Materials.h"
 #include "Core/DCoordinates3.h"
+#include "Hermite/HermiteSurfaces3.h"
 
 using namespace std;
 
@@ -89,10 +90,10 @@ void GLWidget::initializeGL()
         //        _patch.SetVTangent(0,0,0.0,-1.0,0.0);
         //        _patch.SetVTangent(0,1,1.0,-1.0,0.0);
         //        _patch.SetVTangent(1,0,-2.0,0.0,0.0);
-                _patch.SetVTangent(1,1,-1.0,0.0,0.0);
+//                _patch.SetVTangent(1,1,-1.0,0.0,0.0);
 
-                _patch.SetUTangent(0,0,1.0,1.0,1.0);
-                _patch.SetUTangent(0,1,1.0,1.0,1.0);
+//                _patch.SetUTangent(0,0,1.0,1.0,1.0);
+//                _patch.SetUTangent(0,1,1.0,1.0,1.0);
         //        _patch.SetUTangent(1,0,1.0,2.0,0.0);
         //        _patch.SetUTangent(1,1,0.0,0.0,0.0);
 
@@ -124,6 +125,13 @@ void GLWidget::initializeGL()
 //        _patch.SetTwistVector(1,0,2.0,1.0,0.0);
 //        _patch.SetTwistVector(1,1,2.0,2.0,0.0);
 
+        HermiteSurface3::Attributes attribute;
+        attribute.material = &MatFBRuby;
+        attribute.img = _patch.GenerateImage(30,30,GL_STATIC_DRAW);
+        attribute.img ->UpdateVertexBufferObjects();
+
+        _surface.Insert(attribute);
+        _surface.ContinueExistingPatch(&_patch,N);
 
         _before_interpolation = _patch.GenerateImage(30,30,GL_STATIC_DRAW);
 
@@ -325,7 +333,7 @@ void GLWidget::paintGL()
 
     _surface.Render();
 
-            //    if (_before_interpolation){
+//                if (_before_interpolation){
 //        _shaders[_shader_type].Enable(GL_TRUE);
 //        _materials[_material_type].Apply();
 //        _before_interpolation->Render();

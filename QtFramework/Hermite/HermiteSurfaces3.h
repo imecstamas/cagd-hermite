@@ -25,6 +25,8 @@ namespace cagd
         std::vector<Attributes> _attributes;
 
     public:
+        GLvoid HermiteSurface3::Insert(Attributes attribute);
+
         GLvoid HermiteSurface3::Render();
 
         GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, PatchDirection dir);
