@@ -57,7 +57,7 @@ void GLWidget::initializeGL()
     glEnable(GL_DEPTH_TEST);
 
     // setting the color of background
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     // initial values of transformation parameters
     _angle_x = _angle_y = _angle_z = 0.0;
@@ -90,10 +90,10 @@ void GLWidget::initializeGL()
         //        _patch.SetVTangent(0,0,0.0,-1.0,0.0);
         //        _patch.SetVTangent(0,1,1.0,-1.0,0.0);
         //        _patch.SetVTangent(1,0,-2.0,0.0,0.0);
-//                _patch.SetVTangent(1,1,-1.0,0.0,0.0);
+                _patch.SetVTangent(1,1,-1.0,0.0,0.0);
 
-//                _patch.SetUTangent(0,0,1.0,1.0,1.0);
-//                _patch.SetUTangent(0,1,1.0,1.0,1.0);
+                _patch.SetUTangent(0,0,1.0,1.0,1.0);
+                _patch.SetUTangent(0,1,1.0,1.0,1.0);
         //        _patch.SetUTangent(1,0,1.0,2.0,0.0);
         //        _patch.SetUTangent(1,1,0.0,0.0,0.0);
 
@@ -127,24 +127,28 @@ void GLWidget::initializeGL()
 
         HermiteSurface3::Attributes attribute;
         attribute.patch = &_patch;
-        attribute.material = &MatFBRuby;
+        attribute.material = &MatFBPearl;
         attribute.img = _patch.GenerateImage(30,30,GL_STATIC_DRAW);
         attribute.img ->UpdateVertexBufferObjects();
 
         _surface.Insert(attribute);
 
-//        _surface.ContinueExistingPatch(&_patch,N);
-//        _surface.ContinueExistingPatch(&_patch,E);
-//        _surface.ContinueExistingPatch(&_patch,S);
-//        _surface.ContinueExistingPatch(&_patch,W);
+        HermiteSurface3::Attributes attribute2;
+        attribute2.material = &MatFBRuby;
 
-//        HermiteSurface3::Attributes attribute2;
-//        attribute2.material = &MatFBRuby;
-//        attribute2.img = _patch.GenerateImage(30,30,GL_STATIC_DRAW);
-//        attribute2.img ->UpdateVertexBufferObjects();
+        HermiteSurface3::Attributes attribute3;
+        attribute3.material = &MatFBGold;
 
-//        _surface.ContinueExistingPatch(attribute2,N);
+        HermiteSurface3::Attributes attribute4;
+        attribute4.material = &MatFBTurquoise;
 
+        HermiteSurface3::Attributes attribute5;
+        attribute5.material = &MatFBEmerald;
+
+        _surface.ContinueExistingPatch(&_patch,attribute2,N);
+        _surface.ContinueExistingPatch(&_patch,attribute3,E);
+        _surface.ContinueExistingPatch(&_patch,attribute4,S);
+        _surface.ContinueExistingPatch(&_patch,attribute5,W);
 
         // parametric curves
 
@@ -426,8 +430,8 @@ void GLWidget::_animate()
         for (GLuint coordinate = 0 ; coordinate < 3 ; ++coordinate , ++vertex , ++normal)
             *vertex += scale * (*normal) ;
     }
-    _models[_pc_index].UnmapVertexBuffer() ;
-    _models[_pc_index].UnmapNormalBuffer() ;
+    _models[_pc_index].UnmapVertexBuffer();
+    _models[_pc_index].UnmapNormalBuffer();
     updateGL() ;
 }
 
@@ -560,7 +564,7 @@ void GLWidget::setMaterialType(int value)
 void GLWidget::addHermitePatchInDirection()
 {
 //    if (){
-        _surface.ContinueExistingPatch(&_patch,N);
+//        _surface.ContinueExistingPatch(&_patch,N);
 //    }
     updateGL();
 }

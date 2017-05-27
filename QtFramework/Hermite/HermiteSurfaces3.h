@@ -29,6 +29,6 @@ namespace cagd
 
         GLvoid HermiteSurface3::Render();
 
-        GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, PatchDirection dir);
+        GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Attributes attribute, PatchDirection dir);
     };
 }

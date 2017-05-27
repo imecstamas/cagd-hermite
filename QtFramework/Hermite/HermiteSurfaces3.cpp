@@ -17,10 +17,9 @@ GLvoid HermiteSurface3::Insert(Attributes attribute){
     _attributes.insert(_attributes.end(), attribute);
 }
 
-GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, PatchDirection dir){
+GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Attributes attribute, PatchDirection dir){
     BicubicHermitePatch3 new_patch;
     DCoordinate3 cord;
-    Attributes attribute;
     DCoordinate3 near, far;
     if (dir == N){
         patch->GetCorner(0,0, cord);
@@ -50,7 +49,7 @@ GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Patch
         patch->GetCorner(1,1, far);
         new_patch.SetCorner(0,1, 2*near - far);
 
-        attribute.material = &MatFBGold;
+        attribute.patch = &new_patch;
         attribute.img = new_patch.GenerateImage(30,30,GL_STATIC_DRAW);
         attribute.img ->UpdateVertexBufferObjects();
         HermiteSurface3::Insert(attribute);
@@ -82,7 +81,7 @@ GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Patch
         patch->GetCorner(1,1, far);
         new_patch.SetCorner(1,0, 2*near - far);
 
-        attribute.material = &MatFBBrass;
+        attribute.patch = &new_patch;
         attribute.img = new_patch.GenerateImage(30,30,GL_STATIC_DRAW);
         attribute.img ->UpdateVertexBufferObjects();
         HermiteSurface3::Insert(attribute);
@@ -115,7 +114,7 @@ GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Patch
         patch->GetCorner(0,1, far);
         new_patch.SetCorner(1,1, 2*near - far);
 
-        attribute.material = &MatFBEmerald;
+        attribute.patch = &new_patch;
         attribute.img = new_patch.GenerateImage(30,30,GL_STATIC_DRAW);
         attribute.img ->UpdateVertexBufferObjects();
         HermiteSurface3::Insert(attribute);
@@ -147,7 +146,7 @@ GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Patch
         patch->GetCorner(1,0, far);
         new_patch.SetCorner(1,1, 2*near - far);
 
-        attribute.material = &MatFBSilver;
+        attribute.patch = &new_patch;
         attribute.img = new_patch.GenerateImage(30,30,GL_STATIC_DRAW);
         attribute.img ->UpdateVertexBufferObjects();
         HermiteSurface3::Insert(attribute);
