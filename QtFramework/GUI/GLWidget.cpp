@@ -80,6 +80,41 @@ void GLWidget::initializeGL()
                             "Try to update your driver or buy a new graphics adapter!");
         }
 
+        //loading shader types
+        _shaders.ResizeColumns(4);
+        if (!_shaders[0].InstallShaders("Shaders/directional_light.vert","Shaders/directional_light.frag", GL_TRUE)){
+            cout << "error installing shader";
+        }
+        if (!_shaders[1].InstallShaders("Shaders/toon.vert","Shaders/toon.frag", GL_TRUE)){
+            cout << "error installing shader";
+        }
+        if (!_shaders[2].InstallShaders("Shaders/two_sided_lighting.vert","Shaders/two_sided_lighting.frag", GL_TRUE)){
+            cout << "error installing shader";
+        }
+        if (!_shaders[3].InstallShaders("Shaders/reflection_lines.vert","Shaders/reflection_lines.frag", GL_TRUE)){
+            cout << "error installing shader";
+        }
+
+        _shaders[1].Enable();
+        _shaders[1].SetUniformVariable4f("default_outline_color", 1.0, 0.0, 0.0, 1.0);
+        _shaders[1].Disable();
+
+        _shaders[3].Enable();
+        _shaders[3].SetUniformVariable1f("scale_factor", 14.0);
+        _shaders[3].SetUniformVariable1f("smoothing", 1.0);
+        _shaders[3].SetUniformVariable1f("shading", 0.1);
+        _shaders[3].Disable();
+
+        //materials
+        _materials.ResizeColumns(7);
+        _materials[0] = MatFBBrass;
+        _materials[1] = MatFBEmerald;
+        _materials[2] = MatFBGold;
+        _materials[3] = MatFBPearl;
+        _materials[4] = MatFBRuby;
+        _materials[5] = MatFBSilver;
+        _materials[6] = MatFBTurquoise;
+
         //Negyzet
         _patch.SetCorner(0,0,0.0,0.0,0.0);
         _patch.SetCorner(0,1,0.0,1.0,0.0);
@@ -128,6 +163,7 @@ void GLWidget::initializeGL()
         HermiteSurface3::Attributes attribute;
         attribute.patch = &_patch;
         attribute.material = &MatFBPearl;
+        attribute.shader = &_shaders[0];
         attribute.img = _patch.GenerateImage(30,30,GL_STATIC_DRAW);
         attribute.img ->UpdateVertexBufferObjects();
 
@@ -135,22 +171,19 @@ void GLWidget::initializeGL()
 
         HermiteSurface3::Attributes attribute2;
         attribute2.material = &MatFBRuby;
+        attribute2.shader = &_shaders[1];
 
         HermiteSurface3::Attributes attribute3;
         attribute3.material = &MatFBGold;
+        attribute3.shader = &_shaders[2];
 
         HermiteSurface3::Attributes attribute4;
         attribute4.material = &MatFBTurquoise;
+        attribute4.shader = &_shaders[3];
 
         HermiteSurface3::Attributes attribute5;
         attribute5.material = &MatFBEmerald;
-
-        _surface.ContinueExistingPatch(&_patch,attribute2,N);
-        _surface.ContinueExistingPatch(&_patch,attribute3,E);
-        _surface.ContinueExistingPatch(&_patch,attribute4,SW);
-        _surface.ContinueExistingPatch(&_patch,attribute5,NW);
-        _surface.ContinueExistingPatch(&_patch,attribute4,S);
-        _surface.ContinueExistingPatch(&_patch,attribute5,W);
+        attribute5.shader = &_shaders[0];
 
         // parametric curves
 
@@ -245,47 +278,13 @@ void GLWidget::initializeGL()
             _models[1].UpdateVertexBufferObjects();
         }
 
-        //loading shader types
-        _shaders.ResizeColumns(4);
-        if (!_shaders[0].InstallShaders("Shaders/directional_light.vert","Shaders/directional_light.frag", GL_TRUE)){
-            cout << "error installing shader";
-        }
-        if (!_shaders[1].InstallShaders("Shaders/toon.vert","Shaders/toon.frag", GL_TRUE)){
-            cout << "error installing shader";
-        }
-        if (!_shaders[2].InstallShaders("Shaders/two_sided_lighting.vert","Shaders/two_sided_lighting.frag", GL_TRUE)){
-            cout << "error installing shader";
-        }
-        if (!_shaders[3].InstallShaders("Shaders/reflection_lines.vert","Shaders/reflection_lines.frag", GL_TRUE)){
-            cout << "error installing shader";
-        }
-
-        _shaders[1].Enable();
-        _shaders[1].SetUniformVariable4f("default_outline_color", 1.0, 0.0, 0.0, 1.0);
-        _shaders[1].Disable();
-
-        _shaders[3].Enable();
-        _shaders[3].SetUniformVariable1f("scale_factor", 14.0);
-        _shaders[3].SetUniformVariable1f("smoothing", 1.0);
-        _shaders[3].SetUniformVariable1f("shading", 0.1);
-        _shaders[3].Disable();
-
-        //materials
-        _materials.ResizeColumns(7);
-        _materials[0] = MatFBBrass;
-        _materials[1] = MatFBEmerald;
-        _materials[2] = MatFBGold;
-        _materials[3] = MatFBPearl;
-        _materials[4] = MatFBRuby;
-        _materials[5] = MatFBSilver;
-        _materials[6] = MatFBTurquoise;
-
         //lights
         glEnable(GL_LIGHTING);
         glEnable(GL_NORMALIZE);
         glEnable(GL_LIGHT0);
         glEnable(GL_LIGHT1);
         glEnable(GL_LIGHT2);
+
         HCoordinate3 direction0(1.0, 0.0, 0.0, 0.0);
         Color4 ambient0 (0.4,0.4,0.4,1.0);
         Color4 diffuse0 (0.8,0.8,0.8,1.0);
@@ -393,9 +392,17 @@ void GLWidget::paintGL()
     // pops the current matrix stack, replacing the current matrix with the one below it on the stack,
     // i.e., the original model view matrix is restored
 
-    dl0->Disable();
-    dl1->Disable();
-    dl2->Disable();
+
+   // render your geometry (this is oldest OpenGL rendering technique, later we will use some advanced methods)
+    if(dl0 && dl1 && dl2){
+        dl0->Disable();
+        dl1->Disable();
+        dl2->Disable();
+    }
+
+    // pops the current matrix stack, replacing the current matrix with the one below it on the stack,
+    // i.e., the original model view matrix is restored
+
     glPopMatrix();
 }
 
@@ -568,12 +575,53 @@ void GLWidget::setMaterialType(int value)
     }
 }
 
-void GLWidget::addHermitePatchInDirection()
+void GLWidget::addHermitePatchToDirection(PatchDirection dir)
 {
-//    if (){
-//        _surface.ContinueExistingPatch(&_patch,N);
-//    }
+    HermiteSurface3::Attributes attribute;
+    attribute.material = &_materials[_material_type];
+    attribute.shader = &_shaders[_shader_type];
+    _surface.ContinueExistingPatch(&_patch,attribute,dir);
     updateGL();
+}
+
+void GLWidget::addHermitePatchNorth()
+{
+    addHermitePatchToDirection(N);
+}
+
+void GLWidget::addHermitePatchNorthEast()
+{
+    addHermitePatchToDirection(NE);
+}
+
+void GLWidget::addHermitePatchEast()
+{
+    addHermitePatchToDirection(E);
+}
+
+void GLWidget::addHermitePatchSouthEast()
+{
+    addHermitePatchToDirection(SE);
+}
+
+void GLWidget::addHermitePatchSouth()
+{
+    addHermitePatchToDirection(S);
+}
+
+void GLWidget::addHermitePatchSouthWest()
+{
+    addHermitePatchToDirection(SW);
+}
+
+void GLWidget::addHermitePatchWest()
+{
+    addHermitePatchToDirection(W);
+}
+
+void GLWidget::addHermitePatchNorthWest()
+{
+    addHermitePatchToDirection(NW);
 }
 
 GLWidget::~GLWidget(){

@@ -5,10 +5,11 @@ using namespace cagd;
 GLvoid HermiteSurface3::Render(){
     for (GLuint i=0; i<_attributes.size(); ++i)
     {
-        if (_attributes[i].patch && _attributes[i].img && _attributes[i].material){
-            //            _attributes[i].shader->Enable(GL_TRUE);//TODO disable after render
+        if (_attributes[i].patch && _attributes[i].img && _attributes[i].material && _attributes[i].shader){
+            _attributes[i].shader->Enable(GL_TRUE);
             _attributes[i].material->Apply();
             _attributes[i].img->Render();
+            _attributes[i].shader->Disable();
         }
     }
 }

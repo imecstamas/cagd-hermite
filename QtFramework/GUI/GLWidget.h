@@ -60,7 +60,7 @@ namespace cagd {
         RowMatrix<ShaderProgram> _shaders;
         RowMatrix<Material> _materials;
 
-        DirectionalLight *dl0,*dl1,*dl2 = 0;
+        DirectionalLight *dl0,*dl1,*dl2;
 
         int  _pc_index;
         bool _show_parametric_curves;
@@ -73,6 +73,7 @@ namespace cagd {
 
     private slots:
         void _animate();
+        void addHermitePatchToDirection(PatchDirection dir);
 
     public:
         // special and default constructor
@@ -109,6 +110,20 @@ namespace cagd {
 
         void setMaterialType(int value);
 
-        void addHermitePatchInDirection();
+        void addHermitePatchNorth();
+
+        void addHermitePatchNorthEast();
+
+        void addHermitePatchEast();
+
+        void addHermitePatchSouthEast();
+
+        void addHermitePatchSouth();
+
+        void addHermitePatchSouthWest();
+
+        void addHermitePatchWest();
+
+        void addHermitePatchNorthWest();
     };
 }
