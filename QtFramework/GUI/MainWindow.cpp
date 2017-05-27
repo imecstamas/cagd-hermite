@@ -78,6 +78,8 @@ namespace cagd
 
         connect(_side_widget->button_north_west, SIGNAL(clicked()), _gl_widget, SLOT(addHermitePatchNorthWest()));
 
+        connect(_side_widget->radioButton_patch, SIGNAL(toggled(bool)),_gl_widget, SLOT(setShowPatch(bool)));
+
     }
 
     //--------------------------------

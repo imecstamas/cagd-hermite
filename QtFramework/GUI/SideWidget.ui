@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>289</width>
-    <height>507</height>
+    <height>595</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -375,6 +375,35 @@
      <string>Next patch attributes:</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_arc">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>540</y>
+     <width>82</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ShowArc</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_patch">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>520</y>
+     <width>82</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ShowPatch</string>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
   </widget>
  </widget>
  <resources/>
