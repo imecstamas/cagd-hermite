@@ -174,9 +174,10 @@ void GLWidget::initializeGL()
         _arc.SetTangent(0,1.0, 1.0, 1.0);
         _arc.SetTangent(1,1.0, 1.0, 1.0);
 
-        _image_of_arc = _arc.GenerateImage(3,30,GL_STATIC_DRAW);
+        _image_of_arc = _arc.GenerateImage(2,30);
         _image_of_arc ->UpdateVertexBufferObjects();
 
+        _show_patch = true;
         // parametric curves
 
         // create and store your geometry in display lists or vertex buffer objects
@@ -325,11 +326,23 @@ void GLWidget::paintGL()
     glTranslated(_trans_x, _trans_y, _trans_z);
     glScaled(_zoom, _zoom, _zoom);
 
+    if (_show_patch){
+        _surface.Render();
+    }else{
+        _image_of_arc->RenderDerivatives(0, GL_LINE_STRIP);
 
+        //                    glColor3f(1.0,0.0,0.0);
+        //                 _image_of_arc->RenderDerivatives(0,GL_LINE_LOOP);
+        //                _image_of_arc->RenderDerivatives(0, GL_POINTS);
 
-//    _surface.Render();
+        //                glColor3f(0.0,1.0,0.0);
+        //                _image_of_arc->RenderDerivatives(1,GL_LINES);
+        //                _image_of_arc->RenderDerivatives(1, GL_POINTS);
 
-    _image_of_arc->RenderDerivatives(0, GL_LINE_LOOP);
+        //                glColor3f(0.0,0.0,1.0);
+        //                _image_of_arc->RenderDerivatives(2,GL_LINES);
+        //                _image_of_arc->RenderDerivatives(2, GL_POINTS);
+    }
 
 //    if (_show_parametric_curves)
 //    {
@@ -616,6 +629,15 @@ void GLWidget::addHermitePatchWest()
 void GLWidget::addHermitePatchNorthWest()
 {
     addHermitePatchToDirection(NW);
+}
+
+void GLWidget::setShowPatch(bool value)
+{
+    if (_show_patch != value)
+    {
+        _show_patch = value;
+        updateGL();
+    }
 }
 
 GLWidget::~GLWidget(){
