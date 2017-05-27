@@ -132,6 +132,7 @@ void GLWidget::initializeGL()
 
         _surface.Insert(attribute);
         _surface.ContinueExistingPatch(&_patch,N);
+        _surface.ContinueExistingPatch(&_patch,E);
 
         _before_interpolation = _patch.GenerateImage(30,30,GL_STATIC_DRAW);
 
