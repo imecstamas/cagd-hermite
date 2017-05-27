@@ -2,18 +2,18 @@
 
 using namespace cagd;
 
-GLvoid Render(){
+GLvoid HermiteSurface3::Render(){
     for (GLuint i=0; i<_attributes.size(); ++i)
     {
         if (_attributes[i].patch && _attributes[i].img && _attributes[i].material){
             _attributes[i].shader->Enable(GL_TRUE);
-            _attributes[i].material -> Apply();
-            _attributes[i].img -> Render();
+            _attributes[i].material->Apply();
+            _attributes[i].img->Render();
         }
     }
 }
 
-GLvoid ContinueExistingPatch(BicubicHermitePatch3 *patch, PatchDirection dir){
+GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, PatchDirection dir){
     BicubicHermitePatch3 new_patch;
     switch (dir) {
     case 0:
