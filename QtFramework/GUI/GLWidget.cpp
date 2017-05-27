@@ -169,21 +169,13 @@ void GLWidget::initializeGL()
 
         _surface.Insert(attribute);
 
-        HermiteSurface3::Attributes attribute2;
-        attribute2.material = &MatFBRuby;
-        attribute2.shader = &_shaders[1];
+        _arc.SetCorner(0,0.0, 0.0, 0.0);
+        _arc.SetCorner(1,2.0, 0.0, 0.0);
+        _arc.SetTangent(0,1.0, 1.0, 1.0);
+        _arc.SetTangent(1,1.0, 1.0, 1.0);
 
-        HermiteSurface3::Attributes attribute3;
-        attribute3.material = &MatFBGold;
-        attribute3.shader = &_shaders[2];
-
-        HermiteSurface3::Attributes attribute4;
-        attribute4.material = &MatFBTurquoise;
-        attribute4.shader = &_shaders[3];
-
-        HermiteSurface3::Attributes attribute5;
-        attribute5.material = &MatFBEmerald;
-        attribute5.shader = &_shaders[0];
+        _image_of_arc = _arc.GenerateImage(3,30,GL_STATIC_DRAW);
+        _image_of_arc ->UpdateVertexBufferObjects();
 
         // parametric curves
 
@@ -335,7 +327,9 @@ void GLWidget::paintGL()
 
 
 
-    _surface.Render();
+//    _surface.Render();
+
+    _image_of_arc->RenderDerivatives(0, GL_LINE_LOOP);
 
 //    if (_show_parametric_curves)
 //    {

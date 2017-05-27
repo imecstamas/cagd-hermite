@@ -14,6 +14,7 @@
 #include "Core/Materials.h"
 #include "Hermite/BicubicHermitePatches3.h"
 #include "Hermite/HermiteSurfaces3.h"
+#include "Hermite/HermiteArcs3.h"
 #include <string.h>
 
 namespace cagd {
@@ -28,6 +29,10 @@ namespace cagd {
         //kezdo patch;
         BicubicHermitePatch3 _patch;
         TriangulatedMesh3 *_before_interpolation, *_after_interpolation;
+
+        HermiteArc3 _arc;
+        GenericCurve3* _image_of_arc;
+
 
         // variables defining the projection matrix
         float       _aspect;            // aspect ratio of the rendering window

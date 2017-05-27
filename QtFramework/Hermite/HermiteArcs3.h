@@ -9,7 +9,7 @@ namespace cagd
     public:
         HermiteArc3();
 
-        GLboolean BlendingFunctionValues(GLdouble u, RowMatrix<GLdouble>& values) const;
+        GLboolean BlendingFunctionValues(GLdouble u, RowMatrix<GLdouble>& blending_values) const;
         GLboolean CalculateDerivatives(GLuint max_order_of_derivatives, GLdouble u, Derivatives& d) const;
 
         GLboolean SetCorner(GLuint corner_index, GLdouble x, GLdouble y, GLdouble z);
