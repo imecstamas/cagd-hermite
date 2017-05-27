@@ -60,7 +60,7 @@ namespace cagd {
         RowMatrix<ShaderProgram> _shaders;
         RowMatrix<Material> _materials;
 
-        DirectionalLight *dl, *dl1;
+        DirectionalLight *dl0,*dl1,*dl2 = 0;
 
         int  _pc_index;
         bool _show_parametric_curves;

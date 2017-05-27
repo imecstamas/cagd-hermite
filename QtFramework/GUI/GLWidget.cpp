@@ -284,17 +284,24 @@ void GLWidget::initializeGL()
         glEnable(GL_LIGHT0);
         glEnable(GL_LIGHT1);
 
-        HCoordinate3    direction(1.0,1.0,0.0,0.0);
-        Color4          ambient(0.5,0.5,0.5,1.0);
-        Color4          diffuse(0.8,0.8,0.8,1.0);
-        Color4          specular(1.0,1.0,1.0,1.0);
-        dl = new DirectionalLight(GL_LIGHT0, direction, ambient, diffuse, specular);
+        HCoordinate3 direction0(1.0, 0.0, 0.0, 0.0);
+        Color4 ambient0 (0.4,0.4,0.4,1.0);
+        Color4 diffuse0 (0.8,0.8,0.8,1.0);
+        Color4 specular0(1.0,1.0,1.0,1.0);
+        dl0 = new DirectionalLight(GL_LIGHT0, direction0, ambient0, diffuse0, specular0);
 
-        HCoordinate3    direction1(0.0,0.0,1.0,0.0);
-        Color4          ambient1(0.5,0.5,0.5,1.0);
-        Color4          diffuse1(0.8,0.8,0.8,1.0);
-        Color4          specular1(1.0,1.0,1.0,1.0);
-        dl1 = new DirectionalLight(GL_LIGHT1, direction1, ambient1, diffuse1, specular1);
+        HCoordinate3 direction1(-1.0, 0.0, 0.0, 0.0);
+        Color4 ambient1 (0.0,0.4,0.0,1.0);
+        Color4 diffuse1 (0.0,0.8,0.0,1.0);
+        Color4 specular1(0.0,1.0,0.0,1.0);
+        dl1 = new DirectionalLight(GL_LIGHT1, direction1, ambient0, diffuse0, specular0);
+
+        HCoordinate3 direction2(0.0, 1.0, 1.0, 0.0);
+        Color4 ambient2 (0.0,0.0,0.4,1.0);
+        Color4 diffuse2 (0.0,0.0,0.8,1.0);
+        Color4 specular2(0.0,0.0,1.0,1.0);
+        dl2 = new DirectionalLight(GL_LIGHT2, direction2, ambient0, diffuse0, specular0);
+
     }
     catch (Exception &e)
     {
@@ -321,13 +328,10 @@ void GLWidget::paintGL()
     glScaled(_zoom, _zoom, _zoom);
 
     //lightning
-    if(dl)
-    {
-        dl->Enable();
-    }
-    if (dl1)
-    {
+    if(dl0 && dl1 && dl2){
+        dl0->Enable();
         dl1->Enable();
+        dl2->Enable();
     }
 
     _surface.Render();
@@ -384,8 +388,9 @@ void GLWidget::paintGL()
 
     //    // render your geometry (this is oldest OpenGL rendering technique, later we will use some advanced methods)
 
-        dl->Disable();
-        dl1->Disable();
+    dl0->Disable();
+    dl1->Disable();
+    dl2->Disable();
 
     // pops the current matrix stack, replacing the current matrix with the one below it on the stack,
     // i.e., the original model view matrix is restored
