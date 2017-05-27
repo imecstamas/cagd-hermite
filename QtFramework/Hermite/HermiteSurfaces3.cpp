@@ -24,23 +24,23 @@ GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Patch
     DCoordinate3 near, far;
     switch (dir) {
     case N:
-        patch->GetCorner(0, 0, cord);
-        new_patch.SetCorner(1, 0, cord);
-        patch->GetVTangent(0, 0, cord);
-        new_patch.SetVTangent(1, 0, cord);
-        patch->GetUTangent(0, 0, cord);
-        new_patch.SetUTangent(1, 0, cord);
-        patch->GetTwistVector(0, 0, cord);
-        new_patch.SetTwistVector(1, 0, cord);
+        patch->GetCorner(0,0, cord);
+        new_patch.SetCorner(1,0, cord);
+        patch->GetVTangent(0,0, cord);
+        new_patch.SetVTangent(1,0, cord);
+        patch->GetUTangent(0,0, cord);
+        new_patch.SetUTangent(1,0, cord);
+        patch->GetTwistVector(0,0, cord);
+        new_patch.SetTwistVector(1,0, cord);
 
-        patch->GetCorner(0, 1, cord);
-        new_patch.SetCorner(1, 1, cord);
-        patch->GetVTangent(0, 1, cord);
-        new_patch.SetVTangent(1, 1, cord);
-        patch->GetUTangent(0, 1, cord);
-        new_patch.SetUTangent(1, 1, cord);
-        patch->GetTwistVector(0, 1, cord);
-        new_patch.SetTwistVector(1, 1, cord);
+        patch->GetCorner(0,1, cord);
+        new_patch.SetCorner(1,1, cord);
+        patch->GetVTangent(0,1, cord);
+        new_patch.SetVTangent(1,1, cord);
+        patch->GetUTangent(0,1, cord);
+        new_patch.SetUTangent(1,1, cord);
+        patch->GetTwistVector(0,1, cord);
+        new_patch.SetTwistVector(1,1, cord);
 
         //new Corners
         patch->GetCorner(0,0, near);
@@ -49,28 +49,46 @@ GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Patch
 
         patch->GetCorner(0,1, near);
         patch->GetCorner(1,1, far);
-        new_patch.SetCorner(0, 1, 2*near - far);
+        new_patch.SetCorner(0,1, 2*near - far);
 
         attribute.material = &MatFBGold;
         attribute.img = new_patch.GenerateImage(30,30,GL_STATIC_DRAW);
         attribute.img ->UpdateVertexBufferObjects();
         HermiteSurface3::Insert(attribute);
         break;
-//    case 1:
-//        //NORTH-WEST
-//        break;
-//    case W:
-//        //WEST
-//        break;
-//    case 3:
-//        //SOUTH-WEST
-//        break;
-//    case 4:
-//        //SOUTH
-//        break;
-//    case 5:
-//        //SOUTH-EAST
-//        break;
+    case S:
+        patch->GetCorner(1,0, cord);
+        new_patch.SetCorner(0,0, cord);
+        patch->GetVTangent(1,0, cord);
+        new_patch.SetVTangent(0,0, cord);
+        patch->GetUTangent(1,0, cord);
+        new_patch.SetUTangent(0,0, cord);
+        patch->GetTwistVector(1,0, cord);
+        new_patch.SetTwistVector(0,0, cord);
+
+        patch->GetCorner(1,1, cord);
+        new_patch.SetCorner(0,1, cord);
+        patch->GetVTangent(1,1, cord);
+        new_patch.SetVTangent(0,1, cord);
+        patch->GetUTangent(1,1, cord);
+        new_patch.SetUTangent(0,1, cord);
+        patch->GetTwistVector(1,1, cord);
+        new_patch.SetTwistVector(0,1, cord);
+
+        //new Corners
+        patch->GetCorner(1,0, near);
+        patch->GetCorner(0,0, far);
+        new_patch.SetCorner(1,0, 2*near - far);
+
+        patch->GetCorner(1,1, near);
+        patch->GetCorner(0,1, far);
+        new_patch.SetCorner(1,1, 2*near - far);
+
+        attribute.material = &MatFBEmerald;
+        attribute.img = new_patch.GenerateImage(30,30,GL_STATIC_DRAW);
+        attribute.img ->UpdateVertexBufferObjects();
+        HermiteSurface3::Insert(attribute);
+        break;
     case E:
         patch->GetCorner(0, 1, cord);
         new_patch.SetCorner(0, 0, cord);
@@ -104,9 +122,6 @@ GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Patch
         attribute.img ->UpdateVertexBufferObjects();
         HermiteSurface3::Insert(attribute);
         break;
-//    case 7:
-//        //NORTH-EAST
-//        break;
     }
 }
 
