@@ -116,49 +116,49 @@ void GLWidget::initializeGL()
         _materials[6] = MatFBTurquoise;
 
         //Negyzet
-        _patch.SetCorner(0,0,0.0,0.0,0.0);
-        _patch.SetCorner(0,1,0.0,1.0,0.0);
-        _patch.SetCorner(1,0,1.0,0.0,0.0);
-        _patch.SetCorner(1,1,1.0,1.0,0.0);
+//        _patch.SetCorner(0,0,0.0,0.0,0.0);
+//        _patch.SetCorner(0,1,0.0,1.0,0.0);
+//        _patch.SetCorner(1,0,1.0,0.0,0.0);
+//        _patch.SetCorner(1,1,1.0,1.0,0.0);
 
         //Probalkozas
         //        _patch.SetVTangent(0,0,0.0,-1.0,0.0);
-                _patch.SetVTangent(0,1,1.0,-1.0,0.0);
+//                _patch.SetVTangent(0,1,1.0,-1.0,0.0);
         //        _patch.SetVTangent(1,0,-2.0,0.0,0.0);
-                _patch.SetVTangent(1,1,-1.0,0.0,0.0);
+//                _patch.SetVTangent(1,1,-1.0,0.0,0.0);
 
-                _patch.SetUTangent(0,0,1.0,1.0,1.0);
-                _patch.SetUTangent(0,1,1.0,1.0,1.0);
-                _patch.SetUTangent(1,0,1.0,2.0,0.0);
-                _patch.SetUTangent(1,1,0.0,0.0,0.0);
+//                _patch.SetUTangent(0,0,1.0,1.0,1.0);
+//                _patch.SetUTangent(0,1,1.0,1.0,1.0);
+//                _patch.SetUTangent(1,0,1.0,2.0,0.0);
+//                _patch.SetUTangent(1,1,0.0,0.0,0.0);
 
-                _patch.SetTwistVector(0,0,1.0,0.0,0.0);
-                _patch.SetTwistVector(0,1,0.0,0.0,0.0);
+//                _patch.SetTwistVector(0,0,1.0,0.0,0.0);
+//                _patch.SetTwistVector(0,1,0.0,0.0,0.0);
         //        _patch.SetTwistVector(1,0,0.0,0.0,0.0);
         //        _patch.SetTwistVector(1,1,0.0,0.0,0.0);
 
 
 
         //Bezier peldabol patch
-//        _patch.SetCorner(0,0,-2.0,-2.0,0.0);
-//        _patch.SetCorner(0,1,-2.0,-1.0,0.0);
-//        _patch.SetCorner(1,0,-1.0,-2.0,0.0);
-//        _patch.SetCorner(1,1,-1.0,-1.0,2.0);
+        _patch.SetCorner(0,0,-2.0,-2.0,0.0);
+        _patch.SetCorner(0,1,-2.0,-1.0,0.0);
+        _patch.SetCorner(1,0,-1.0,-2.0,0.0);
+        _patch.SetCorner(1,1,-1.0,-1.0,2.0);
 
-//        _patch.SetVTangent(0,0,-2.0,1.0,0.0);
-//        _patch.SetVTangent(0,1,-2.0,2.0,0.0);
-//        _patch.SetVTangent(1,0,-1.0,1.0,2.0);
-//        _patch.SetVTangent(1,1,-1.0,2.0,0.0);
+        _patch.SetVTangent(0,0,-2.0,1.0,0.0);
+        _patch.SetVTangent(0,1,-2.0,2.0,0.0);
+        _patch.SetVTangent(1,0,-1.0,1.0,2.0);
+        _patch.SetVTangent(1,1,-1.0,2.0,0.0);
 
-//        _patch.SetUTangent(0,0,1.0,-2.0,0.0);
-//        _patch.SetUTangent(0,1,1.0,-1.0,2.0);
-//        _patch.SetUTangent(1,0,2.0,-2.0,0.0);
-//        _patch.SetUTangent(1,1,2.0,-1.0,0.0);
+        _patch.SetUTangent(0,0,1.0,-2.0,0.0);
+        _patch.SetUTangent(0,1,1.0,-1.0,2.0);
+        _patch.SetUTangent(1,0,2.0,-2.0,0.0);
+        _patch.SetUTangent(1,1,2.0,-1.0,0.0);
 
-//        _patch.SetTwistVector(0,0,1.0,1.0,2.0);
-//        _patch.SetTwistVector(0,1,1.0,2.0,0.0);
-//        _patch.SetTwistVector(1,0,2.0,1.0,0.0);
-//        _patch.SetTwistVector(1,1,2.0,2.0,0.0);
+        _patch.SetTwistVector(0,0,1.0,1.0,2.0);
+        _patch.SetTwistVector(0,1,1.0,2.0,0.0);
+        _patch.SetTwistVector(1,0,2.0,1.0,0.0);
+        _patch.SetTwistVector(1,1,2.0,2.0,0.0);
 
         HermiteSurface3::Attributes attribute;
         attribute.patch = &_patch;
