@@ -73,6 +73,7 @@ namespace cagd {
 
     private slots:
         void _animate();
+        void addHermitePatchToDirection(PatchDirection dir);
 
     public:
         // special and default constructor
@@ -109,6 +110,20 @@ namespace cagd {
 
         void setMaterialType(int value);
 
-        void addHermitePatchInDirection();
+        void addHermitePatchNorth();
+
+        void addHermitePatchNorthEast();
+
+        void addHermitePatchEast();
+
+        void addHermitePatchSouthEast();
+
+        void addHermitePatchSouth();
+
+        void addHermitePatchSouthWest();
+
+        void addHermitePatchWest();
+
+        void addHermitePatchNorthWest();
     };
 }

@@ -62,7 +62,22 @@ namespace cagd
 
         connect(_side_widget->materialSpinBox, SIGNAL(valueChanged(int)), _gl_widget, SLOT(setMaterialType(int)));
 
-        connect(_side_widget->button_north, SIGNAL(clicked()), _gl_widget, SLOT(addHermitePatchInDirection()));
+        connect(_side_widget->button_north, SIGNAL(clicked()), _gl_widget, SLOT(addHermitePatchNorth()));
+
+        connect(_side_widget->button_north_east, SIGNAL(clicked()), _gl_widget, SLOT(addHermitePatchNorthEast()));
+
+        connect(_side_widget->button_east, SIGNAL(clicked()), _gl_widget, SLOT(addHermitePatchEast()));
+
+        connect(_side_widget->button_south_east, SIGNAL(clicked()), _gl_widget, SLOT(addHermitePatchSouthEast()));
+
+        connect(_side_widget->button_south, SIGNAL(clicked()), _gl_widget, SLOT(addHermitePatchSouth()));
+
+        connect(_side_widget->button_south_west, SIGNAL(clicked()), _gl_widget, SLOT(addHermitePatchSouthWest()));
+
+        connect(_side_widget->button_west, SIGNAL(clicked()), _gl_widget, SLOT(addHermitePatchWest()));
+
+        connect(_side_widget->button_north_west, SIGNAL(clicked()), _gl_widget, SLOT(addHermitePatchNorthWest()));
+
     }
 
     //--------------------------------
