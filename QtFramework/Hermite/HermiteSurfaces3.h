@@ -2,6 +2,7 @@
 
 #include "BicubicHermitePatches3.h"
 #include "../Core/Materials.h"
+#include "../Core/Constants.h"
 
 namespace cagd
 {
@@ -54,15 +55,43 @@ namespace cagd
             new_patch.SetCorner(1,1,right_top);
             InsertNewIsolatedPatch(new_patch);
 
-
-
             //patch.SetNeightbours(2, _nr_of_patches);
-
 //            _patches[_nr_of_patches].SetNoNeightbours();
-
 //            _patches[_patch_number].SetNeightbours(0, _nr_of_patches);
-
 //            _patches[_nr_of_patches].SetNeightbours(4, _patch_number);
+        }
+
+
+        void ContinueExistingPatch(BicubicHermitePatch3 *patch, PatchDirection dir){
+            BicubicHermitePatch3 new_patch;
+            switch (dir) {
+            case 0:
+                //NORTH
+                break;
+            case 1:
+                //NORTH-WEST
+                break;
+            case 2:
+                //WEST
+                break;
+            case 3:
+                //SOUTH-WEST
+                break;
+            case 4:
+                //SOUTH
+                break;
+            case 5:
+                //SOUTH-EAST
+                break;
+            case 6:
+                //EAST
+                break;
+            case 7:
+                //NORTH-EAST
+                break;
+            default:
+                break;
+            }
         }
     };
 }
