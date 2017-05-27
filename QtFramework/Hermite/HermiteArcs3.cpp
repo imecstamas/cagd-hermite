@@ -50,9 +50,9 @@ HermiteArc3::HermiteArc3():LinearCombination3(0.0,1.0,4,GL_STATIC_DRAW)
         {
             // second order derivatives of basis functions
             dF(2, 0) = 6.0 * (2.0 * u -1.0);
-            dF(2, 1) = 6.0 - 12.0*u;
+            dF(2, 1) = 6.0 - 12.0 * u;
             dF(2, 2) = 6.0 * u - 4.0;
-            dF(2, 3) = 6.0 * u -2.0;
+            dF(2, 3) = 6.0 * u - 2.0;
         }
 
         if (maximum_order_of_derivatives >= 3)

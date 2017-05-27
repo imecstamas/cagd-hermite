@@ -33,6 +33,7 @@ namespace cagd {
         HermiteArc3 _arc;
         GenericCurve3* _image_of_arc;
 
+        bool _show_patch;
 
         // variables defining the projection matrix
         float       _aspect;            // aspect ratio of the rendering window
