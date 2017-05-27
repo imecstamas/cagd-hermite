@@ -130,5 +130,8 @@ namespace cagd {
         void addHermitePatchWest();
 
         void addHermitePatchNorthWest();
+
+        void setShowPatch(bool value);
+
     };
 }
