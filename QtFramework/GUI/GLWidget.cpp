@@ -88,17 +88,17 @@ void GLWidget::initializeGL()
 
         //Probalkozas
         //        _patch.SetVTangent(0,0,0.0,-1.0,0.0);
-        //        _patch.SetVTangent(0,1,1.0,-1.0,0.0);
+                _patch.SetVTangent(0,1,1.0,-1.0,0.0);
         //        _patch.SetVTangent(1,0,-2.0,0.0,0.0);
                 _patch.SetVTangent(1,1,-1.0,0.0,0.0);
 
                 _patch.SetUTangent(0,0,1.0,1.0,1.0);
                 _patch.SetUTangent(0,1,1.0,1.0,1.0);
-        //        _patch.SetUTangent(1,0,1.0,2.0,0.0);
-        //        _patch.SetUTangent(1,1,0.0,0.0,0.0);
+                _patch.SetUTangent(1,0,1.0,2.0,0.0);
+                _patch.SetUTangent(1,1,0.0,0.0,0.0);
 
-        //        _patch.SetTwistVector(0,0,1.0,0.0,0.0);
-        //        _patch.SetTwistVector(0,1,0.0,0.0,0.0);
+                _patch.SetTwistVector(0,0,1.0,0.0,0.0);
+                _patch.SetTwistVector(0,1,0.0,0.0,0.0);
         //        _patch.SetTwistVector(1,0,0.0,0.0,0.0);
         //        _patch.SetTwistVector(1,1,0.0,0.0,0.0);
 
@@ -147,6 +147,8 @@ void GLWidget::initializeGL()
 
         _surface.ContinueExistingPatch(&_patch,attribute2,N);
         _surface.ContinueExistingPatch(&_patch,attribute3,E);
+        _surface.ContinueExistingPatch(&_patch,attribute4,SW);
+        _surface.ContinueExistingPatch(&_patch,attribute5,NW);
         _surface.ContinueExistingPatch(&_patch,attribute4,S);
         _surface.ContinueExistingPatch(&_patch,attribute5,W);
 
@@ -283,7 +285,7 @@ void GLWidget::initializeGL()
         glEnable(GL_NORMALIZE);
         glEnable(GL_LIGHT0);
         glEnable(GL_LIGHT1);
-
+        glEnable(GL_LIGHT2);
         HCoordinate3 direction0(1.0, 0.0, 0.0, 0.0);
         Color4 ambient0 (0.4,0.4,0.4,1.0);
         Color4 diffuse0 (0.8,0.8,0.8,1.0);
@@ -319,7 +321,12 @@ void GLWidget::paintGL()
 
     // stores/duplicates the original model view matrix
     glPushMatrix();
-
+    //lightning
+    if(dl0 && dl1 && dl2){
+        dl0->Enable();
+        dl1->Enable();
+        dl2->Enable();
+    }
     // applying transformations
     glRotatef(_angle_x, 1.0, 0.0, 0.0);
     glRotatef(_angle_y, 0.0, 1.0, 0.0);
@@ -327,12 +334,7 @@ void GLWidget::paintGL()
     glTranslated(_trans_x, _trans_y, _trans_z);
     glScaled(_zoom, _zoom, _zoom);
 
-    //lightning
-    if(dl0 && dl1 && dl2){
-        dl0->Enable();
-        dl1->Enable();
-        dl2->Enable();
-    }
+
 
     _surface.Render();
 
@@ -388,12 +390,12 @@ void GLWidget::paintGL()
 
     //    // render your geometry (this is oldest OpenGL rendering technique, later we will use some advanced methods)
 
+    // pops the current matrix stack, replacing the current matrix with the one below it on the stack,
+    // i.e., the original model view matrix is restored
+
     dl0->Disable();
     dl1->Disable();
     dl2->Disable();
-
-    // pops the current matrix stack, replacing the current matrix with the one below it on the stack,
-    // i.e., the original model view matrix is restored
     glPopMatrix();
 }
 
