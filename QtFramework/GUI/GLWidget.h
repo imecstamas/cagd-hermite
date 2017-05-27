@@ -13,6 +13,7 @@
 #include "Core/ShaderPrograms.h"
 #include "Core/Materials.h"
 #include "Hermite/BicubicHermitePatches3.h"
+#include "Hermite/HermiteSurfaces3.h"
 
 namespace cagd {
 
@@ -22,6 +23,8 @@ namespace cagd {
 
     private:
 
+        HermiteSurface3 _surface;
+        //kezdo patch;
         BicubicHermitePatch3 _patch;
         TriangulatedMesh3 *_before_interpolation, *_after_interpolation;
 

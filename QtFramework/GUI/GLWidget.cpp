@@ -56,7 +56,6 @@ void GLWidget::initializeGL()
     glEnable(GL_DEPTH_TEST);
 
     // setting the color of background
-//    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
     // initial values of transformation parameters
@@ -198,7 +197,6 @@ void GLWidget::initializeGL()
         _shader_type = 0;
         _material_type = 0;
 
-
         // cyclic curves
         _cc = 0; _image_of_cc = 0;
 
@@ -325,12 +323,14 @@ void GLWidget::paintGL()
         dl->Enable();
     }
 
-    if (_before_interpolation){
-        _shaders[_shader_type].Enable(GL_TRUE);
-        _materials[_material_type].Apply();
-        _before_interpolation->Render();
-        _shaders[_shader_type].Disable();
-    }
+    _surface.Render();
+
+            //    if (_before_interpolation){
+//        _shaders[_shader_type].Enable(GL_TRUE);
+//        _materials[_material_type].Apply();
+//        _before_interpolation->Render();
+//        _shaders[_shader_type].Disable();
+//    }
 
 //       if (_after_interpolation){
 //           glEnable(GL_BLEND);
