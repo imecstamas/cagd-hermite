@@ -288,6 +288,7 @@ void GLWidget::initializeGL()
         glEnable(GL_NORMALIZE);
         glEnable(GL_LIGHT0);
         glEnable(GL_LIGHT1);
+        glEnable(GL_LIGHT2);
 
         HCoordinate3 direction0(1.0, 0.0, 0.0, 0.0);
         Color4 ambient0 (0.4,0.4,0.4,1.0);
@@ -343,9 +344,11 @@ void GLWidget::paintGL()
 
    // render your geometry (this is oldest OpenGL rendering technique, later we will use some advanced methods)
 
-    dl0->Disable();
-    dl1->Disable();
-    dl2->Disable();
+    if(dl0 && dl1 && dl2){
+        dl0->Disable();
+        dl1->Disable();
+        dl2->Disable();
+    }
 
     // pops the current matrix stack, replacing the current matrix with the one below it on the stack,
     // i.e., the original model view matrix is restored
