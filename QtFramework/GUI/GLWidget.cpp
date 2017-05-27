@@ -133,6 +133,11 @@ void GLWidget::initializeGL()
 
         _surface.Insert(attribute);
 
+//        _surface.ContinueExistingPatch(&_patch,N);
+//        _surface.ContinueExistingPatch(&_patch,E);
+//        _surface.ContinueExistingPatch(&_patch,S);
+//        _surface.ContinueExistingPatch(&_patch,W);
+
 //        HermiteSurface3::Attributes attribute2;
 //        attribute2.material = &MatFBRuby;
 //        attribute2.img = _patch.GenerateImage(30,30,GL_STATIC_DRAW);
