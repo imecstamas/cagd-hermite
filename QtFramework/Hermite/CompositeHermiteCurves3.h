@@ -28,7 +28,7 @@ namespace cagd
 
         GLvoid CompositeHermiteCurve3::Render();
 
-        GLvoid CompositeHermiteCurve3::ContinueExistingCurve(CompositeHermiteCurve3 *curve, ArcAttributes attribute, ArcDirection dir);
+        GLvoid CompositeHermiteCurve3::ContinueExistingCurve(HermiteArc3 *curve, ArcAttributes attribute, ArcDirection dir);
 
         // (copy) ctor, operator =, dtor
         // insert, erase, continue, join, merge arcs
