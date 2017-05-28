@@ -110,6 +110,32 @@ HermiteArc3::HermiteArc3():LinearCombination3(0.0,1.0,4,GL_STATIC_DRAW)
         return GL_TRUE;
     }
 
+    GLboolean HermiteArc3::GetCorner(GLuint index, GLdouble x, GLdouble y, GLdouble z) const
+    {
+        if (index > 1){
+            return GL_FALSE;
+        }
+
+        x = _data[(unsigned int)index].x();
+        y = _data[(unsigned int)index].y();
+        z = _data[(unsigned int)index].z();
+
+        return GL_TRUE;
+    }
+
+    GLboolean HermiteArc3::GetCorner(GLuint index, DCoordinate3 &point) const
+    {
+        if (index > 1){
+            return GL_FALSE;
+        }
+
+        point.x() = _data[(unsigned int)index].x();
+        point.y() = _data[(unsigned int)index].y();
+        point.z() = _data[(unsigned int)index].z();
+
+        return GL_TRUE;
+    }
+
     GLboolean HermiteArc3::SetTangent(GLuint corner_index, GLdouble x, GLdouble y, GLdouble z)
 {
         if (corner_index > 1){
@@ -128,6 +154,32 @@ HermiteArc3::HermiteArc3():LinearCombination3(0.0,1.0,4,GL_STATIC_DRAW)
             return GL_FALSE;
         }
         _data[corner_index+2] = v;
+        return GL_TRUE;
+    }
+
+    GLboolean HermiteArc3::GetTangent(GLuint index, GLdouble x, GLdouble y, GLdouble z) const
+    {
+        if (index > 1){
+            return GL_FALSE;
+        }
+
+        x = _data[(unsigned int)(2 + index)].x();
+        y = _data[(unsigned int)(2 + index)].y();
+        z = _data[(unsigned int)(2 + index)].z();
+
+        return GL_TRUE;
+    }
+
+    GLboolean HermiteArc3::GetTangent(GLuint index, DCoordinate3 &point) const
+    {
+        if (index > 1){
+            return GL_FALSE;
+        }
+
+        point.x() = _data[(unsigned int)(2 + index)].x();
+        point.y() = _data[(unsigned int)(2 + index)].y();
+        point.z() = _data[(unsigned int)(2 + index)].z();
+
         return GL_TRUE;
     }
 }
