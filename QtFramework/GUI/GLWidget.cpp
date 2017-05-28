@@ -115,50 +115,50 @@ void GLWidget::initializeGL()
         _materials[5] = MatFBSilver;
         _materials[6] = MatFBTurquoise;
 
-        //Negyzet
-        _patch.SetCorner(0,0,0.0,0.0,0.0);
-        _patch.SetCorner(0,1,0.0,1.0,0.0);
-        _patch.SetCorner(1,0,1.0,0.0,0.0);
-        _patch.SetCorner(1,1,1.0,1.0,0.0);
+//        //Negyzet
+//        _patch.SetCorner(0,0,0.0,0.0,0.0);
+//        _patch.SetCorner(0,1,0.0,1.0,0.0);
+//        _patch.SetCorner(1,0,1.0,0.0,0.0);
+//        _patch.SetCorner(1,1,1.0,1.0,0.0);
 
-        //Probalkozas
-        //        _patch.SetVTangent(0,0,0.0,-1.0,0.0);
-                _patch.SetVTangent(0,1,1.0,-1.0,0.0);
-        //        _patch.SetVTangent(1,0,-2.0,0.0,0.0);
-                _patch.SetVTangent(1,1,-1.0,0.0,0.0);
+//        //Probalkozas
+//        //        _patch.SetVTangent(0,0,0.0,-1.0,0.0);
+//                _patch.SetVTangent(0,1,1.0,-1.0,0.0);
+//        //        _patch.SetVTangent(1,0,-2.0,0.0,0.0);
+//                _patch.SetVTangent(1,1,-1.0,0.0,0.0);
 
-                _patch.SetUTangent(0,0,1.0,1.0,1.0);
-                _patch.SetUTangent(0,1,1.0,1.0,1.0);
-                _patch.SetUTangent(1,0,1.0,2.0,0.0);
-                _patch.SetUTangent(1,1,0.0,0.0,0.0);
+//                _patch.SetUTangent(0,0,1.0,1.0,1.0);
+//                _patch.SetUTangent(0,1,1.0,1.0,1.0);
+//                _patch.SetUTangent(1,0,1.0,2.0,0.0);
+//                _patch.SetUTangent(1,1,0.0,0.0,0.0);
 
-                _patch.SetTwistVector(0,0,1.0,0.0,0.0);
-                _patch.SetTwistVector(0,1,0.0,0.0,0.0);
-        //        _patch.SetTwistVector(1,0,0.0,0.0,0.0);
-        //        _patch.SetTwistVector(1,1,0.0,0.0,0.0);
+//                _patch.SetTwistVector(0,0,1.0,0.0,0.0);
+//                _patch.SetTwistVector(0,1,0.0,0.0,0.0);
+//        //        _patch.SetTwistVector(1,0,0.0,0.0,0.0);
+//        //        _patch.SetTwistVector(1,1,0.0,0.0,0.0);
 
 
 
-        //Bezier peldabol patch
-//        _patch.SetCorner(0,0,-2.0,-2.0,0.0);
-//        _patch.SetCorner(0,1,-2.0,-1.0,0.0);
-//        _patch.SetCorner(1,0,-1.0,-2.0,0.0);
-//        _patch.SetCorner(1,1,-1.0,-1.0,2.0);
+//        //Bezier peldabol patch
+        _patch.SetCorner(0,0,-2.0,-2.0,0.0);
+        _patch.SetCorner(0,1,+2.0,-2.0,0.0);
+        _patch.SetCorner(1,0,-2.0,+2.0,0.0);
+        _patch.SetCorner(1,1,+2.0,+2.0,1.0);
 
-//        _patch.SetVTangent(0,0,-2.0,1.0,0.0);
-//        _patch.SetVTangent(0,1,-2.0,2.0,0.0);
-//        _patch.SetVTangent(1,0,-1.0,1.0,2.0);
-//        _patch.SetVTangent(1,1,-1.0,2.0,0.0);
+        _patch.SetVTangent(0,0, 0.0,0.0,3.0);
+        _patch.SetVTangent(0,1, 0.0,0.0,3.0);
+        _patch.SetVTangent(1,0, 0.0,0.0,3.0);
+        _patch.SetVTangent(1,1, 0.0,0.0,3.0);
 
-//        _patch.SetUTangent(0,0,1.0,-2.0,0.0);
-//        _patch.SetUTangent(0,1,1.0,-1.0,2.0);
-//        _patch.SetUTangent(1,0,2.0,-2.0,0.0);
-//        _patch.SetUTangent(1,1,2.0,-1.0,0.0);
+        _patch.SetUTangent(0,0,0.0,0.0,-3.0);
+        _patch.SetUTangent(0,1, 0.0,0.0,-3.0);
+        _patch.SetUTangent(1,0,0.0,0.0,-3.0);
+        _patch.SetUTangent(1,1,0.0,0.0,-3.0);
 
-//        _patch.SetTwistVector(0,0,1.0,1.0,2.0);
-//        _patch.SetTwistVector(0,1,1.0,2.0,0.0);
-//        _patch.SetTwistVector(1,0,2.0,1.0,0.0);
-//        _patch.SetTwistVector(1,1,2.0,2.0,0.0);
+        _patch.SetTwistVector(0,0,0.0,0.0,0.0);
+        _patch.SetTwistVector(0,1,0.0,0.0,0.0);
+        _patch.SetTwistVector(1,0,0.0,0.0,0.0);
+        _patch.SetTwistVector(1,1,0.0,0.0,0.0);
 
         HermiteSurface3::Attributes attribute;
         attribute.patch = &_patch;
@@ -169,12 +169,12 @@ void GLWidget::initializeGL()
 
         _surface.Insert(attribute);
 
-        _arc.SetCorner(0,0.0, 0.0, 0.0);
-        _arc.SetCorner(1,2.0, 0.0, 0.0);
-        _arc.SetTangent(0,1.0, 1.0, 1.0);
-        _arc.SetTangent(1,1.0, 1.0, 1.0);
+        _arc.SetCorner(0,-1.0, 0.0, 0.0);
+        _arc.SetCorner(1,+1.0, 0.0, 0.0);
+        _arc.SetTangent(0,2.0, 2.0, 0.0);
+        _arc.SetTangent(1,0.0, 0.0, -3.0);
 
-        _image_of_arc = _arc.GenerateImage(2,30);
+        _image_of_arc = _arc.GenerateImage(3,30);
         _image_of_arc ->UpdateVertexBufferObjects();
 
         _show_patch = true;
@@ -278,23 +278,23 @@ void GLWidget::initializeGL()
         glEnable(GL_LIGHT1);
         glEnable(GL_LIGHT2);
 
-        HCoordinate3 direction0(1.0, 0.0, 0.0, 0.0);
+        HCoordinate3 direction0(0.0, 0.0, 1.0, 0.0);
         Color4 ambient0 (0.4,0.4,0.4,1.0);
         Color4 diffuse0 (0.8,0.8,0.8,1.0);
         Color4 specular0(1.0,1.0,1.0,1.0);
         dl0 = new DirectionalLight(GL_LIGHT0, direction0, ambient0, diffuse0, specular0);
 
-        HCoordinate3 direction1(-1.0, 0.0, 0.0, 0.0);
-        Color4 ambient1 (0.0,0.4,0.0,1.0);
-        Color4 diffuse1 (0.0,0.8,0.0,1.0);
-        Color4 specular1(0.0,1.0,0.0,1.0);
-        dl1 = new DirectionalLight(GL_LIGHT1, direction1, ambient0, diffuse0, specular0);
+//        HCoordinate3 direction1(-1.0, 0.0, 0.0, 0.0);
+//        Color4 ambient1 (0.0,0.4,0.0,1.0);
+//        Color4 diffuse1 (0.0,0.8,0.0,1.0);
+//        Color4 specular1(0.0,1.0,0.0,1.0);
+//        dl1 = new DirectionalLight(GL_LIGHT1, direction1, ambient0, diffuse0, specular0);
 
-        HCoordinate3 direction2(0.0, 1.0, 1.0, 0.0);
-        Color4 ambient2 (0.0,0.0,0.4,1.0);
-        Color4 diffuse2 (0.0,0.0,0.8,1.0);
-        Color4 specular2(0.0,0.0,1.0,1.0);
-        dl2 = new DirectionalLight(GL_LIGHT2, direction2, ambient0, diffuse0, specular0);
+//        HCoordinate3 direction2(0.0, 1.0, 1.0, 0.0);
+//        Color4 ambient2 (0.0,0.0,0.4,1.0);
+//        Color4 diffuse2 (0.0,0.0,0.8,1.0);
+//        Color4 specular2(0.0,0.0,1.0,1.0);
+//        dl2 = new DirectionalLight(GL_LIGHT2, direction2, ambient0, diffuse0, specular0);
 
     }
     catch (Exception &e)
@@ -314,10 +314,10 @@ void GLWidget::paintGL()
     // stores/duplicates the original model view matrix
     glPushMatrix();
     //lightning
-    if(dl0 && dl1 && dl2){
+    if(dl0){// && dl1 && dl2){
         dl0->Enable();
-        dl1->Enable();
-        dl2->Enable();
+//        dl1->Enable();
+//        dl2->Enable();
     }
     // applying transformations
     glRotatef(_angle_x, 1.0, 0.0, 0.0);
@@ -329,7 +329,10 @@ void GLWidget::paintGL()
     if (_show_patch){
         _surface.Render();
     }else{
+        glDisable(GL_LIGHTING);
+        glColor3f(1.0, 0.0, 0.0);
         _image_of_arc->RenderDerivatives(0, GL_LINE_STRIP);
+        _image_of_arc->RenderDerivatives(1, GL_LINES);
 
         //                    glColor3f(1.0,0.0,0.0);
         //                 _image_of_arc->RenderDerivatives(0,GL_LINE_LOOP);
@@ -401,10 +404,10 @@ void GLWidget::paintGL()
 
 
    // render your geometry (this is oldest OpenGL rendering technique, later we will use some advanced methods)
-    if(dl0 && dl1 && dl2){
+    if(dl0){// && dl1 && dl2){
         dl0->Disable();
-        dl1->Disable();
-        dl2->Disable();
+//        dl1->Disable();
+//        dl2->Disable();
     }
 
     // pops the current matrix stack, replacing the current matrix with the one below it on the stack,
@@ -641,10 +644,10 @@ void GLWidget::setShowPatch(bool value)
 }
 
 GLWidget::~GLWidget(){
-    if (_before_interpolation)
-        delete _before_interpolation, _before_interpolation = 0;
+//    if (_before_interpolation)
+//        delete _before_interpolation, _before_interpolation = 0;
 
-    if (_after_interpolation)
-        delete _after_interpolation, _after_interpolation = 0;
+//    if (_after_interpolation)
+//        delete _after_interpolation, _after_interpolation = 0;
 }
 }
