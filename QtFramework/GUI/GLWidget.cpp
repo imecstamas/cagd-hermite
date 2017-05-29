@@ -139,7 +139,6 @@ void GLWidget::initializeGL()
 
 
 
-//        //Bezier peldabol patch
         _patch.SetCorner(0,0,-2.0,-2.0,0.0);
         _patch.SetCorner(0,1,+2.0,-2.0,0.0);
         _patch.SetCorner(1,0,-2.0,+2.0,0.0);
@@ -174,9 +173,12 @@ void GLWidget::initializeGL()
         _arc.SetTangent(0,2.0, 2.0, 0.0);
         _arc.SetTangent(1,0.0, 0.0, -3.0);
 
-        _image_of_arc = _arc.GenerateImage(3,30);
-        _image_of_arc ->UpdateVertexBufferObjects();
+        CompositeHermiteCurve3::ArcAttributes arcAttribute;
+        arcAttribute.arc = &_arc;
+        arcAttribute.image = _arc.GenerateImage(3,30);
+        arcAttribute.image ->UpdateVertexBufferObjects();
 
+        _curve.Insert(arcAttribute);
         _show_patch = true;
         // parametric curves
 
@@ -331,8 +333,9 @@ void GLWidget::paintGL()
     }else{
         glDisable(GL_LIGHTING);
         glColor3f(1.0, 0.0, 0.0);
-        _image_of_arc->RenderDerivatives(0, GL_LINE_STRIP);
-        _image_of_arc->RenderDerivatives(1, GL_LINES);
+        _curve.Render();
+//        _image_of_arc->RenderDerivatives(0, GL_LINE_STRIP);
+//        _image_of_arc->RenderDerivatives(1, GL_LINES);
 
         //                    glColor3f(1.0,0.0,0.0);
         //                 _image_of_arc->RenderDerivatives(0,GL_LINE_LOOP);
