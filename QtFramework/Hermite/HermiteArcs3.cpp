@@ -1,4 +1,7 @@
 #include "Hermite/HermiteArcs3.h"
+#include <iostream>
+
+using namespace std;
 
 namespace cagd {
 
@@ -29,6 +32,9 @@ HermiteArc3::HermiteArc3():LinearCombination3(0.0,1.0,4,GL_STATIC_DRAW)
     GLboolean HermiteArc3::CalculateDerivatives(GLuint maximum_order_of_derivatives, GLdouble u, Derivatives& d) const
     {
         Matrix<GLdouble> dF(maximum_order_of_derivatives + 1, _data.GetRowCount());
+        d.ResizeRows(maximum_order_of_derivatives + 1);
+        d.LoadNullVectors();
+
 
         GLdouble u2 = u * u, u3 = u2 * u;
         // zeroth order derivatives of basis functions
@@ -66,11 +72,17 @@ HermiteArc3::HermiteArc3():LinearCombination3(0.0,1.0,4,GL_STATIC_DRAW)
 
         // fourth and higher order derivatives are identically zero
 
+//        cout << dF << endl;
+
+
+
         // evaluation of zeroth and higher order derivatives
-        for (GLuint r = 0; r < maximum_order_of_derivatives; r++)
+        for (GLuint r = 0; r <= maximum_order_of_derivatives; r++)
         {
+//            cout << "r = " << r << endl;
             for (GLuint i = 0; i < _data.GetRowCount(); i++)
             {
+//                cout << "\ti = " << i << endl;
                 d[r] += _data[i] * dF(r, i);
             }
         }
@@ -98,6 +110,32 @@ HermiteArc3::HermiteArc3():LinearCombination3(0.0,1.0,4,GL_STATIC_DRAW)
         return GL_TRUE;
     }
 
+    GLboolean HermiteArc3::GetCorner(GLuint index, GLdouble x, GLdouble y, GLdouble z) const
+    {
+        if (index > 1){
+            return GL_FALSE;
+        }
+
+        x = _data[(unsigned int)index].x();
+        y = _data[(unsigned int)index].y();
+        z = _data[(unsigned int)index].z();
+
+        return GL_TRUE;
+    }
+
+    GLboolean HermiteArc3::GetCorner(GLuint index, DCoordinate3 &point) const
+    {
+        if (index > 1){
+            return GL_FALSE;
+        }
+
+        point.x() = _data[(unsigned int)index].x();
+        point.y() = _data[(unsigned int)index].y();
+        point.z() = _data[(unsigned int)index].z();
+
+        return GL_TRUE;
+    }
+
     GLboolean HermiteArc3::SetTangent(GLuint corner_index, GLdouble x, GLdouble y, GLdouble z)
 {
         if (corner_index > 1){
@@ -116,6 +154,32 @@ HermiteArc3::HermiteArc3():LinearCombination3(0.0,1.0,4,GL_STATIC_DRAW)
             return GL_FALSE;
         }
         _data[corner_index+2] = v;
+        return GL_TRUE;
+    }
+
+    GLboolean HermiteArc3::GetTangent(GLuint index, GLdouble x, GLdouble y, GLdouble z) const
+    {
+        if (index > 1){
+            return GL_FALSE;
+        }
+
+        x = _data[(unsigned int)(2 + index)].x();
+        y = _data[(unsigned int)(2 + index)].y();
+        z = _data[(unsigned int)(2 + index)].z();
+
+        return GL_TRUE;
+    }
+
+    GLboolean HermiteArc3::GetTangent(GLuint index, DCoordinate3 &point) const
+    {
+        if (index > 1){
+            return GL_FALSE;
+        }
+
+        point.x() = _data[(unsigned int)(2 + index)].x();
+        point.y() = _data[(unsigned int)(2 + index)].y();
+        point.z() = _data[(unsigned int)(2 + index)].z();
+
         return GL_TRUE;
     }
 }

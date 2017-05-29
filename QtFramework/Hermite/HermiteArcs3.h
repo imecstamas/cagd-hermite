@@ -14,8 +14,12 @@ namespace cagd
 
         GLboolean SetCorner(GLuint corner_index, GLdouble x, GLdouble y, GLdouble z);
         GLboolean SetCorner(GLuint corner_index, const DCoordinate3 &v);
+        GLboolean GetCorner(GLuint index, GLdouble x, GLdouble y, GLdouble z) const;
+        GLboolean GetCorner(GLuint index, DCoordinate3& point) const;
 
         GLboolean SetTangent(GLuint corner_index, GLdouble x, GLdouble y, GLdouble z);
         GLboolean SetTangent(GLuint corner_index, const DCoordinate3 &v);
+        GLboolean GetTangent(GLuint index, GLdouble x, GLdouble y, GLdouble z) const;
+        GLboolean GetTangent(GLuint index, DCoordinate3& point) const;
     };
 }

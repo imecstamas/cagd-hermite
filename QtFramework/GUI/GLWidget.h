@@ -15,6 +15,7 @@
 #include "Hermite/BicubicHermitePatches3.h"
 #include "Hermite/HermiteSurfaces3.h"
 #include "Hermite/HermiteArcs3.h"
+#include "Hermite/CompositeHermiteCurves3.h"
 #include <string.h>
 
 namespace cagd {
@@ -26,6 +27,7 @@ namespace cagd {
     private:
 
         HermiteSurface3 _surface;
+        CompositeHermiteCurve3 _curve;
         //kezdo patch;
         BicubicHermitePatch3 _patch;
         TriangulatedMesh3 *_before_interpolation, *_after_interpolation;
@@ -80,6 +82,7 @@ namespace cagd {
     private slots:
         void _animate();
         void addHermitePatchToDirection(PatchDirection dir);
+        void addHermiteArcToDirection(ArcDirection dir);
 
     public:
         // special and default constructor

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>289</width>
-    <height>595</height>
+    <height>693</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -31,7 +31,7 @@
      <x>10</x>
      <y>0</y>
      <width>271</width>
-     <height>501</height>
+     <height>431</height>
     </rect>
    </property>
    <property name="title">
@@ -235,8 +235,8 @@
    <widget class="QSpinBox" name="shaderTypeSpinBox">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>310</y>
+      <x>180</x>
+      <y>280</y>
       <width>31</width>
       <height>22</height>
      </rect>
@@ -248,8 +248,8 @@
    <widget class="QLabel" name="label_13">
     <property name="geometry">
      <rect>
-      <x>76</x>
-      <y>310</y>
+      <x>120</x>
+      <y>280</y>
       <width>61</width>
       <height>20</height>
      </rect>
@@ -261,7 +261,7 @@
    <widget class="QSpinBox" name="materialSpinBox">
     <property name="geometry">
      <rect>
-      <x>154</x>
+      <x>70</x>
       <y>280</y>
       <width>31</width>
       <height>22</height>
@@ -274,10 +274,10 @@
    <widget class="QLabel" name="label_14">
     <property name="geometry">
      <rect>
-      <x>84</x>
+      <x>20</x>
       <y>280</y>
       <width>47</width>
-      <height>13</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -288,9 +288,9 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>350</y>
+      <y>310</y>
       <width>271</width>
-      <height>151</height>
+      <height>121</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -365,7 +365,7 @@
    <widget class="QLabel" name="label_9">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>10</x>
       <y>250</y>
       <width>121</width>
       <height>16</height>
@@ -379,8 +379,8 @@
   <widget class="QRadioButton" name="radioButton_arc">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>540</y>
+     <x>110</x>
+     <y>440</y>
      <width>82</width>
      <height>17</height>
     </rect>
@@ -392,8 +392,8 @@
   <widget class="QRadioButton" name="radioButton_patch">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>520</y>
+     <x>10</x>
+     <y>440</y>
      <width>82</width>
      <height>17</height>
     </rect>
@@ -404,6 +404,42 @@
    <property name="checked">
     <bool>true</bool>
    </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>470</y>
+     <width>271</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QPushButton" name="arcLeftButton">
+      <property name="text">
+       <string>Left</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_10">
+      <property name="text">
+       <string>Add</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="arcRightButton">
+      <property name="text">
+       <string>Right</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

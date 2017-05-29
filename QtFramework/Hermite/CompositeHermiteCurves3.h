@@ -2,6 +2,7 @@
 
 #include "HermiteArcs3.h"
 #include "../Core/Colors4.h"
+#include "../Core/Constants.h"
 
 namespace cagd
 {
@@ -17,21 +18,18 @@ namespace cagd
             // ...
             //esetleg lehetne listat hasznalni az enumbeli index-ekkel
             ArcAttributes   *next, *prev;
-
-            ArcAttributes()
-            {
-                *arc = nullptr;
-                *image = nullptr;
-                *color = nullptr;
-                *next = nullptr;
-                *prev = nullptr;
-            }
         };
 
     protected:
         std::vector<ArcAttributes> _attributes;
 
     public:
+        GLvoid CompositeHermiteCurve3::Insert(ArcAttributes attribute);
+
+        GLvoid CompositeHermiteCurve3::Render();
+
+        GLvoid CompositeHermiteCurve3::ContinueExistingCurve(HermiteArc3 *curve, ArcAttributes attribute, ArcDirection dir);
+
         // (copy) ctor, operator =, dtor
         // insert, erase, continue, join, merge arcs
         // render
