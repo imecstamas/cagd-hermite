@@ -18,6 +18,11 @@ GLvoid HermiteSurface3::Insert(Attributes attribute){
     _attributes.insert(_attributes.end(), attribute);
 }
 
+HermiteSurface3::Attributes* HermiteSurface3::GetPatch(int index)
+{
+    return &_attributes[index];
+}
+
 GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Attributes attribute, PatchDirection dir){
     BicubicHermitePatch3 new_patch;
     DCoordinate3 cord;

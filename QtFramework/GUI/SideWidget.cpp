@@ -17,5 +17,11 @@ namespace cagd
         p.setColor(QPalette::Highlight, QColor(50,255,10).lighter());
 
         rotate_y_slider->setPalette(p);
+
+        QComboBox* c = comboBox;
+        c->addItem("Corner");
+        c->addItem("VTangent");
+        c->addItem("UTangent");
+        c->addItem("TwistVector");
     }
 }

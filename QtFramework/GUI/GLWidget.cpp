@@ -137,7 +137,7 @@ void GLWidget::initializeGL()
 //        //        _patch.SetTwistVector(1,0,0.0,0.0,0.0);
 //        //        _patch.SetTwistVector(1,1,0.0,0.0,0.0);
 
-
+        _what_to_modify = 0;
 
         _patch.SetCorner(0,0,-2.0,-2.0,0.0);
         _patch.SetCorner(0,1,+2.0,-2.0,0.0);
@@ -653,6 +653,80 @@ void GLWidget::setShowPatch(bool value)
         _show_patch = value;
         updateGL();
     }
+}
+
+void GLWidget::setWhatToModify(int value)
+{
+    if (_what_to_modify != value)
+    {
+        _what_to_modify = value;
+    }
+}
+
+void GLWidget::setX(double value)
+{
+    DCoordinate3 point;
+    HermiteSurface3::Attributes* attribute = _surface.GetPatch(0);
+    if (_what_to_modify == 0){
+        attribute->patch->GetCorner(0,0, point);
+        attribute->patch->SetCorner(0,0,value,point.y(), point.z());
+    }else if (_what_to_modify == 1){
+        attribute->patch->GetVTangent(0,0, point);
+        attribute->patch->SetVTangent(0,0,value,point.y(), point.z());
+    }else if (_what_to_modify == 2){
+        attribute->patch->GetUTangent(0,0, point);
+        attribute->patch->SetUTangent(0,0,value,point.y(), point.z());
+    }else {
+        attribute->patch->GetTwistVector(0,0, point);
+        attribute->patch->SetTwistVector(0,0,value,point.y(), point.z());
+    }
+    attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
+    attribute->img->UpdateVertexBufferObjects();
+    updateGL();
+}
+
+void GLWidget::setY(double value)
+{
+    DCoordinate3 point;
+    HermiteSurface3::Attributes* attribute = _surface.GetPatch(0);
+    if (_what_to_modify == 0){
+        attribute->patch->GetCorner(0,0, point);
+        attribute->patch->SetCorner(0,0,point.x(),value, point.z());
+    }else if (_what_to_modify == 1){
+        attribute->patch->GetVTangent(0,0, point);
+        attribute->patch->SetVTangent(0,0,point.x(),value, point.z());
+    }else if (_what_to_modify == 2){
+        attribute->patch->GetUTangent(0,0, point);
+        attribute->patch->SetUTangent(0,0,point.x(),value, point.z());
+    }else {
+        attribute->patch->GetTwistVector(0,0, point);
+        attribute->patch->SetTwistVector(0,0,point.x(),value, point.z());
+    }
+    attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
+    attribute->img->UpdateVertexBufferObjects();
+    updateGL();
+}
+
+void GLWidget::setZ(double value)
+{
+    DCoordinate3 point;
+    HermiteSurface3::Attributes* attribute = _surface.GetPatch(0);
+    if (_what_to_modify == 0){
+        attribute->patch->GetCorner(0,0, point);
+        attribute->patch->SetCorner(0,0,point.x(),point.y(), value);
+    }else if (_what_to_modify == 1){
+        attribute->patch->GetVTangent(0,0, point);
+        attribute->patch->SetVTangent(0,0,point.x(),point.y(), value);
+    }else if (_what_to_modify == 2){
+        attribute->patch->GetUTangent(0,0, point);
+        attribute->patch->SetUTangent(0,0,point.x(),point.y(), value);
+    }else {
+        attribute->patch->GetTwistVector(0,0, point);
+        attribute->patch->SetTwistVector(0,0,point.x(),point.y(), value);
+    }
+    attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
+    attribute->img->UpdateVertexBufferObjects();
+    updateGL();
 }
 
 GLWidget::~GLWidget(){

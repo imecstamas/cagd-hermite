@@ -28,6 +28,7 @@ namespace cagd {
 
         HermiteSurface3 _surface;
         CompositeHermiteCurve3 _curve;
+        int _what_to_modify;
         //kezdo patch;
         BicubicHermitePatch3 _patch;
         TriangulatedMesh3 *_before_interpolation, *_after_interpolation;
@@ -137,5 +138,12 @@ namespace cagd {
 
         void setShowPatch(bool value);
 
+        void setWhatToModify(int value);
+
+        void setX(double value);
+
+        void setY(double value);
+
+        void setZ(double value);
     };
 }

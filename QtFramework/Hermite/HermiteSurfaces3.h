@@ -27,6 +27,8 @@ namespace cagd
     public:
         GLvoid HermiteSurface3::Insert(Attributes attribute);
 
+        Attributes* HermiteSurface3::GetPatch(int index);
+
         GLvoid HermiteSurface3::Render();
 
         GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Attributes attribute, PatchDirection dir);

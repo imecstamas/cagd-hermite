@@ -80,7 +80,14 @@ namespace cagd
 
         connect(_side_widget->radioButton_patch, SIGNAL(toggled(bool)),_gl_widget, SLOT(setShowPatch(bool)));
 
-    }
+        connect(_side_widget->comboBox, SIGNAL(currentIndexChanged(int)),_gl_widget, SLOT(setWhatToModify(int)));
+
+        connect(_side_widget->spinBox_x, SIGNAL(valueChanged(double)),_gl_widget, SLOT(setX(double)));
+
+        connect(_side_widget->spinBox_y, SIGNAL(valueChanged(double)),_gl_widget, SLOT(setY(double)));
+
+        connect(_side_widget->spinBox_z, SIGNAL(valueChanged(double)),_gl_widget, SLOT(setZ(double)));
+        }
 
     //--------------------------------
     // implementation of private slots
