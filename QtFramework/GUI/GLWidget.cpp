@@ -179,6 +179,9 @@ void GLWidget::initializeGL()
         arcAttribute.image ->UpdateVertexBufferObjects();
 
         _curve.Insert(arcAttribute);
+        //////////////////////////////////
+        addHermiteArcToDirection(LEFT);
+        addHermiteArcToDirection(RIGHT);
         _show_patch = true;
         // parametric curves
 
@@ -595,6 +598,12 @@ void GLWidget::addHermitePatchToDirection(PatchDirection dir)
     attribute.shader = &_shaders[_shader_type];
     _surface.ContinueExistingPatch(&_patch,attribute,dir);
     updateGL();
+}
+
+void GLWidget::addHermiteArcToDirection(ArcDirection dir)
+{
+    CompositeHermiteCurve3::ArcAttributes arcAttribute;
+    _curve.ContinueExistingCurve(&_arc, arcAttribute, dir);
 }
 
 void GLWidget::addHermitePatchNorth()

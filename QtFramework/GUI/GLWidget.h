@@ -82,6 +82,7 @@ namespace cagd {
     private slots:
         void _animate();
         void addHermitePatchToDirection(PatchDirection dir);
+        void addHermiteArcToDirection(ArcDirection dir);
 
     public:
         // special and default constructor
