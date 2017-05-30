@@ -24,9 +24,10 @@ GLvoid HermiteSurface3::Insert(PatchDirection dir,Attributes attribute){
     _attributes[d] = attribute;
 }
 
-HermiteSurface3::Attributes* HermiteSurface3::GetPatch(int index)
+HermiteSurface3::Attributes* HermiteSurface3::GetPatch(PatchDirection dir)
 {
-    return &_attributes[index];
+    int d = dir;
+    return &_attributes[d];
 }
 
 GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Attributes attribute, PatchDirection dir){

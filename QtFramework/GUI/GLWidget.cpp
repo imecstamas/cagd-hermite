@@ -672,10 +672,37 @@ void GLWidget::setWhatToModify(int value)
 void GLWidget::setX(double value)
 {
     DCoordinate3 point;
-    HermiteSurface3::Attributes* attribute = _surface.GetPatch(0);
+    HermiteSurface3::Attributes *attribute, *attributeNorth, *attributeNorthWest, *attributeWest;
+    attribute = _surface.GetPatch(START);
+    attributeNorth = _surface.GetPatch(N);
+    attributeNorthWest = _surface.GetPatch(NW);
+    attributeWest = _surface.GetPatch(W);
+
+    BicubicHermitePatch3* startPatch = attribute->patch;
     if (_what_to_modify == 0){
         attribute->patch->GetCorner(0,0, point);
         attribute->patch->SetCorner(0,0,value,point.y(), point.z());
+//        if (attributeNorth && attributeNorth->patch)
+//        {
+//            attributeNorth->patch->GetCorner(0,1, point);
+//            attributeNorth->patch->SetCorner(0,1,value,point.y(), point.z());
+//            attributeNorth->img = attributeNorth->patch->GenerateImage(30,30,GL_STATIC_DRAW);
+//            attributeNorth->img->UpdateVertexBufferObjects();
+//        }
+//        if (attributeNorthWest && attributeNorthWest->patch)
+//        {
+//            attributeNorthWest->patch->GetCorner(1,1, point);
+//            attributeNorthWest->patch->SetCorner(1,1,value,point.y(), point.z());
+//            attributeNorthWest->img = attributeNorthWest->patch->GenerateImage(30,30,GL_STATIC_DRAW);
+//            attributeNorthWest->img->UpdateVertexBufferObjects();
+//        }
+//        if (attributeWest && attributeWest->patch)
+//        {
+//            attributeWest->patch->GetCorner(1,0, point);
+//            attributeWest->patch->SetCorner(1,0,value,point.y(), point.z());
+//            attributeWest->img = attributeWest->patch->GenerateImage(30,30,GL_STATIC_DRAW);
+//            attributeWest->img->UpdateVertexBufferObjects();
+//        }
     }else if (_what_to_modify == 1){
         attribute->patch->GetVTangent(0,0, point);
         attribute->patch->SetVTangent(0,0,value,point.y(), point.z());
@@ -688,13 +715,27 @@ void GLWidget::setX(double value)
     }
     attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
     attribute->img->UpdateVertexBufferObjects();
+
+    if (attributeNorth && attributeNorth->patch)
+    {
+        _surface.ContinueExistingPatch(startPatch,*attributeNorth,N);
+    }
+    if (attributeNorthWest && attributeNorthWest->patch)
+    {
+        _surface.ContinueExistingPatch(startPatch,*attributeNorthWest,NW);
+    }
+    if (attributeWest && attributeWest->patch)
+    {
+        _surface.ContinueExistingPatch(startPatch,*attributeWest,W);
+    }
+
     updateGL();
 }
 
 void GLWidget::setY(double value)
 {
     DCoordinate3 point;
-    HermiteSurface3::Attributes* attribute = _surface.GetPatch(0);
+    HermiteSurface3::Attributes* attribute = _surface.GetPatch(START);
     if (_what_to_modify == 0){
         attribute->patch->GetCorner(0,0, point);
         attribute->patch->SetCorner(0,0,point.x(),value, point.z());
@@ -716,7 +757,7 @@ void GLWidget::setY(double value)
 void GLWidget::setZ(double value)
 {
     DCoordinate3 point;
-    HermiteSurface3::Attributes* attribute = _surface.GetPatch(0);
+    HermiteSurface3::Attributes* attribute = _surface.GetPatch(START);
     if (_what_to_modify == 0){
         attribute->patch->GetCorner(0,0, point);
         attribute->patch->SetCorner(0,0,point.x(),point.y(), value);

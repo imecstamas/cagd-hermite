@@ -30,7 +30,7 @@ namespace cagd
 
         GLvoid HermiteSurface3::Insert(PatchDirection dir, Attributes attribute);
 
-        Attributes* HermiteSurface3::GetPatch(int index);
+        Attributes* HermiteSurface3::GetPatch(PatchDirection dir);
 
         GLvoid HermiteSurface3::Render();
 
