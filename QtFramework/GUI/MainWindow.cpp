@@ -52,12 +52,6 @@ namespace cagd
 
         connect(_side_widget->pc_spin_box, SIGNAL(valueChanged(int)), _gl_widget, SLOT(setParametricCurveIndex(int)));
 
-//        connect(_side_widget->show_parametric_curves_radio_btn, SIGNAL(toggled(bool)), _gl_widget, SLOT(setVisibilityOfParametricCurves(bool)));
-
-//        connect(_side_widget->show_cyclic_curves_radio_btn, SIGNAL(toggled(bool)), _gl_widget, SLOT(setVisibilityOfCyclicCurves(bool)));
-
-//        connect(_side_widget->show_animated_model_radio_button, SIGNAL(toggled(bool)), _gl_widget, SLOT(setShowAnimatedModel(bool)));
-
         connect(_side_widget->shaderTypeSpinBox, SIGNAL(valueChanged(int)), _gl_widget, SLOT(setShaderType(int)));
 
         connect(_side_widget->materialSpinBox, SIGNAL(valueChanged(int)), _gl_widget, SLOT(setMaterialType(int)));
@@ -92,7 +86,11 @@ namespace cagd
 
         connect(_side_widget->spinBox_z, SIGNAL(valueChanged(double)),_gl_widget, SLOT(setZ(double)));
 
-        connect(_gl_widget, SIGNAL(izeChanged(double)), _side_widget->izeSpinBox, SLOT(setValue(double)));
+        connect(_gl_widget, SIGNAL(xChanged(double)), _side_widget->spinBox_x, SLOT(setValue(double)));
+
+        connect(_gl_widget, SIGNAL(yChanged(double)), _side_widget->spinBox_y, SLOT(setValue(double)));
+
+        connect(_gl_widget, SIGNAL(zChanged(double)), _side_widget->spinBox_z, SLOT(setValue(double)));
         }
 
     //--------------------------------

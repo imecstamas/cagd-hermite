@@ -69,7 +69,7 @@ namespace cagd {
         RowMatrix<ShaderProgram> _shaders;
         RowMatrix<Material> _materials;
 
-        DirectionalLight *dl0,*dl1,*dl2;
+        DirectionalLight *dl0,*dl1;
 
         int  _pc_index;
         bool _show_parametric_curves;
@@ -151,7 +151,10 @@ namespace cagd {
         void setZ(double value);
 
     signals:
-        void izeChanged(double);
+        void xChanged(double);
 
+        void yChanged(double);
+
+        void zChanged(double);
     };
 }

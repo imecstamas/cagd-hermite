@@ -286,23 +286,19 @@ void GLWidget::initializeGL()
         Color4 specular0(1.0,1.0,1.0,1.0);
         dl0 = new DirectionalLight(GL_LIGHT0, direction0, ambient0, diffuse0, specular0);
 
-//        HCoordinate3 direction1(-1.0, 0.0, 0.0, 0.0);
-//        Color4 ambient1 (0.0,0.4,0.0,1.0);
-//        Color4 diffuse1 (0.0,0.8,0.0,1.0);
-//        Color4 specular1(0.0,1.0,0.0,1.0);
-//        dl1 = new DirectionalLight(GL_LIGHT1, direction1, ambient0, diffuse0, specular0);
-
-//        HCoordinate3 direction2(0.0, 1.0, 1.0, 0.0);
-//        Color4 ambient2 (0.0,0.0,0.4,1.0);
-//        Color4 diffuse2 (0.0,0.0,0.8,1.0);
-//        Color4 specular2(0.0,0.0,1.0,1.0);
-//        dl2 = new DirectionalLight(GL_LIGHT2, direction2, ambient0, diffuse0, specular0);
-
+        HCoordinate3 direction1(0.0, 1.0, 1.0, 0.0);
+        Color4 ambient1 (0.0,0.4,0.0,1.0);
+        Color4 diffuse1 (0.0,0.8,0.0,1.0);
+        Color4 specular1(0.0,1.0,0.0,1.0);
+        dl1 = new DirectionalLight(GL_LIGHT1, direction1, ambient0, diffuse0, specular0);
     }
     catch (Exception &e)
     {
         cout << e << endl;
     }
+    emit xChanged(-2.0);
+    emit yChanged(-2.0);
+    emit zChanged(0.0);
 }
 
 //-----------------------
@@ -316,10 +312,9 @@ void GLWidget::paintGL()
     // stores/duplicates the original model view matrix
     glPushMatrix();
     //lightning
-    if(dl0){// && dl1 && dl2){
+    if(dl0 && dl1){
         dl0->Enable();
-//        dl1->Enable();
-//        dl2->Enable();
+        dl1->Enable();
     }
     // applying transformations
     glRotatef(_angle_x, 1.0, 0.0, 0.0);
@@ -407,10 +402,9 @@ void GLWidget::paintGL()
 
 
    // render your geometry (this is oldest OpenGL rendering technique, later we will use some advanced methods)
-    if(dl0){// && dl1 && dl2){
+    if(dl0 && dl1){
         dl0->Disable();
-//        dl1->Disable();
-//        dl2->Disable();
+        dl1->Disable();
     }
 
     // pops the current matrix stack, replacing the current matrix with the one below it on the stack,
@@ -663,9 +657,22 @@ void GLWidget::setShowPatch(bool value)
 
 void GLWidget::setWhatToModify(int value)
 {
+    DCoordinate3 point;
     if (_what_to_modify != value)
     {
         _what_to_modify = value;
+        if (_what_to_modify == 0){
+            _patch.GetCorner(0,0,point);
+        }else if (_what_to_modify == 1){
+            _patch.GetVTangent(0,0,point);
+        }else if (_what_to_modify == 2){
+            _patch.GetUTangent(0,0,point);
+        }else{
+            _patch.GetTwistVector(0,0,point);
+        }
+        emit xChanged(point.x());
+        emit yChanged(point.y());
+        emit zChanged(point.z());
     }
 }
 
@@ -678,7 +685,6 @@ void GLWidget::setX(double value)
     attributeNorthWest = _surface.GetPatch(NW);
     attributeWest = _surface.GetPatch(W);
 
-    BicubicHermitePatch3* startPatch = attribute->patch;
     if (_what_to_modify == 0){
         attribute->patch->GetCorner(0,0, point);
         attribute->patch->SetCorner(0,0,value,point.y(), point.z());
@@ -697,25 +703,28 @@ void GLWidget::setX(double value)
 
     if (attributeNorth && attributeNorth->patch)
     {
-        _surface.UpdateExistingPatch(startPatch,*attributeNorth,N);
+        _surface.UpdateExistingPatch(attribute->patch,*attributeNorth,N);
     }
     if (attributeNorthWest && attributeNorthWest->patch)
     {
-        emit izeChanged(10.0);
-        _surface.UpdateExistingPatch(startPatch,*attributeNorthWest,NW);
+        _surface.UpdateExistingPatch(attribute->patch,*attributeNorthWest,NW);
     }
     if (attributeWest && attributeWest->patch)
     {
-        _surface.UpdateExistingPatch(startPatch,*attributeWest,W);
+        _surface.UpdateExistingPatch(attribute->patch,*attributeWest,W);
     }
 
     updateGL();
 }
 
 void GLWidget::setY(double value)
-{
+{    
     DCoordinate3 point;
-    HermiteSurface3::Attributes* attribute = _surface.GetPatch(START);
+    HermiteSurface3::Attributes *attribute, *attributeNorth, *attributeNorthWest, *attributeWest;
+    attribute = _surface.GetPatch(START);
+    attributeNorth = _surface.GetPatch(N);
+    attributeNorthWest = _surface.GetPatch(NW);
+    attributeWest = _surface.GetPatch(W);
     if (_what_to_modify == 0){
         attribute->patch->GetCorner(0,0, point);
         attribute->patch->SetCorner(0,0,point.x(),value, point.z());
@@ -731,13 +740,29 @@ void GLWidget::setY(double value)
     }
     attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
     attribute->img->UpdateVertexBufferObjects();
+    if (attributeNorth && attributeNorth->patch)
+    {
+        _surface.UpdateExistingPatch(attribute->patch,*attributeNorth,N);
+    }
+    if (attributeNorthWest && attributeNorthWest->patch)
+    {
+        _surface.UpdateExistingPatch(attribute->patch,*attributeNorthWest,NW);
+    }
+    if (attributeWest && attributeWest->patch)
+    {
+        _surface.UpdateExistingPatch(attribute->patch,*attributeWest,W);
+    }
     updateGL();
 }
 
 void GLWidget::setZ(double value)
 {
     DCoordinate3 point;
-    HermiteSurface3::Attributes* attribute = _surface.GetPatch(START);
+    HermiteSurface3::Attributes *attribute, *attributeNorth, *attributeNorthWest, *attributeWest;
+    attribute = _surface.GetPatch(START);
+    attributeNorth = _surface.GetPatch(N);
+    attributeNorthWest = _surface.GetPatch(NW);
+    attributeWest = _surface.GetPatch(W);
     if (_what_to_modify == 0){
         attribute->patch->GetCorner(0,0, point);
         attribute->patch->SetCorner(0,0,point.x(),point.y(), value);
@@ -753,18 +778,23 @@ void GLWidget::setZ(double value)
     }
     attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
     attribute->img->UpdateVertexBufferObjects();
-
-
-
-
+    if (attributeNorth && attributeNorth->patch)
+    {
+        _surface.UpdateExistingPatch(attribute->patch,*attributeNorth,N);
+    }
+    if (attributeNorthWest && attributeNorthWest->patch)
+    {
+        _surface.UpdateExistingPatch(attribute->patch,*attributeNorthWest,NW);
+    }
+    if (attributeWest && attributeWest->patch)
+    {
+        _surface.UpdateExistingPatch(attribute->patch,*attributeWest,W);
+    }
     updateGL();
 }
 
-GLWidget::~GLWidget(){
-//    if (_before_interpolation)
-//        delete _before_interpolation, _before_interpolation = 0;
+GLWidget::~GLWidget()
+{
 
-//    if (_after_interpolation)
-//        delete _after_interpolation, _after_interpolation = 0;
 }
 }
