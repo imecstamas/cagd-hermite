@@ -2,8 +2,13 @@
 
 using namespace cagd;
 
+HermiteSurface3::HermiteSurface3()
+{
+    _attributes.ResizeColumns(9);
+}
+
 GLvoid HermiteSurface3::Render(){
-    for (GLuint i=0; i<_attributes.size(); ++i)
+    for (GLuint i=0; i<_attributes.GetColumnCount(); ++i)
     {
         if (_attributes[i].patch && _attributes[i].img && _attributes[i].material && _attributes[i].shader){
             _attributes[i].shader->Enable(GL_TRUE);
@@ -14,8 +19,9 @@ GLvoid HermiteSurface3::Render(){
     }
 }
 
-GLvoid HermiteSurface3::Insert(Attributes attribute){
-    _attributes.insert(_attributes.end(), attribute);
+GLvoid HermiteSurface3::Insert(PatchDirection dir,Attributes attribute){
+    int d = dir;
+    _attributes[d] = attribute;
 }
 
 HermiteSurface3::Attributes* HermiteSurface3::GetPatch(int index)
@@ -220,6 +226,6 @@ GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Attri
     attribute.patch = &new_patch;
     attribute.img = new_patch.GenerateImage(30,30,GL_STATIC_DRAW);
     attribute.img ->UpdateVertexBufferObjects();
-    HermiteSurface3::Insert(attribute);
+    HermiteSurface3::Insert(dir, attribute);
 }
 

@@ -166,7 +166,7 @@ void GLWidget::initializeGL()
         attribute.img = _patch.GenerateImage(30,30,GL_STATIC_DRAW);
         attribute.img ->UpdateVertexBufferObjects();
 
-        _surface.Insert(attribute);
+        _surface.Insert(START, attribute);
 
         _arc.SetCorner(0,-1.0, 0.0, 0.0);
         _arc.SetCorner(1,+1.0, 0.0, 0.0);
@@ -732,6 +732,10 @@ void GLWidget::setZ(double value)
     }
     attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
     attribute->img->UpdateVertexBufferObjects();
+
+
+
+
     updateGL();
 }
 

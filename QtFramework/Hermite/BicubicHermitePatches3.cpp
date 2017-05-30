@@ -358,5 +358,4 @@ namespace cagd
     {
         return _neightbours[nr];
     }
-
 }

@@ -8,6 +8,6 @@ namespace cagd
     static const double EPS = 1.0e-9;
 
     enum ArcDirection{LEFT = 0, RIGHT};
-    enum PatchDirection{N = 0, NW, W, SW, S, SE, E, NE};
+    enum PatchDirection{N = 0, NW, W, SW, S, SE, E, NE, START};
 }
 

@@ -22,10 +22,13 @@ namespace cagd
         };
 
     protected:
-        std::vector<Attributes> _attributes;
+        RowMatrix<Attributes> _attributes;
 
     public:
-        GLvoid HermiteSurface3::Insert(Attributes attribute);
+
+        HermiteSurface3();
+
+        GLvoid HermiteSurface3::Insert(PatchDirection dir, Attributes attribute);
 
         Attributes* HermiteSurface3::GetPatch(int index);
 
