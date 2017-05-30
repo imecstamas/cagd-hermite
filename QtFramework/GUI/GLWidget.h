@@ -136,6 +136,10 @@ namespace cagd {
 
         void addHermitePatchNorthWest();
 
+        void addHermiteArcLeft();
+
+        void addHermiteArcRight();
+
         void setShowPatch(bool value);
 
         void setWhatToModify(int value);
