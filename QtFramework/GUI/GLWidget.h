@@ -149,5 +149,9 @@ namespace cagd {
         void setY(double value);
 
         void setZ(double value);
+
+    signals:
+        void izeChanged(double);
+
     };
 }

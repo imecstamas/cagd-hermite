@@ -529,6 +529,16 @@
     <double>-99.000000000000000</double>
    </property>
   </widget>
+  <widget class="QDoubleSpinBox" name="izeSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>600</y>
+     <width>62</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

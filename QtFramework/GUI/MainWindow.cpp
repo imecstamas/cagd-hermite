@@ -91,6 +91,8 @@ namespace cagd
         connect(_side_widget->spinBox_y, SIGNAL(valueChanged(double)),_gl_widget, SLOT(setY(double)));
 
         connect(_side_widget->spinBox_z, SIGNAL(valueChanged(double)),_gl_widget, SLOT(setZ(double)));
+
+        connect(_gl_widget, SIGNAL(izeChanged(double)), _side_widget->izeSpinBox, SLOT(setValue(double)));
         }
 
     //--------------------------------

@@ -230,3 +230,39 @@ GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Attri
     HermiteSurface3::Insert(dir, attribute);
 }
 
+GLvoid HermiteSurface3::UpdateExistingPatch(BicubicHermitePatch3 *patch, Attributes &attribute, PatchDirection dir){
+    DCoordinate3 cord;
+    DCoordinate3 near, far;
+    if (dir == N){
+        patch->GetCorner(0,0, cord);
+        attribute.patch->SetCorner(1,0, cord);
+        patch->GetVTangent(0,0, cord);
+        attribute.patch->SetVTangent(1,0, cord);
+        patch->GetUTangent(0,0, cord);
+        attribute.patch->SetUTangent(1,0, cord);
+        patch->GetTwistVector(0,0, cord);
+        attribute.patch->SetTwistVector(1,0, cord);
+    } else if (dir == W){
+        patch->GetCorner(0,0, cord);
+        attribute.patch->SetCorner(0,1, cord);
+        patch->GetVTangent(0,0, cord);
+        attribute.patch->SetVTangent(0,1, cord);
+        patch->GetUTangent(0,0, cord);
+        attribute.patch->SetUTangent(0,1, cord);
+        patch->GetTwistVector(0,0, cord);
+        attribute.patch->SetTwistVector(0,1, cord);
+    } else if (dir == NW) {
+        patch->GetCorner(0,0, cord);
+        attribute.patch->SetCorner(1,1, cord);
+        patch->GetVTangent(0,0, cord);
+        attribute.patch->SetVTangent(1,1, cord);
+        patch->GetUTangent(0,0, cord);
+        attribute.patch->SetUTangent(1,1, cord);
+        patch->GetTwistVector(0,0, cord);
+        attribute.patch->SetTwistVector(1,1, cord);
+    }
+    attribute.img = attribute.patch->GenerateImage(30,30,GL_STATIC_DRAW);
+    attribute.img ->UpdateVertexBufferObjects();
+//    HermiteSurface3::Insert(dir, attribute);
+}
+
