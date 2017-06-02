@@ -232,7 +232,6 @@ GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Attri
 
 GLvoid HermiteSurface3::UpdateExistingPatch(BicubicHermitePatch3 *patch, Attributes &attribute, PatchDirection dir){
     DCoordinate3 cord;
-    DCoordinate3 near, far;
     if (dir == N){
         patch->GetCorner(0,0, cord);
         attribute.patch->SetCorner(1,0, cord);
@@ -263,6 +262,5 @@ GLvoid HermiteSurface3::UpdateExistingPatch(BicubicHermitePatch3 *patch, Attribu
     }
     attribute.img = attribute.patch->GenerateImage(30,30,GL_STATIC_DRAW);
     attribute.img ->UpdateVertexBufferObjects();
-//    HermiteSurface3::Insert(dir, attribute);
 }
 

@@ -178,7 +178,7 @@ void GLWidget::initializeGL()
         arcAttribute.image = _arc.GenerateImage(3,30);
         arcAttribute.image ->UpdateVertexBufferObjects();
 
-        _curve.Insert(arcAttribute);
+        _curve.Insert(ARC_START, arcAttribute);
         _show_patch = true;
         // parametric curves
 

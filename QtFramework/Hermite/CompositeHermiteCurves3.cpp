@@ -3,8 +3,12 @@
 
 using namespace cagd;
 
+CompositeHermiteCurve3::CompositeHermiteCurve3(){
+    _attributes.ResizeColumns(3);
+}
+
 GLvoid CompositeHermiteCurve3::Render(){
-    for (GLuint i=0; i<_attributes.size(); ++i)
+    for (GLuint i=0; i<_attributes.GetColumnCount(); ++i)
     {
         if (_attributes[i].arc && _attributes[i].image){
             glDisable(GL_LIGHTING);
@@ -13,8 +17,9 @@ GLvoid CompositeHermiteCurve3::Render(){
     }
 }
 
-GLvoid CompositeHermiteCurve3::Insert(ArcAttributes attribute){
-    _attributes.insert(_attributes.end(), attribute);
+GLvoid CompositeHermiteCurve3::Insert(ArcDirection dir, ArcAttributes attribute){
+    int d = dir;
+    _attributes[d] = attribute;
 }
 
 GLvoid CompositeHermiteCurve3::ContinueExistingCurve(HermiteArc3 *arc, ArcAttributes attribute, ArcDirection dir){
@@ -47,5 +52,22 @@ GLvoid CompositeHermiteCurve3::ContinueExistingCurve(HermiteArc3 *arc, ArcAttrib
     attribute.arc = &new_arc;
     attribute.image = new_arc.GenerateImage(3, 30);
     attribute.image->UpdateVertexBufferObjects();
-    CompositeHermiteCurve3::Insert(attribute);
+    CompositeHermiteCurve3::Insert(dir, attribute);
+}
+
+GLvoid CompositeHermiteCurve3::UpdateExistingCurve(HermiteArc3 *arc, ArcAttributes &attribute, ArcDirection dir){
+    DCoordinate3 cord;
+    if (dir == RIGHT){
+        arc->GetCorner(1,cord);
+        attribute.arc->SetCorner(0,cord);
+        arc->GetTangent(1,cord);
+        attribute.arc->SetTangent(0,cord);
+    } else if (dir == LEFT){
+        arc->GetCorner(0,cord);
+        attribute.arc->SetCorner(1,cord);
+        arc->GetTangent(0,cord);
+        attribute.arc->SetTangent(1,cord);
+    }
+    attribute.image = attribute.arc->GenerateImage(3, 30);
+    attribute.image->UpdateVertexBufferObjects();
 }

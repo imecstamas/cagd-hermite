@@ -21,14 +21,19 @@ namespace cagd
         };
 
     protected:
-        std::vector<ArcAttributes> _attributes;
+        RowMatrix<ArcAttributes> _attributes;
 
     public:
-        GLvoid CompositeHermiteCurve3::Insert(ArcAttributes attribute);
+
+        CompositeHermiteCurve3();
+
+        GLvoid CompositeHermiteCurve3::Insert(ArcDirection dir, ArcAttributes attribute);
 
         GLvoid CompositeHermiteCurve3::Render();
 
         GLvoid CompositeHermiteCurve3::ContinueExistingCurve(HermiteArc3 *curve, ArcAttributes attribute, ArcDirection dir);
+
+        GLvoid CompositeHermiteCurve3::UpdateExistingCurve(HermiteArc3 *curve, ArcAttributes &attribute, ArcDirection dir);
 
         // (copy) ctor, operator =, dtor
         // insert, erase, continue, join, merge arcs

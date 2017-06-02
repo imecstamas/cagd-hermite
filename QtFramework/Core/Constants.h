@@ -7,7 +7,7 @@ namespace cagd
     static const double DEG_TO_RADIAN = PI / 180.0;
     static const double EPS = 1.0e-9;
 
-    enum ArcDirection{LEFT = 0, RIGHT};
+    enum ArcDirection{LEFT = 0, RIGHT, ARC_START};
     enum PatchDirection{N = 0, NW, W, SW, S, SE, E, NE, START};
 }
 
