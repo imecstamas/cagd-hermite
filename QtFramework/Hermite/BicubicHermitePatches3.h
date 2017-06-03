@@ -13,6 +13,9 @@ namespace cagd
         // default constructor
         BicubicHermitePatch3();
 
+        // copy constructor
+        BicubicHermitePatch3(const BicubicHermitePatch3 &surface);
+
         // inherited pure abstract virtual methods
         GLboolean UBlendingFunctionValues(GLdouble u_knot, RowMatrix<GLdouble>& blending_values) const;
         GLboolean VBlendingFunctionValues(GLdouble v_knot, RowMatrix<GLdouble>& blending_values) const;

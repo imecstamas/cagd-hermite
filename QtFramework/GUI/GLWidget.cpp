@@ -115,28 +115,6 @@ void GLWidget::initializeGL()
         _materials[5] = MatFBSilver;
         _materials[6] = MatFBTurquoise;
 
-//        //Negyzet
-//        _patch.SetCorner(0,0,0.0,0.0,0.0);
-//        _patch.SetCorner(0,1,0.0,1.0,0.0);
-//        _patch.SetCorner(1,0,1.0,0.0,0.0);
-//        _patch.SetCorner(1,1,1.0,1.0,0.0);
-
-//        //Probalkozas
-//        //        _patch.SetVTangent(0,0,0.0,-1.0,0.0);
-//                _patch.SetVTangent(0,1,1.0,-1.0,0.0);
-//        //        _patch.SetVTangent(1,0,-2.0,0.0,0.0);
-//                _patch.SetVTangent(1,1,-1.0,0.0,0.0);
-
-//                _patch.SetUTangent(0,0,1.0,1.0,1.0);
-//                _patch.SetUTangent(0,1,1.0,1.0,1.0);
-//                _patch.SetUTangent(1,0,1.0,2.0,0.0);
-//                _patch.SetUTangent(1,1,0.0,0.0,0.0);
-
-//                _patch.SetTwistVector(0,0,1.0,0.0,0.0);
-//                _patch.SetTwistVector(0,1,0.0,0.0,0.0);
-//        //        _patch.SetTwistVector(1,0,0.0,0.0,0.0);
-//        //        _patch.SetTwistVector(1,1,0.0,0.0,0.0);
-
         _what_to_modify = 0;
 
         _patch.SetCorner(0,0,-2.0,-2.0,0.0);
@@ -168,7 +146,7 @@ void GLWidget::initializeGL()
 
         _surface.Insert(START, attribute);
 
-        _arc.SetCorner(0,-1.0, 0.0, 0.0);
+        _arc.SetCorner(0,-1.0, 1.0, 2.0);
         _arc.SetCorner(1,+1.0, 0.0, 0.0);
         _arc.SetTangent(0,2.0, 2.0, 0.0);
         _arc.SetTangent(1,0.0, 0.0, -3.0);
@@ -296,9 +274,11 @@ void GLWidget::initializeGL()
     {
         cout << e << endl;
     }
-    emit xChanged(-2.0);
-    emit yChanged(-2.0);
-    emit zChanged(0.0);
+    DCoordinate3 initPoint;
+    _patch.GetCorner(0,0, initPoint);
+    emit xChanged(initPoint.x());
+    emit yChanged(initPoint.y());
+    emit zChanged(initPoint.z());
 }
 
 //-----------------------
@@ -650,7 +630,19 @@ void GLWidget::setShowPatch(bool value)
 {
     if (_show_patch != value)
     {
+        DCoordinate3 point;
         _show_patch = value;
+        if (_show_patch){
+            _surface.GetPatch(START)->patch->GetCorner(0,0, point);
+            emit xChanged(point.x());
+            emit yChanged(point.y());
+            emit zChanged(point.z());
+        }else{
+            _curve.GetArc(ARC_START)->arc->GetCorner(0,point);
+            emit xChanged(point.x());
+            emit yChanged(point.y());
+            emit zChanged(point.z());
+        }
         updateGL();
     }
 }
@@ -661,59 +653,74 @@ void GLWidget::setWhatToModify(int value)
     if (_what_to_modify != value)
     {
         _what_to_modify = value;
-        if (_what_to_modify == 0){
-            _patch.GetCorner(0,0,point);
-        }else if (_what_to_modify == 1){
-            _patch.GetVTangent(0,0,point);
-        }else if (_what_to_modify == 2){
-            _patch.GetUTangent(0,0,point);
+        if (_show_patch)
+        {
+            if (_what_to_modify == 0){
+                _surface.GetPatch(START)->patch->GetCorner(0,0,point);
+            }else if (_what_to_modify == 1){
+                _surface.GetPatch(START)->patch->GetVTangent(0,0,point);
+            }else if (_what_to_modify == 2){
+                _surface.GetPatch(START)->patch->GetUTangent(0,0,point);
+            }else{
+                _surface.GetPatch(START)->patch->GetTwistVector(0,0,point);
+            }
+            emit xChanged(point.x());
+            emit yChanged(point.y());
+            emit zChanged(point.z());
         }else{
-            _patch.GetTwistVector(0,0,point);
+            if (_what_to_modify == 0){
+                _curve.GetArc(ARC_START)->arc->GetCorner(0,point);
+            }else {
+                _curve.GetArc(ARC_START)->arc->GetTangent(0,point);
+            }
+            emit xChanged(point.x());
+            emit yChanged(point.y());
+            emit zChanged(point.z());
         }
-        emit xChanged(point.x());
-        emit yChanged(point.y());
-        emit zChanged(point.z());
     }
 }
 
 void GLWidget::setX(double value)
 {
     DCoordinate3 point;
-    HermiteSurface3::Attributes *attribute, *attributeNorth, *attributeNorthWest, *attributeWest;
-    attribute = _surface.GetPatch(START);
-    attributeNorth = _surface.GetPatch(N);
-    attributeNorthWest = _surface.GetPatch(NW);
-    attributeWest = _surface.GetPatch(W);
+    if (_show_patch){
+        HermiteSurface3::Attributes *attribute, *attributeNorth, *attributeNorthWest, *attributeWest;
+        attribute = _surface.GetPatch(START);
+        attributeNorth = _surface.GetPatch(N);
+        attributeNorthWest = _surface.GetPatch(NW);
+        attributeWest = _surface.GetPatch(W);
 
-    if (_what_to_modify == 0){
-        attribute->patch->GetCorner(0,0, point);
-        attribute->patch->SetCorner(0,0,value,point.y(), point.z());
-    }else if (_what_to_modify == 1){
-        attribute->patch->GetVTangent(0,0, point);
-        attribute->patch->SetVTangent(0,0,value,point.y(), point.z());
-    }else if (_what_to_modify == 2){
-        attribute->patch->GetUTangent(0,0, point);
-        attribute->patch->SetUTangent(0,0,value,point.y(), point.z());
-    }else {
-        attribute->patch->GetTwistVector(0,0, point);
-        attribute->patch->SetTwistVector(0,0,value,point.y(), point.z());
-    }
-    attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
-    attribute->img->UpdateVertexBufferObjects();
+        if (_what_to_modify == 0){
+            attribute->patch->GetCorner(0,0, point);
+            attribute->patch->SetCorner(0,0,value,point.y(), point.z());
+        }else if (_what_to_modify == 1){
+            attribute->patch->GetVTangent(0,0, point);
+            attribute->patch->SetVTangent(0,0,value,point.y(), point.z());
+        }else if (_what_to_modify == 2){
+            attribute->patch->GetUTangent(0,0, point);
+            attribute->patch->SetUTangent(0,0,value,point.y(), point.z());
+        }else {
+            attribute->patch->GetTwistVector(0,0, point);
+            attribute->patch->SetTwistVector(0,0,value,point.y(), point.z());
+        }
+        attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
+        attribute->img->UpdateVertexBufferObjects();
 
-    if (attributeNorth && attributeNorth->patch)
-    {
-        _surface.UpdateExistingPatch(attribute->patch,*attributeNorth,N);
+        if (attributeNorth && attributeNorth->patch)
+        {
+            _surface.UpdateExistingPatch(attribute->patch,*attributeNorth,N);
+        }
+        if (attributeNorthWest && attributeNorthWest->patch)
+        {
+            _surface.UpdateExistingPatch(attribute->patch,*attributeNorthWest,NW);
+        }
+        if (attributeWest && attributeWest->patch)
+        {
+            _surface.UpdateExistingPatch(attribute->patch,*attributeWest,W);
+        }
+    }else{
+        //TODO modify curve
     }
-    if (attributeNorthWest && attributeNorthWest->patch)
-    {
-        _surface.UpdateExistingPatch(attribute->patch,*attributeNorthWest,NW);
-    }
-    if (attributeWest && attributeWest->patch)
-    {
-        _surface.UpdateExistingPatch(attribute->patch,*attributeWest,W);
-    }
-
     updateGL();
 }
 

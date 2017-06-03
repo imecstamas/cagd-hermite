@@ -22,6 +22,12 @@ GLvoid CompositeHermiteCurve3::Insert(ArcDirection dir, ArcAttributes attribute)
     _attributes[d] = attribute;
 }
 
+CompositeHermiteCurve3::ArcAttributes* CompositeHermiteCurve3::GetArc(ArcDirection dir)
+{
+    int d = dir;
+    return &_attributes[d];
+}
+
 GLvoid CompositeHermiteCurve3::ContinueExistingCurve(HermiteArc3 *arc, ArcAttributes attribute, ArcDirection dir){
     HermiteArc3 new_arc;
     DCoordinate3 cord;

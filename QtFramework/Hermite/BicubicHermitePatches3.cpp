@@ -4,7 +4,12 @@ namespace cagd
 {
     BicubicHermitePatch3::BicubicHermitePatch3(): TensorProductSurface3(0.0, 1.0, 0.0, 1.0, 4, 4, 0, 0)
     {
-        // to do: handle neighbor list
+
+    }
+
+    BicubicHermitePatch3::BicubicHermitePatch3(const BicubicHermitePatch3 &surface): TensorProductSurface3(surface)
+    {
+
     }
 
     GLboolean BicubicHermitePatch3::UBlendingFunctionValues(GLdouble u, RowMatrix<GLdouble>& blending_values) const

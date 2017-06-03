@@ -1,4 +1,7 @@
 #include "SideWidget.h"
+#include <iostream>
+
+using namespace std;
 
 namespace cagd
 {
@@ -18,10 +21,25 @@ namespace cagd
 
         rotate_y_slider->setPalette(p);
 
-        QComboBox* c = comboBox;
-        c->addItem("Corner");
-        c->addItem("VTangent");
-        c->addItem("UTangent");
-        c->addItem("TwistVector");
+        comboBox->addItem("Corner");
+        comboBox->addItem("VTangent");
+        comboBox->addItem("UTangent");
+        comboBox->addItem("TwistVector");
+
+        connect(radioButton_arc, SIGNAL(toggled(bool)), this, SLOT(updateComboItems(bool)));
+    }
+
+    void SideWidget::updateComboItems(bool arcsShown){
+        comboBox->clear();
+        if (arcsShown)
+        {
+            comboBox->addItem("Corner");
+            comboBox->addItem("Tangent");
+        }else{
+            comboBox->addItem("Corner");
+            comboBox->addItem("VTangent");
+            comboBox->addItem("UTangent");
+            comboBox->addItem("TwistVector");
+        }
     }
 }

@@ -7,8 +7,13 @@ namespace cagd
 {
     class SideWidget: public QWidget, public Ui::SideWidget
     {
+        Q_OBJECT
+
     public:
         // special and default constructor
         SideWidget(QWidget *parent = 0);
+
+    private slots:
+        void updateComboItems(bool arcsShown);
     };
 }

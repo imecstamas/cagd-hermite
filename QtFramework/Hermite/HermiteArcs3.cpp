@@ -72,17 +72,11 @@ HermiteArc3::HermiteArc3():LinearCombination3(0.0,1.0,4,GL_STATIC_DRAW)
 
         // fourth and higher order derivatives are identically zero
 
-//        cout << dF << endl;
-
-
-
         // evaluation of zeroth and higher order derivatives
         for (GLuint r = 0; r <= maximum_order_of_derivatives; r++)
         {
-//            cout << "r = " << r << endl;
             for (GLuint i = 0; i < _data.GetRowCount(); i++)
             {
-//                cout << "\ti = " << i << endl;
                 d[r] += _data[i] * dF(r, i);
             }
         }
