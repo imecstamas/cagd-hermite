@@ -140,6 +140,10 @@ namespace cagd {
 
         void addHermiteArcRight();
 
+        void showPatch();
+
+        void showArc();
+
         void setShowPatch(bool value);
 
         void setWhatToModify(int value);
@@ -156,5 +160,9 @@ namespace cagd {
         void yChanged(double);
 
         void zChanged(double);
+
+        void disconnectSignals();
+
+        void connectSignals();
     };
 }

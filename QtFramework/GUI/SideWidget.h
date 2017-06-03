@@ -13,7 +13,7 @@ namespace cagd
         // special and default constructor
         SideWidget(QWidget *parent = 0);
 
-    private slots:
-        void updateComboItems(bool arcsShown);
+        void SideWidget::updateComboItems(bool arcsShown);
+
     };
 }

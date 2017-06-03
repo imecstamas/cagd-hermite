@@ -25,11 +25,10 @@ namespace cagd
         comboBox->addItem("VTangent");
         comboBox->addItem("UTangent");
         comboBox->addItem("TwistVector");
-
-        connect(radioButton_arc, SIGNAL(toggled(bool)), this, SLOT(updateComboItems(bool)));
     }
 
-    void SideWidget::updateComboItems(bool arcsShown){
+    void SideWidget::updateComboItems(bool arcsShown)
+    {
         comboBox->clear();
         if (arcsShown)
         {

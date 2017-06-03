@@ -50,8 +50,6 @@ namespace cagd
         connect(_side_widget->trans_y_spin_box, SIGNAL(valueChanged(double)), _gl_widget, SLOT(set_trans_y(double)));
         connect(_side_widget->trans_z_spin_box, SIGNAL(valueChanged(double)), _gl_widget, SLOT(set_trans_z(double)));
 
-        connect(_side_widget->pc_spin_box, SIGNAL(valueChanged(int)), _gl_widget, SLOT(setParametricCurveIndex(int)));
-
         connect(_side_widget->shaderTypeSpinBox, SIGNAL(valueChanged(int)), _gl_widget, SLOT(setShaderType(int)));
 
         connect(_side_widget->materialSpinBox, SIGNAL(valueChanged(int)), _gl_widget, SLOT(setMaterialType(int)));
@@ -72,13 +70,13 @@ namespace cagd
 
         connect(_side_widget->button_north_west, SIGNAL(clicked()), _gl_widget, SLOT(addHermitePatchNorthWest()));
 
-        connect(_side_widget->radioButton_patch, SIGNAL(toggled(bool)),_gl_widget, SLOT(setShowPatch(bool)));
+        connect(_side_widget->radioButton_patch, SIGNAL(clicked()),this, SLOT(showPatchRelatedInfo()));
+
+        connect(_side_widget->radioButton_arc, SIGNAL(clicked()),this, SLOT(showArcRelatedInfo()));
 
         connect(_side_widget->arcLeftButton, SIGNAL(clicked()), _gl_widget, SLOT(addHermiteArcLeft()));
 
         connect(_side_widget->arcRightButton, SIGNAL(clicked()), _gl_widget, SLOT(addHermiteArcRight()));
-
-        connect(_side_widget->comboBox, SIGNAL(currentIndexChanged(int)),_gl_widget, SLOT(setWhatToModify(int)));
 
         connect(_side_widget->spinBox_x, SIGNAL(valueChanged(double)),_gl_widget, SLOT(setX(double)));
 
@@ -86,11 +84,14 @@ namespace cagd
 
         connect(_side_widget->spinBox_z, SIGNAL(valueChanged(double)),_gl_widget, SLOT(setZ(double)));
 
+        connect(_side_widget->comboBox, SIGNAL(currentIndexChanged(int)),_gl_widget, SLOT(setWhatToModify(int)));
+
         connect(_gl_widget, SIGNAL(xChanged(double)), _side_widget->spinBox_x, SLOT(setValue(double)));
 
         connect(_gl_widget, SIGNAL(yChanged(double)), _side_widget->spinBox_y, SLOT(setValue(double)));
 
         connect(_gl_widget, SIGNAL(zChanged(double)), _side_widget->spinBox_z, SLOT(setValue(double)));
+
         }
 
     //--------------------------------
@@ -99,5 +100,29 @@ namespace cagd
     void MainWindow::on_action_Quit_triggered()
     {
         qApp->exit(0);
+    }
+
+    void MainWindow::blockSpinBoxSignals(bool block)
+    {
+        _side_widget->spinBox_x->blockSignals(block);
+        _side_widget->spinBox_y->blockSignals(block);
+        _side_widget->spinBox_z->blockSignals(block);
+        _side_widget->comboBox->blockSignals(block);
+    }
+
+    void MainWindow::showPatchRelatedInfo()
+    {
+        blockSpinBoxSignals(true);
+        _gl_widget->showPatch();
+        _side_widget->updateComboItems(false);
+        blockSpinBoxSignals(false);
+    }
+
+    void MainWindow::showArcRelatedInfo()
+    {
+        blockSpinBoxSignals(true);
+        _gl_widget->showArc();
+        _side_widget->updateComboItems(true);
+        blockSpinBoxSignals(false);
     }
 }

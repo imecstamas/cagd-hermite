@@ -18,6 +18,8 @@ namespace cagd
 
         QScrollArea *_scroll_area;      // provides a scrolling view onto our side widget
 
+        void blockSpinBoxSignals(bool block);
+
     public:
         // special and default constructor
         MainWindow(QWidget *parent = 0);
@@ -25,5 +27,9 @@ namespace cagd
     private slots:
         // private event handling methods/slots
         void on_action_Quit_triggered();
+
+        void showPatchRelatedInfo();
+
+        void showArcRelatedInfo();
     };
 }

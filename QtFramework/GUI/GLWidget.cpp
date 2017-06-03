@@ -655,23 +655,25 @@ void GLWidget::setWhatToModify(int value)
         _what_to_modify = value;
         if (_show_patch)
         {
+            BicubicHermitePatch3* patch = _surface.GetPatch(START)->patch;
             if (_what_to_modify == 0){
-                _surface.GetPatch(START)->patch->GetCorner(0,0,point);
+                patch->GetCorner(0,0,point);
             }else if (_what_to_modify == 1){
-                _surface.GetPatch(START)->patch->GetVTangent(0,0,point);
+                patch->GetVTangent(0,0,point);
             }else if (_what_to_modify == 2){
-                _surface.GetPatch(START)->patch->GetUTangent(0,0,point);
+                patch->GetUTangent(0,0,point);
             }else{
-                _surface.GetPatch(START)->patch->GetTwistVector(0,0,point);
+                patch->GetTwistVector(0,0,point);
             }
             emit xChanged(point.x());
             emit yChanged(point.y());
             emit zChanged(point.z());
         }else{
+            HermiteArc3* arc = _curve.GetArc(ARC_START)->arc;
             if (_what_to_modify == 0){
-                _curve.GetArc(ARC_START)->arc->GetCorner(0,point);
+                arc->GetCorner(0,point);
             }else {
-                _curve.GetArc(ARC_START)->arc->GetTangent(0,point);
+                arc->GetTangent(0,point);
             }
             emit xChanged(point.x());
             emit yChanged(point.y());
@@ -798,6 +800,16 @@ void GLWidget::setZ(double value)
         _surface.UpdateExistingPatch(attribute->patch,*attributeWest,W);
     }
     updateGL();
+}
+
+void GLWidget::showPatch()
+{
+    setShowPatch(true);
+}
+
+void GLWidget::showArc()
+{
+    setShowPatch(false);
 }
 
 GLWidget::~GLWidget()

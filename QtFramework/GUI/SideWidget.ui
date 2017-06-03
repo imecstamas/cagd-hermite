@@ -219,19 +219,6 @@
      </item>
     </layout>
    </widget>
-   <widget class="QSpinBox" name="pc_spin_box">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>220</y>
-      <width>191</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>4</number>
-    </property>
-   </widget>
    <widget class="QSpinBox" name="shaderTypeSpinBox">
     <property name="geometry">
      <rect>
