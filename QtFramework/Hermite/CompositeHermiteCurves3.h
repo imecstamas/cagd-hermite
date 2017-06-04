@@ -18,6 +18,37 @@ namespace cagd
             // ...
             //esetleg lehetne listat hasznalni az enumbeli index-ekkel
             ArcAttributes   *next, *prev;
+
+            ArcAttributes(){
+                arc   = nullptr;
+                image   = nullptr;
+                color = nullptr;
+            }
+
+            ArcAttributes(const ArcAttributes &attributes):
+                arc(attributes.arc ? new HermiteArc3(*attributes.arc): nullptr),
+                image(attributes.image ? new GenericCurve3(*attributes.image) : nullptr),
+                color(attributes.color)
+            {}
+
+
+            ArcAttributes& operator = (const ArcAttributes &attributes){
+                if (this != &attributes) {
+                    if (arc) {
+                        delete arc, arc = nullptr;
+                    }
+
+                    if (image) {
+                        delete image, image = nullptr;
+                    }
+
+                    arc = (attributes.arc ? new HermiteArc3(*attributes.arc) : nullptr);
+                    image = (attributes.image ? new GenericCurve3(*attributes.image) : nullptr);
+                    color = (attributes.color);
+
+                }
+                return *this;
+            }
         };
 
     protected:
