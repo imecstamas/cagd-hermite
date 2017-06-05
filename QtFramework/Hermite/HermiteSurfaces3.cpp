@@ -24,6 +24,12 @@ GLvoid HermiteSurface3::Insert(PatchDirection dir,Attributes attribute){
     _attributes[d] = attribute;
 }
 
+GLvoid HermiteSurface3::Remove(PatchDirection dir){
+    Attributes attribute;
+    int d = dir;
+    _attributes[d] = attribute;
+}
+
 HermiteSurface3::Attributes* HermiteSurface3::GetPatch(PatchDirection dir)
 {
     int d = dir;
@@ -228,6 +234,10 @@ GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Attri
     attribute.img = new_patch.GenerateImage(30,30,GL_STATIC_DRAW);
     attribute.img ->UpdateVertexBufferObjects();
     HermiteSurface3::Insert(dir, attribute);
+}
+
+GLvoid HermiteSurface3::RemoveExistingPatch(BicubicHermitePatch3 *patch, PatchDirection dir){
+    HermiteSurface3::Remove(dir);
 }
 
 GLvoid HermiteSurface3::UpdateExistingPatch(BicubicHermitePatch3 *patch, Attributes &attribute, PatchDirection dir){

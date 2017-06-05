@@ -69,11 +69,15 @@ namespace cagd
 
         GLvoid HermiteSurface3::Insert(PatchDirection dir, Attributes attribute);
 
+        GLvoid HermiteSurface3::Remove(PatchDirection dir);
+
         Attributes* HermiteSurface3::GetPatch(PatchDirection dir);
 
         GLvoid HermiteSurface3::Render();
 
         GLvoid HermiteSurface3::ContinueExistingPatch(BicubicHermitePatch3 *patch, Attributes attribute, PatchDirection dir);
+
+        GLvoid HermiteSurface3::RemoveExistingPatch(BicubicHermitePatch3 *patch, PatchDirection dir);
 
         GLvoid HermiteSurface3::UpdateExistingPatch(BicubicHermitePatch3 *patch, Attributes &attribute, PatchDirection dir);
     };

@@ -571,10 +571,16 @@ void GLWidget::addHermitePatchToDirection(PatchDirection dir)
     updateGL();
 }
 
+void GLWidget::removeHermitePatchFromDirection(PatchDirection dir){
+    _surface.RemoveExistingPatch(&_patch, dir);
+    updateGL();
+}
+
 void GLWidget::addHermiteArcToDirection(ArcDirection dir)
 {
     CompositeHermiteCurve3::ArcAttributes arcAttribute;
     _curve.ContinueExistingCurve(&_arc, arcAttribute, dir);
+    updateGL();
 }
 
 void GLWidget::addHermiteArcLeft(){
@@ -588,42 +594,82 @@ void GLWidget::addHermiteArcRight(){
 
 void GLWidget::addHermitePatchNorth()
 {
-    addHermitePatchToDirection(N);
+    if (_add_to_patch){
+        addHermitePatchToDirection(N);
+    } else {
+        removeHermitePatchFromDirection(N);
+    }
 }
 
 void GLWidget::addHermitePatchNorthEast()
 {
-    addHermitePatchToDirection(NE);
+    if (_add_to_patch){
+        addHermitePatchToDirection(NE);
+    } else {
+        removeHermitePatchFromDirection(NE);
+    }
 }
 
 void GLWidget::addHermitePatchEast()
 {
-    addHermitePatchToDirection(E);
+    if (_add_to_patch){
+        addHermitePatchToDirection(E);
+    } else {
+        removeHermitePatchFromDirection(E);
+    }
 }
 
 void GLWidget::addHermitePatchSouthEast()
 {
-    addHermitePatchToDirection(SE);
+    if (_add_to_patch){
+        addHermitePatchToDirection(SE);
+    } else {
+        removeHermitePatchFromDirection(SE);
+    }
 }
 
 void GLWidget::addHermitePatchSouth()
 {
-    addHermitePatchToDirection(S);
+    if (_add_to_patch){
+        addHermitePatchToDirection(S);
+    } else {
+        removeHermitePatchFromDirection(S);
+    }
 }
 
 void GLWidget::addHermitePatchSouthWest()
 {
-    addHermitePatchToDirection(SW);
+    if (_add_to_patch){
+        addHermitePatchToDirection(SW);
+    } else {
+        removeHermitePatchFromDirection(SW);
+    }
 }
 
 void GLWidget::addHermitePatchWest()
 {
-    addHermitePatchToDirection(W);
+    if (_add_to_patch){
+        addHermitePatchToDirection(W);
+    } else {
+        removeHermitePatchFromDirection(W);
+    }
 }
 
 void GLWidget::addHermitePatchNorthWest()
 {
-    addHermitePatchToDirection(NW);
+    if (_add_to_patch){
+        addHermitePatchToDirection(NW);
+    } else {
+        removeHermitePatchFromDirection(NW);
+    }
+}
+
+void GLWidget::addToPatch(){
+    _add_to_patch = true;
+}
+
+void GLWidget::removeFromPatch(){
+    _add_to_patch = false;
 }
 
 void GLWidget::setShowPatch(bool value)
