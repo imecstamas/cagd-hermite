@@ -562,6 +562,14 @@ void GLWidget::setMaterialType(int value)
     }
 }
 
+void GLWidget::setSelectedPoint(int value)
+{
+    if (_selected_point != value) {
+        _selected_point = value;
+    }
+}
+
+
 void GLWidget::addHermitePatchToDirection(PatchDirection dir)
 {
     HermiteSurface3::Attributes attribute;

@@ -82,6 +82,7 @@ namespace cagd {
 
         bool _add_to_patch = true;
         bool _add_to_arc = true;
+        int _selected_point;
 
     private slots:
         void _animate();
@@ -158,6 +159,8 @@ namespace cagd {
         void showArc();
 
         void setShowPatch(bool value);
+
+        void setSelectedPoint(int value);
 
         void setWhatToModify(int value);
 
