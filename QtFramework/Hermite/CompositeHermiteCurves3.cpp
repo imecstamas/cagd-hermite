@@ -13,6 +13,15 @@ GLvoid CompositeHermiteCurve3::Render(){
         if (_attributes[i].arc && _attributes[i].image){
             glDisable(GL_LIGHTING);
             _attributes[i].image->RenderDerivatives(0, GL_LINE_STRIP);
+
+//            glColor3f(0.0,1.0,0.0);
+//            _attributes[i].image->RenderDerivatives(1,GL_LINES);
+//            _attributes[i].image->RenderDerivatives(1, GL_POINTS);
+
+//            glColor3f(0.0,0.0,1.0);
+//            _attributes[i].image->RenderDerivatives(2,GL_LINES);
+//            _attributes[i].image->RenderDerivatives(2, GL_POINTS);
+
             _attributes[i].image->UpdateVertexBufferObjects();
         }
     }
