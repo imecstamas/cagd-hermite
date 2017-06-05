@@ -100,7 +100,7 @@ namespace cagd
 
         connect(_gl_widget, SIGNAL(zChanged(double)), _side_widget->spinBox_z, SLOT(setValue(double)));
 
-        connect(_side_widget->point_spinBox, SIGNAL(valueChanged(int)), _gl_widget, SLOT(setSelectedPoint(int)));
+        connect(_side_widget->point_spinBox, SIGNAL(valueChanged(int)), this, SLOT(selectPoint(int)));
 
         }
 
@@ -133,6 +133,13 @@ namespace cagd
         blockSpinBoxSignals(true);
         _gl_widget->showArc();
         _side_widget->updateComboItems(true);
+        blockSpinBoxSignals(false);
+    }
+
+    void MainWindow::selectPoint(int point)
+    {
+        blockSpinBoxSignals(true);
+        _gl_widget->setSelectedPoint(point);
         blockSpinBoxSignals(false);
     }
 }
