@@ -752,35 +752,34 @@ void GLWidget::setSelectedPoint(int value)
 {
     if (_selected_point != value) {
         _selected_point = value;
-        int x, y;
-        PatchDirection dirNeighbour1, dirNeighbour2, dirNeighbour3;
-        switch (_selected_point) {
-        case 1:
-            x = 0;
-            y = 1;
-            break;
-        case 2:
-            x = 1;
-            y = 0;
-            break;
-        case 3:
-            x = 1;
-            y = 1;
-            break;
-        //case 0
-        default:
-            x = 0;
-            y = 0;
-            break;
-        }
         DCoordinate3 point;
         if (_show_patch){
+            int x, y;
+            switch (_selected_point) {
+            case 1:
+                x = 0;
+                y = 1;
+                break;
+            case 2:
+                x = 1;
+                y = 0;
+                break;
+            case 3:
+                x = 1;
+                y = 1;
+                break;
+            //case 0
+            default:
+                x = 0;
+                y = 0;
+                break;
+            }
             _surface.GetPatch(START)->patch->GetCorner(x,y, point);
             emit xChanged(point.x());
             emit yChanged(point.y());
             emit zChanged(point.z());
         }else{
-            _curve.GetArc(ARC_START)->arc->GetCorner(0,point);
+            _curve.GetArc(ARC_START)->arc->GetCorner(_selected_point % 2,point);
             emit xChanged(point.x());
             emit yChanged(point.y());
             emit zChanged(point.z());
@@ -860,17 +859,18 @@ void GLWidget::setX(double value)
             _surface.UpdateExistingPatch(attribute->patch,*attributeNeighbour3,dirNeighbour3);
         }
     }else{
+        int modulo = _selected_point % 2;
         CompositeHermiteCurve3::ArcAttributes *attributeStart, *attributeLeft, *attributeRight;
         attributeStart = _curve.GetArc(ARC_START);
         attributeLeft = _curve.GetArc(LEFT);
         attributeRight = _curve.GetArc(RIGHT);
 
         if (_what_to_modify == 0){
-            attributeStart->arc->GetCorner(0, point);
-            attributeStart->arc->SetCorner(0, value, point.y(), point.z());
+            attributeStart->arc->GetCorner(modulo, point);
+            attributeStart->arc->SetCorner(modulo, value, point.y(), point.z());
         } else {
-            attributeStart->arc->GetTangent(0, point);
-            attributeStart->arc->SetTangent(0, value, point.y(), point.z());
+            attributeStart->arc->GetTangent(modulo, point);
+            attributeStart->arc->SetTangent(modulo, value, point.y(), point.z());
         }
         attributeStart->image = attributeStart->arc->GenerateImage(30,30,GL_STATIC_DRAW);
         attributeStart->image->UpdateVertexBufferObjects();
@@ -955,17 +955,18 @@ void GLWidget::setY(double value)
             _surface.UpdateExistingPatch(attribute->patch,*attributeNeighbour3,dirNeighbour3);
         }
     } else {
+        int modulo = _selected_point % 2;
         CompositeHermiteCurve3::ArcAttributes *attributeStart, *attributeLeft, *attributeRight;
         attributeStart = _curve.GetArc(ARC_START);
         attributeLeft = _curve.GetArc(LEFT);
         attributeRight = _curve.GetArc(RIGHT);
 
         if (_what_to_modify == 0){
-            attributeStart->arc->GetCorner(0, point);
-            attributeStart->arc->SetCorner(0, point.x(), value, point.z());
+            attributeStart->arc->GetCorner(modulo, point);
+            attributeStart->arc->SetCorner(modulo, point.x(), value, point.z());
         } else {
-            attributeStart->arc->GetTangent(0, point);
-            attributeStart->arc->SetTangent(0, point.x(), value, point.z());
+            attributeStart->arc->GetTangent(modulo, point);
+            attributeStart->arc->SetTangent(modulo, point.x(), value, point.z());
         }
         attributeStart->image = attributeStart->arc->GenerateImage(30,30,GL_STATIC_DRAW);
         attributeStart->image->UpdateVertexBufferObjects();
@@ -1050,17 +1051,18 @@ void GLWidget::setZ(double value)
             _surface.UpdateExistingPatch(attribute->patch,*attributeNeighbour3,dirNeighbour3);
         }
     } else{
+        int modulo = _selected_point % 2;
         CompositeHermiteCurve3::ArcAttributes *attributeStart, *attributeLeft, *attributeRight;
         attributeStart = _curve.GetArc(ARC_START);
         attributeLeft = _curve.GetArc(LEFT);
         attributeRight = _curve.GetArc(RIGHT);
 
         if (_what_to_modify == 0){
-            attributeStart->arc->GetCorner(0, point);
-            attributeStart->arc->SetCorner(0, point.x(), point.y(), value);
+            attributeStart->arc->GetCorner(modulo, point);
+            attributeStart->arc->SetCorner(modulo, point.x(), point.y(), value);
         } else {
-            attributeStart->arc->GetTangent(0, point);
-            attributeStart->arc->SetTangent(0, point.x(), point.y(), value);
+            attributeStart->arc->GetTangent(modulo, point);
+            attributeStart->arc->SetTangent(modulo, point.x(), point.y(), value);
         }
         attributeStart->image = attributeStart->arc->GenerateImage(30,30,GL_STATIC_DRAW);
         attributeStart->image->UpdateVertexBufferObjects();
