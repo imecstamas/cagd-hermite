@@ -258,7 +258,7 @@ void GLWidget::initializeGL()
         glEnable(GL_LIGHT1);
         glEnable(GL_LIGHT2);
 
-        HCoordinate3 direction0(0.0, 0.0, 1.0, 0.0);
+        HCoordinate3 direction0(0.0, 0.0, -1.0, 0.0);
         Color4 ambient0 (0.4,0.4,0.4,1.0);
         Color4 diffuse0 (0.8,0.8,0.8,1.0);
         Color4 specular0(1.0,1.0,1.0,1.0);
@@ -268,7 +268,7 @@ void GLWidget::initializeGL()
         Color4 ambient1 (0.0,0.4,0.0,1.0);
         Color4 diffuse1 (0.0,0.8,0.0,1.0);
         Color4 specular1(0.0,1.0,0.0,1.0);
-        dl1 = new DirectionalLight(GL_LIGHT1, direction1, ambient0, diffuse0, specular0);
+        dl1 = new DirectionalLight(GL_LIGHT1, direction1, ambient1, diffuse1, specular1);
     }
     catch (Exception &e)
     {
