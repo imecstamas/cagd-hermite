@@ -260,7 +260,6 @@ GLvoid HermiteSurface3::UpdateExistingPatch(BicubicHermitePatch3 *patch, Attribu
         attribute.patch->SetUTangent(1,1, cord);
         patch->GetTwistVector(0,1, cord);
         attribute.patch->SetTwistVector(1,1, cord);
-
     } else if (dir == W){
         patch->GetCorner(0,0, cord);
         attribute.patch->SetCorner(0,1, cord);
@@ -269,6 +268,24 @@ GLvoid HermiteSurface3::UpdateExistingPatch(BicubicHermitePatch3 *patch, Attribu
         patch->GetUTangent(0,0, cord);
         attribute.patch->SetUTangent(0,1, cord);
         patch->GetTwistVector(0,0, cord);
+        attribute.patch->SetTwistVector(0,1, cord);
+    } else if (dir == S) {
+        patch->GetCorner(1,0, cord);
+        attribute.patch->SetCorner(0,0, cord);
+        patch->GetVTangent(1,0, cord);
+        attribute.patch->SetVTangent(0,0, cord);
+        patch->GetUTangent(1,0, cord);
+        attribute.patch->SetUTangent(0,0, cord);
+        patch->GetTwistVector(1,0, cord);
+        attribute.patch->SetTwistVector(0,0, cord);
+
+        patch->GetCorner(1,1, cord);
+        attribute.patch->SetCorner(0,1, cord);
+        patch->GetVTangent(1,1, cord);
+        attribute.patch->SetVTangent(0,1, cord);
+        patch->GetUTangent(1,1, cord);
+        attribute.patch->SetUTangent(0,1, cord);
+        patch->GetTwistVector(1,1, cord);
         attribute.patch->SetTwistVector(0,1, cord);
     } else if (dir == NW) {
         patch->GetCorner(0,0, cord);
