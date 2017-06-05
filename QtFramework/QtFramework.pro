@@ -47,7 +47,11 @@ HEADERS += \
     Core/TriangularFaces.h \
     Core/TriangulatedMeshes3.h \
     Core/TensorProductSurfaces3.h \
-    Core/ShaderPrograms.h
+    Core/ShaderPrograms.h \
+    Hermite/BicubicHermitePatches3.h \
+    Hermite/HermiteSurfaces3.h \
+    Hermite/CompositeHermiteCurves3.h \
+    Hermite/HermiteArcs3.h
 
 SOURCES += \
     GUI/GLWidget.cpp \
@@ -65,5 +69,9 @@ SOURCES += \
     Core/Materials.cpp \
     Core/TriangulatedMeshes3.cpp \
     Core/TensorProductSurfaces3.cpp \
-    Core/ShaderPrograms.cpp
+    Core/ShaderPrograms.cpp \
+    Hermite/BicubicHermitePatches3.cpp \
+    Hermite/HermiteSurfaces3.cpp \
+    Hermite/HermiteArcs3.cpp \
+    Hermite/CompositeHermiteCurves3.cpp
 

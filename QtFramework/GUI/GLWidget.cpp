@@ -562,14 +562,6 @@ void GLWidget::setMaterialType(int value)
     }
 }
 
-void GLWidget::setSelectedPoint(int value)
-{
-    if (_selected_point != value) {
-        _selected_point = value;
-    }
-}
-
-
 void GLWidget::addHermitePatchToDirection(PatchDirection dir)
 {
     HermiteSurface3::Attributes attribute;
@@ -756,111 +748,116 @@ void GLWidget::setWhatToModify(int value)
     }
 }
 
+void GLWidget::setSelectedPoint(int value)
+{
+    if (_selected_point != value) {
+        _selected_point = value;
+        int x, y;
+        PatchDirection dirNeighbour1, dirNeighbour2, dirNeighbour3;
+        switch (_selected_point) {
+        case 1:
+            x = 0;
+            y = 1;
+            break;
+        case 2:
+            x = 1;
+            y = 0;
+            break;
+        case 3:
+            x = 1;
+            y = 1;
+            break;
+        //case 0
+        default:
+            x = 0;
+            y = 0;
+            break;
+        }
+        DCoordinate3 point;
+        if (_show_patch){
+            _surface.GetPatch(START)->patch->GetCorner(x,y, point);
+            emit xChanged(point.x());
+            emit yChanged(point.y());
+            emit zChanged(point.z());
+        }else{
+            _curve.GetArc(ARC_START)->arc->GetCorner(0,point);
+            emit xChanged(point.x());
+            emit yChanged(point.y());
+            emit zChanged(point.z());
+        }
+    }
+}
+
 void GLWidget::setX(double value)
 {
     DCoordinate3 point;
     if (_show_patch){
-        if (_selected_point == 0){
-            HermiteSurface3::Attributes *attribute, *attributeNorth, *attributeNorthWest, *attributeWest;
-            attribute = _surface.GetPatch(START);
-            attributeNorth = _surface.GetPatch(N);
-            attributeNorthWest = _surface.GetPatch(NW);
-            attributeWest = _surface.GetPatch(W);
+        int x, y;
+        PatchDirection dirNeighbour1, dirNeighbour2, dirNeighbour3;
+        switch (_selected_point) {
+        case 1:
+            x = 0;
+            y = 1;
+            dirNeighbour1 = N;
+            dirNeighbour2 = NE;
+            dirNeighbour3 = E;
+            break;
+        case 2:
+            x = 1;
+            y = 0;
+            dirNeighbour1 = S;
+            dirNeighbour2 = SW;
+            dirNeighbour3 = W;
+            break;
+        case 3:
+            x = 1;
+            y = 1;
+            dirNeighbour1 = S;
+            dirNeighbour2 = SE;
+            dirNeighbour3 = E;
+            break;
+            //case 0
+        default:
+            x = 0;
+            y = 0;
+            dirNeighbour1 = N;
+            dirNeighbour2 = NW;
+            dirNeighbour3 = W;
+            break;
+        }
+        HermiteSurface3::Attributes *attribute, *attributeNeighbour1, *attributeNeighbour2, *attributeNeighbour3;
+        attribute = _surface.GetPatch(START);
+        attributeNeighbour1 = _surface.GetPatch(dirNeighbour1);
+        attributeNeighbour2 = _surface.GetPatch(dirNeighbour2);
+        attributeNeighbour3 = _surface.GetPatch(dirNeighbour3);
 
-            if (_what_to_modify == 0){
-                attribute->patch->GetCorner(0,0, point);
-                attribute->patch->SetCorner(0,0,value,point.y(), point.z());
-            }else if (_what_to_modify == 1){
-                attribute->patch->GetVTangent(0,0, point);
-                attribute->patch->SetVTangent(0,0,value,point.y(), point.z());
-            }else if (_what_to_modify == 2){
-                attribute->patch->GetUTangent(0,0, point);
-                attribute->patch->SetUTangent(0,0,value,point.y(), point.z());
-            }else {
-                attribute->patch->GetTwistVector(0,0, point);
-                attribute->patch->SetTwistVector(0,0,value,point.y(), point.z());
-            }
-            attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
-            attribute->img->UpdateVertexBufferObjects();
+        if (_what_to_modify == 0){
+            attribute->patch->GetCorner(x,y, point);
+            attribute->patch->SetCorner(x,y,value,point.y(), point.z());
+        }else if (_what_to_modify == 1){
+            attribute->patch->GetVTangent(x,y, point);
+            attribute->patch->SetVTangent(x,y,value,point.y(), point.z());
+        }else if (_what_to_modify == 2){
+            attribute->patch->GetUTangent(x,y, point);
+            attribute->patch->SetUTangent(x,y,value,point.y(), point.z());
+        }else {
+            attribute->patch->GetTwistVector(x,y, point);
+            attribute->patch->SetTwistVector(x,y,value,point.y(), point.z());
+        }
+        attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
+        attribute->img->UpdateVertexBufferObjects();
 
-            if (attributeNorth && attributeNorth->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeNorth,N);
-            }
-            if (attributeNorthWest && attributeNorthWest->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeNorthWest,NW);
-            }
-            if (attributeWest && attributeWest->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeWest,W);
-            }
-        } else if (_selected_point == 1){
-            HermiteSurface3::Attributes *attribute, *attributeNorth, *attributeNorthEast, *attributeEast;
-            attribute = _surface.GetPatch(START);
-            attributeNorth = _surface.GetPatch(N);
-            attributeNorthEast = _surface.GetPatch(NE);
-            attributeEast = _surface.GetPatch(E);
-            if (_what_to_modify == 0){
-                attribute->patch->GetCorner(0,1, point);
-                attribute->patch->SetCorner(0,1,value,point.y(), point.z());
-            }else if (_what_to_modify == 1){
-                attribute->patch->GetVTangent(0,1, point);
-                attribute->patch->SetVTangent(0,1,value,point.y(), point.z());
-            }else if (_what_to_modify == 2){
-                attribute->patch->GetUTangent(0,1, point);
-                attribute->patch->SetUTangent(0,1,value,point.y(), point.z());
-            }else {
-                attribute->patch->GetTwistVector(0,1, point);
-                attribute->patch->SetTwistVector(0,1,value,point.y(), point.z());
-            }
-            attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
-            attribute->img->UpdateVertexBufferObjects();
-            if (attributeNorth && attributeNorth->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeNorth,N);
-            }
-            if (attributeNorthEast && attributeNorthEast->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeNorthEast,NE);
-            }
-            if (attributeEast && attributeEast->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeEast,E);
-            }
-        } else if (_selected_point == 2){
-            HermiteSurface3::Attributes *attribute, *attributeSouth, *attributeSouthWest, *attributeWest;
-            attribute = _surface.GetPatch(START);
-            attributeSouth = _surface.GetPatch(S);
-            attributeSouthWest = _surface.GetPatch(SW);
-            attributeWest = _surface.GetPatch(W);
-            if (_what_to_modify == 0){
-                attribute->patch->GetCorner(1,0, point);
-                attribute->patch->SetCorner(1,0,value,point.y(), point.z());
-            }else if (_what_to_modify == 1){
-                attribute->patch->GetVTangent(1,0, point);
-                attribute->patch->SetVTangent(1,0,value,point.y(), point.z());
-            }else if (_what_to_modify == 2){
-                attribute->patch->GetUTangent(1,0, point);
-                attribute->patch->SetUTangent(1,0,value,point.y(), point.z());
-            }else {
-                attribute->patch->GetTwistVector(1,0, point);
-                attribute->patch->SetTwistVector(1,0,value,point.y(), point.z());
-            }
-            attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
-            attribute->img->UpdateVertexBufferObjects();
-            if (attributeSouth && attributeSouth->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeSouth,S);
-            }
-            if (attributeSouthWest && attributeSouthWest->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeSouthWest,SW);
-            }
-            if (attributeWest && attributeWest->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeWest,W);
-            }
+        if (attributeNeighbour1 && attributeNeighbour1->patch)
+        {
+            _surface.UpdateExistingPatch(attribute->patch,*attributeNeighbour1,dirNeighbour1);
+        }
+        if (attributeNeighbour2 && attributeNeighbour2->patch)
+        {
+            _surface.UpdateExistingPatch(attribute->patch,*attributeNeighbour2,dirNeighbour2);
+        }
+        if (attributeNeighbour3 && attributeNeighbour3->patch)
+        {
+            _surface.UpdateExistingPatch(attribute->patch,*attributeNeighbour3,dirNeighbour3);
         }
     }else{
         CompositeHermiteCurve3::ArcAttributes *attributeStart, *attributeLeft, *attributeRight;
@@ -892,72 +889,70 @@ void GLWidget::setY(double value)
 {    
     DCoordinate3 point;
     if (_show_patch){
-        if (_selected_point == 0){
-            HermiteSurface3::Attributes *attribute, *attributeNorth, *attributeNorthWest, *attributeWest;
-            attribute = _surface.GetPatch(START);
-            attributeNorth = _surface.GetPatch(N);
-            attributeNorthWest = _surface.GetPatch(NW);
-            attributeWest = _surface.GetPatch(W);
-            if (_what_to_modify == 0){
-                attribute->patch->GetCorner(0,0, point);
-                attribute->patch->SetCorner(0,0,point.x(),value, point.z());
-            }else if (_what_to_modify == 1){
-                attribute->patch->GetVTangent(0,0, point);
-                attribute->patch->SetVTangent(0,0,point.x(),value, point.z());
-            }else if (_what_to_modify == 2){
-                attribute->patch->GetUTangent(0,0, point);
-                attribute->patch->SetUTangent(0,0,point.x(),value, point.z());
-            }else {
-                attribute->patch->GetTwistVector(0,0, point);
-                attribute->patch->SetTwistVector(0,0,point.x(),value, point.z());
-            }
-            attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
-            attribute->img->UpdateVertexBufferObjects();
-            if (attributeNorth && attributeNorth->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeNorth,N);
-            }
-            if (attributeNorthWest && attributeNorthWest->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeNorthWest,NW);
-            }
-            if (attributeWest && attributeWest->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeWest,W);
-            }
-        } else if (_selected_point == 1) {
-            HermiteSurface3::Attributes *attribute, *attributeNorth, *attributeNorthEast, *attributeEast;
-            attribute = _surface.GetPatch(START);
-            attributeNorth = _surface.GetPatch(N);
-            attributeNorthEast = _surface.GetPatch(NE);
-            attributeEast = _surface.GetPatch(E);
-            if (_what_to_modify == 0){
-                attribute->patch->GetCorner(0,1, point);
-                attribute->patch->SetCorner(0,1,point.x(),value, point.z());
-            }else if (_what_to_modify == 1){
-                attribute->patch->GetVTangent(0,1, point);
-                attribute->patch->SetVTangent(0,1,point.x(),value, point.z());
-            }else if (_what_to_modify == 2){
-                attribute->patch->GetUTangent(0,1, point);
-                attribute->patch->SetUTangent(0,1,point.x(),value, point.z());
-            }else {
-                attribute->patch->GetTwistVector(0,1, point);
-                attribute->patch->SetTwistVector(0,1,point.x(),value, point.z());
-            }
-            attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
-            attribute->img->UpdateVertexBufferObjects();
-            if (attributeNorth && attributeNorth->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeNorth,N);
-            }
-            if (attributeNorthEast && attributeNorthEast->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeNorthEast,NE);
-            }
-            if (attributeEast && attributeEast->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeEast,E);
-            }
+        int x, y;
+        PatchDirection dirNeighbour1, dirNeighbour2, dirNeighbour3;
+        switch (_selected_point) {
+        case 1:
+            x = 0;
+            y = 1;
+            dirNeighbour1 = N;
+            dirNeighbour2 = NE;
+            dirNeighbour3 = E;
+            break;
+        case 2:
+            x = 1;
+            y = 0;
+            dirNeighbour1 = S;
+            dirNeighbour2 = SW;
+            dirNeighbour3 = W;
+            break;
+        case 3:
+            x = 1;
+            y = 1;
+            dirNeighbour1 = S;
+            dirNeighbour2 = SE;
+            dirNeighbour3 = E;
+            break;
+            //case 0
+        default:
+            x = 0;
+            y = 0;
+            dirNeighbour1 = N;
+            dirNeighbour2 = NW;
+            dirNeighbour3 = W;
+            break;
+        }
+        HermiteSurface3::Attributes *attribute, *attributeNeighbour1, *attributeNeighbour2, *attributeNeighbour3;
+        attribute = _surface.GetPatch(START);
+        attributeNeighbour1 = _surface.GetPatch(dirNeighbour1);
+        attributeNeighbour2 = _surface.GetPatch(dirNeighbour2);
+        attributeNeighbour3 = _surface.GetPatch(dirNeighbour3);
+        if (_what_to_modify == 0){
+            attribute->patch->GetCorner(x,y, point);
+            attribute->patch->SetCorner(x,y,point.x(),value, point.z());
+        }else if (_what_to_modify == 1){
+            attribute->patch->GetVTangent(x,y, point);
+            attribute->patch->SetVTangent(x,y,point.x(),value, point.z());
+        }else if (_what_to_modify == 2){
+            attribute->patch->GetUTangent(x,y, point);
+            attribute->patch->SetUTangent(x,y,point.x(),value, point.z());
+        }else {
+            attribute->patch->GetTwistVector(x,y, point);
+            attribute->patch->SetTwistVector(x,y,point.x(),value, point.z());
+        }
+        attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
+        attribute->img->UpdateVertexBufferObjects();
+        if (attributeNeighbour1 && attributeNeighbour1->patch)
+        {
+            _surface.UpdateExistingPatch(attribute->patch,*attributeNeighbour1,dirNeighbour1);
+        }
+        if (attributeNeighbour2 && attributeNeighbour2->patch)
+        {
+            _surface.UpdateExistingPatch(attribute->patch,*attributeNeighbour2,dirNeighbour2);
+        }
+        if (attributeNeighbour3 && attributeNeighbour3->patch)
+        {
+            _surface.UpdateExistingPatch(attribute->patch,*attributeNeighbour3,dirNeighbour3);
         }
     } else {
         CompositeHermiteCurve3::ArcAttributes *attributeStart, *attributeLeft, *attributeRight;
@@ -989,72 +984,70 @@ void GLWidget::setZ(double value)
 {
     DCoordinate3 point;
     if (_show_patch){
-        if (_selected_point == 0){
-            HermiteSurface3::Attributes *attribute, *attributeNorth, *attributeNorthWest, *attributeWest;
-            attribute = _surface.GetPatch(START);
-            attributeNorth = _surface.GetPatch(N);
-            attributeNorthWest = _surface.GetPatch(NW);
-            attributeWest = _surface.GetPatch(W);
-            if (_what_to_modify == 0){
-                attribute->patch->GetCorner(0,0, point);
-                attribute->patch->SetCorner(0,0,point.x(),point.y(), value);
-            }else if (_what_to_modify == 1){
-                attribute->patch->GetVTangent(0,0, point);
-                attribute->patch->SetVTangent(0,0,point.x(),point.y(), value);
-            }else if (_what_to_modify == 2){
-                attribute->patch->GetUTangent(0,0, point);
-                attribute->patch->SetUTangent(0,0,point.x(),point.y(), value);
-            }else {
-                attribute->patch->GetTwistVector(0,0, point);
-                attribute->patch->SetTwistVector(0,0,point.x(),point.y(), value);
-            }
-            attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
-            attribute->img->UpdateVertexBufferObjects();
-            if (attributeNorth && attributeNorth->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeNorth,N);
-            }
-            if (attributeNorthWest && attributeNorthWest->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeNorthWest,NW);
-            }
-            if (attributeWest && attributeWest->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeWest,W);
-            }
-        } else if (_selected_point == 1){
-            HermiteSurface3::Attributes *attribute, *attributeNorth, *attributeNorthEast, *attributeEast;
-            attribute = _surface.GetPatch(START);
-            attributeNorth = _surface.GetPatch(N);
-            attributeNorthEast = _surface.GetPatch(NE);
-            attributeEast = _surface.GetPatch(E);
-            if (_what_to_modify == 0){
-                attribute->patch->GetCorner(0,1, point);
-                attribute->patch->SetCorner(0,1,point.x(),point.y(), value);
-            }else if (_what_to_modify == 1){
-                attribute->patch->GetVTangent(0,1, point);
-                attribute->patch->SetVTangent(0,1,point.x(),point.y(), value);
-            }else if (_what_to_modify == 2){
-                attribute->patch->GetUTangent(0,1, point);
-                attribute->patch->SetUTangent(0,1,point.x(),point.y(), value);
-            }else {
-                attribute->patch->GetTwistVector(0,1, point);
-                attribute->patch->SetTwistVector(0,1,point.x(),point.y(), value);
-            }
-            attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
-            attribute->img->UpdateVertexBufferObjects();
-            if (attributeNorth && attributeNorth->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeNorth,N);
-            }
-            if (attributeNorthEast && attributeNorthEast->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeNorthEast,NE);
-            }
-            if (attributeEast && attributeEast->patch)
-            {
-                _surface.UpdateExistingPatch(attribute->patch,*attributeEast,E);
-            }
+        int x, y;
+        PatchDirection dirNeighbour1, dirNeighbour2, dirNeighbour3;
+        switch (_selected_point) {
+        case 1:
+            x = 0;
+            y = 1;
+            dirNeighbour1 = N;
+            dirNeighbour2 = NE;
+            dirNeighbour3 = E;
+            break;
+        case 2:
+            x = 1;
+            y = 0;
+            dirNeighbour1 = S;
+            dirNeighbour2 = SW;
+            dirNeighbour3 = W;
+            break;
+        case 3:
+            x = 1;
+            y = 1;
+            dirNeighbour1 = S;
+            dirNeighbour2 = SE;
+            dirNeighbour3 = E;
+            break;
+        //case 0
+        default:
+            x = 0;
+            y = 0;
+            dirNeighbour1 = N;
+            dirNeighbour2 = NW;
+            dirNeighbour3 = W;
+            break;
+        }
+        HermiteSurface3::Attributes *attribute, *attributeNeighbour1, *attributeNeighbour2, *attributeNeighbour3;
+        attribute = _surface.GetPatch(START);
+        attributeNeighbour1 = _surface.GetPatch(dirNeighbour1);
+        attributeNeighbour2 = _surface.GetPatch(dirNeighbour2);
+        attributeNeighbour3 = _surface.GetPatch(dirNeighbour3);
+        if (_what_to_modify == 0){
+            attribute->patch->GetCorner(x,y, point);
+            attribute->patch->SetCorner(x,y,point.x(),point.y(), value);
+        }else if (_what_to_modify == 1){
+            attribute->patch->GetVTangent(x,y, point);
+            attribute->patch->SetVTangent(x,y,point.x(),point.y(), value);
+        }else if (_what_to_modify == 2){
+            attribute->patch->GetUTangent(x,y, point);
+            attribute->patch->SetUTangent(x,y,point.x(),point.y(), value);
+        }else {
+            attribute->patch->GetTwistVector(x,y, point);
+            attribute->patch->SetTwistVector(x,y,point.x(),point.y(), value);
+        }
+        attribute->img = attribute->patch->GenerateImage(30,30,GL_STATIC_DRAW);
+        attribute->img->UpdateVertexBufferObjects();
+        if (attributeNeighbour1 && attributeNeighbour1->patch)
+        {
+            _surface.UpdateExistingPatch(attribute->patch,*attributeNeighbour1,dirNeighbour1);
+        }
+        if (attributeNeighbour2 && attributeNeighbour2->patch)
+        {
+            _surface.UpdateExistingPatch(attribute->patch,*attributeNeighbour2,dirNeighbour2);
+        }
+        if (attributeNeighbour3 && attributeNeighbour3->patch)
+        {
+            _surface.UpdateExistingPatch(attribute->patch,*attributeNeighbour3,dirNeighbour3);
         }
     } else{
         CompositeHermiteCurve3::ArcAttributes *attributeStart, *attributeLeft, *attributeRight;
