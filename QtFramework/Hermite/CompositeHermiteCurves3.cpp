@@ -32,6 +32,12 @@ GLvoid CompositeHermiteCurve3::Insert(ArcDirection dir, ArcAttributes attribute)
     _attributes[d] = attribute;
 }
 
+GLvoid CompositeHermiteCurve3::Remove(ArcDirection dir){
+    ArcAttributes attr;
+    int d = dir;
+    _attributes[d] = attr;
+}
+
 CompositeHermiteCurve3::ArcAttributes* CompositeHermiteCurve3::GetArc(ArcDirection dir)
 {
     int d = dir;
@@ -69,6 +75,10 @@ GLvoid CompositeHermiteCurve3::ContinueExistingCurve(HermiteArc3 *arc, ArcAttrib
     attribute.image = new_arc.GenerateImage(3, 30);
     attribute.image->UpdateVertexBufferObjects();
     CompositeHermiteCurve3::Insert(dir, attribute);
+}
+
+GLvoid CompositeHermiteCurve3::RemoveExistingCurve(HermiteArc3 *arc, ArcDirection dir){
+    CompositeHermiteCurve3::Remove(dir);
 }
 
 GLvoid CompositeHermiteCurve3::UpdateExistingCurve(HermiteArc3 *arc, ArcAttributes &attribute, ArcDirection dir){

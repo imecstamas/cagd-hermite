@@ -81,12 +81,14 @@ namespace cagd {
         int _material_type;
 
         bool _add_to_patch = true;
+        bool _add_to_arc = true;
 
     private slots:
         void _animate();
         void addHermitePatchToDirection(PatchDirection dir);
         void removeHermitePatchFromDirection(PatchDirection dir);
         void addHermiteArcToDirection(ArcDirection dir);
+        void removeHermiteArcFromDirection(ArcDirection dir);
 
     public:
         // special and default constructor
@@ -146,6 +148,10 @@ namespace cagd {
         void addToPatch();
 
         void removeFromPatch();
+
+        void addToArc();
+
+        void removeFromArc();
 
         void showPatch();
 

@@ -583,14 +583,26 @@ void GLWidget::addHermiteArcToDirection(ArcDirection dir)
     updateGL();
 }
 
+void GLWidget::removeHermiteArcFromDirection(ArcDirection dir){
+    _curve.RemoveExistingCurve(&_arc, dir);
+    updateGL();
+}
+
 void GLWidget::addHermiteArcLeft(){
-    addHermiteArcToDirection(LEFT);
+    if (_add_to_arc) {
+        addHermiteArcToDirection(LEFT);
+    } else {
+        removeHermiteArcFromDirection(LEFT);
+    }
 }
 
 void GLWidget::addHermiteArcRight(){
-    addHermiteArcToDirection(RIGHT);
+    if (_add_to_arc){
+        addHermiteArcToDirection(RIGHT);
+    } else {
+        removeHermiteArcFromDirection(RIGHT);
+    }
 }
-
 
 void GLWidget::addHermitePatchNorth()
 {
@@ -670,6 +682,14 @@ void GLWidget::addToPatch(){
 
 void GLWidget::removeFromPatch(){
     _add_to_patch = false;
+}
+
+void GLWidget::addToArc(){
+    _add_to_arc = true;
+}
+
+void GLWidget::removeFromArc(){
+    _add_to_arc = false;
 }
 
 void GLWidget::setShowPatch(bool value)

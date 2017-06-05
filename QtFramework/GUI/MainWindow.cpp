@@ -74,14 +74,13 @@ namespace cagd
 
         connect(_side_widget->radioButton_arc, SIGNAL(clicked()),this, SLOT(showArcRelatedInfo()));
 
-
-
-
         connect(_side_widget->patch_add_button, SIGNAL(clicked()),_gl_widget, SLOT(addToPatch()));
 
         connect(_side_widget->patch_remove_button, SIGNAL(clicked()),_gl_widget, SLOT(removeFromPatch()));
 
+        connect(_side_widget->arc_add_button, SIGNAL(clicked()),_gl_widget, SLOT(addToArc()));
 
+        connect(_side_widget->arc_remove_button, SIGNAL(clicked()),_gl_widget, SLOT(removeFromArc()));
 
         connect(_side_widget->arcLeftButton, SIGNAL(clicked()), _gl_widget, SLOT(addHermiteArcLeft()));
 

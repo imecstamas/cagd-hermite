@@ -60,11 +60,15 @@ namespace cagd
 
         GLvoid CompositeHermiteCurve3::Insert(ArcDirection dir, ArcAttributes attribute);
 
+        GLvoid CompositeHermiteCurve3::Remove(ArcDirection dir);
+
         ArcAttributes* CompositeHermiteCurve3::GetArc(ArcDirection dir);
 
         GLvoid CompositeHermiteCurve3::Render();
 
         GLvoid CompositeHermiteCurve3::ContinueExistingCurve(HermiteArc3 *curve, ArcAttributes attribute, ArcDirection dir);
+
+        GLvoid CompositeHermiteCurve3::RemoveExistingCurve(HermiteArc3 *curve, ArcDirection dir);
 
         GLvoid CompositeHermiteCurve3::UpdateExistingCurve(HermiteArc3 *curve, ArcAttributes &attribute, ArcDirection dir);
 

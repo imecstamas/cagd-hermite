@@ -389,7 +389,7 @@
      <x>10</x>
      <y>470</y>
      <width>271</width>
-     <height>25</height>
+     <height>44</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -401,14 +401,28 @@
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="label_10">
-      <property name="text">
-       <string>Add</string>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="leftMargin">
+       <number>14</number>
       </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
+      <item>
+       <widget class="QRadioButton" name="arc_add_button">
+        <property name="text">
+         <string>Add</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="arc_remove_button">
+        <property name="text">
+         <string>Remove</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <widget class="QPushButton" name="arcRightButton">
