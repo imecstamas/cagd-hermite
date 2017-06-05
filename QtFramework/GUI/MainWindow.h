@@ -33,5 +33,7 @@ namespace cagd
         void showArcRelatedInfo();
 
         void selectPoint(int point);
+
+        void setWhatToModify(int value);
     };
 }

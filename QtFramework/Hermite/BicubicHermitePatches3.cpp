@@ -342,25 +342,4 @@ namespace cagd
 
         return GL_TRUE;
     }
-
-    GLboolean BicubicHermitePatch3::SetNoNeightbours()
-    {
-        for(int i = 0; i < 7; i++)
-        {
-            _neightbours[i] = -1;
-        }
-        return GL_TRUE;
-    }
-
-    GLboolean BicubicHermitePatch3::SetNeightbours(GLuint nr, GLuint neightbour)
-    {
-        _neightbours[nr] = neightbour;
-
-        return GL_TRUE;
-    }
-
-    GLuint BicubicHermitePatch3::GetNeightbour(GLuint nr)
-    {
-        return _neightbours[nr];
-    }
 }

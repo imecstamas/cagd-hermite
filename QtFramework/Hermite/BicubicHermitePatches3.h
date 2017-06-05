@@ -6,9 +6,6 @@ namespace cagd
 {
     class BicubicHermitePatch3: public TensorProductSurface3
     {
-    protected:
-        //
-        GLuint _neightbours[8];
     public:
         // default constructor
         BicubicHermitePatch3();

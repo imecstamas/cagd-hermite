@@ -354,6 +354,4 @@ GLvoid HermiteSurface3::UpdateExistingPatch(BicubicHermitePatch3 *patch, Attribu
     }
     attribute.img = attribute.patch->GenerateImage(30,30,GL_STATIC_DRAW);
     attribute.img ->UpdateVertexBufferObjects();
-
 }
-

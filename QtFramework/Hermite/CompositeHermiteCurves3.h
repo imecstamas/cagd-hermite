@@ -15,9 +15,6 @@ namespace cagd
             HermiteArc3     *arc;       // (*arc)[i][0]
             GenericCurve3   *image;     // arc->GenerateImage, image->{UpdateVertexBufferObjects|RenderDerivatives}
             Color4          *color;
-            // ...
-            //esetleg lehetne listat hasznalni az enumbeli index-ekkel
-            ArcAttributes   *next, *prev;
 
             ArcAttributes(){
                 arc   = nullptr;
@@ -29,8 +26,8 @@ namespace cagd
                 arc(attributes.arc ? new HermiteArc3(*attributes.arc): nullptr),
                 image(attributes.image ? new GenericCurve3(*attributes.image) : nullptr),
                 color(attributes.color)
-            {}
-
+            {
+            }
 
             ArcAttributes& operator = (const ArcAttributes &attributes){
                 if (this != &attributes) {

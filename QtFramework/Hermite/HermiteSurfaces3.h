@@ -18,8 +18,6 @@ namespace cagd
             Material             *material;
             ShaderProgram        *shader;
 
-            std::vector<BicubicHermitePatch3*> neighbours;
-
             Attributes()
             {
                 patch    = nullptr;

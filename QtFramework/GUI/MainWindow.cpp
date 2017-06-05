@@ -92,7 +92,7 @@ namespace cagd
 
         connect(_side_widget->spinBox_z, SIGNAL(valueChanged(double)),_gl_widget, SLOT(setZ(double)));
 
-        connect(_side_widget->comboBox, SIGNAL(currentIndexChanged(int)),_gl_widget, SLOT(setWhatToModify(int)));
+        connect(_side_widget->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(setWhatToModify(int)));
 
         connect(_gl_widget, SIGNAL(xChanged(double)), _side_widget->spinBox_x, SLOT(setValue(double)));
 
@@ -140,6 +140,13 @@ namespace cagd
     {
         blockSpinBoxSignals(true);
         _gl_widget->setSelectedPoint(point);
+        blockSpinBoxSignals(false);
+    }
+
+    void MainWindow::setWhatToModify(int value)
+    {
+        blockSpinBoxSignals(true);
+        _gl_widget->setWhatToModify(value);
         blockSpinBoxSignals(false);
     }
 }
